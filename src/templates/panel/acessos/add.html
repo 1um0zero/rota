@@ -1,0 +1,117 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-copy"></i>&nbsp; Conceder acesso{% endblock %}
+
+{% block breadcrumb %}
+  <li><a href="/painel/acessos">Controle de acessos</a></li>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <form role="form" method="POST" id="frm_acesso">
+              {% csrf_token %}
+              <div class="box-body">
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div class="form-group">
+                      <label for="">Usuário</label>
+                      <input class="form-control" id="userSearch" required autocomplete="off"
+                        placeholder="Buscar por nome ou email...">
+                      <input type="hidden" id="user_id" name="user_id" required>
+                      <ul id="userSearchList"></ul>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="">Nível de acesso</label>
+                      <select name="access" style="display:block;width:100%" required>
+                        {% for role in roles %}
+                        <option value="{{ role.id }}">{{ role.name }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="">Grupo de curadoria</label>
+                      <select name="group_id" style="display:block;width:100%" required>
+                        {% for group in groups %}
+                          <option value="{{ group.id }}">Grupo {{ group.name }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Conceder acesso</button>
+              </div>
+            </form>
+        </div>
+    </div>
+  </div>
+
+  <style>
+    #userSearchList {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+    #userSearchList li {
+      padding: 4px;
+      cursor: pointer;
+    }
+    #userSearchList li:hover {
+      background: #ff9;
+    }
+  </style>
+{% endblock %}
+
+{% block js %}
+<script>
+  searchTimer = null;
+  $('document').ready(function(ev){
+
+    $('#frm_acesso').submit(function(ev){
+      if (!$('#user_id').val()){
+        ev.preventDefault();
+      }
+    });
+
+    $('#userSearch').keyup(function(){
+      if (searchTimer) clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        $.getJSON({
+          url: '/painel/acessos/search',
+          method: 'post',
+          data: {
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            user: $('#userSearch').val()
+          },
+          success: function(r){
+            $('#userSearchList').empty();
+            r.forEach((user) => {
+              let li = $('<li>');
+              li.id = 'user_' + user.id;
+              let _line = user.name + ' (' + user.email + ')';
+              li.text(_line);
+              li.click(function(){
+                $('#userSearch').val(_line).attr('readonly', true);
+                $('#userSearchList').hide();
+                $('#user_id').val(user.id);
+              });
+              li.appendTo($('#userSearchList'));
+            });
+          }
+        });
+      }, 200);
+    });
+  });
+</script>
+{% endblock %}

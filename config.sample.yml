@@ -1,0 +1,6 @@
+debug: false
+mysql:
+    host: localhost
+    user: rota
+    pass: 123456
+    name: rota

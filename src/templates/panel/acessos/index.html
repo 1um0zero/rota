@@ -1,0 +1,183 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-key"></i>&nbsp; Controle de acessos{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Administradores</h3>
+      </div>
+      <div class="box-body no-padding">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Nome</th>
+            </tr>
+          </thead>
+          <tbody id="tbl_content">
+            {% for user in admins %}
+            <tr>
+              <td>{{ user.id }}</td>
+              <td>
+                <a href="/painel/cadastro/{{ user.id }}">
+                  {{ user.email }}
+                </a>
+              </td>
+              <td>{{ user.first_name }}</td>
+            </tr>
+            {% endfor %}
+          </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.curadoria_group {
+  width: 50%;
+  background: #eee;
+  margin-bottom: 10px;
+}
+  .curadoria_group:nth-child(even) {
+    width: calc(50% - 10px) !important;
+    margin-left: 10px;
+  }
+  .curadoria_group .wrap {
+    padding: 10px;
+    position :relative;
+  }
+  .curadoria_group .wrap h4 {
+    margin-top: 0;
+  }
+  .curadoria_group .wrap .qtd {
+    top: 5px;
+    right: 8px;
+    position: absolute;
+  }
+  .curadoria_group .info {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .curadoria_group .info a:hover {
+    text-decoration: underline;
+  }
+  .curadoria_group .member {
+  }
+</style>
+
+<div class="box">
+  <div class="box-header with-border">
+    <h3 class="box-title">Grupos de curadoria</h3>
+
+  </div>
+
+  <div class="box-body">
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab_1" data-toggle="tab">Concurso de Roteiros de Curtas</a></li>
+        <li><a href="#tab_2" data-toggle="tab">Encontro de Negócios</a></li>
+        <li><a href="#tab_3" data-toggle="tab">Laboratório de Projetos de Série</a></li>
+      </ul>
+      <div class="tab-content">
+
+        <div class="tab-pane active" id="tab_1">
+          <div style="margin-bottom:10px;text-align:right">
+            <a class="btn btn-primary" href="/painel/acessos/add?contest_id=1">
+              <i class="fa fa-key"></i>&nbsp;&nbsp; Adicionar curador</a>
+          </div>
+          <div style="display:flex;flex-wrap:wrap">
+            {% for group in res.1 %}
+            <div class="curadoria_group">
+              <div class="wrap">
+                <h4>Grupo {{ group.group.name }}</h4>
+                <div class="qtd">{{ group.roteiros }} roteiros</div>
+                <div class="info">
+                  {% for ur in group.members %}
+                  <div class="member">
+                    <span title="{{ ur.user.email }}">{{ ur.user.first_name }}</span>
+                    <a href="/painel/acessos/del/{{ ur.id }}"
+                       style="color:#f33; float:right"
+                       onclick="return confirm('Tem certeza que deseja remover esse acesso?')">
+                      remover acesso
+                    </a>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tab_2">
+          <div style="margin-bottom:10px;text-align:right">
+            <a class="btn btn-primary" href="/painel/acessos/add?contest_id=2">
+              <i class="fa fa-key"></i>&nbsp;&nbsp; Adicionar curador</a>
+          </div>
+          <div style="display:flex;flex-wrap:wrap">
+            {% for group in res.2 %}
+            <div class="curadoria_group">
+              <div class="wrap">
+                <h4>Grupo {{ group.group.name }}</h4>
+                <div class="qtd">{{ group.roteiros }} projetos</div>
+                <div class="info">
+                  {% for ur in group.members %}
+                  <div class="member">
+                    <span title="{{ ur.user.email }}">{{ ur.user.first_name }}</span>
+                    <a href="/painel/acessos/del/{{ ur.id }}"
+                       style="color:#f33; float:right"
+                       onclick="return confirm('Tem certeza que deseja remover esse acesso?')">
+                      remover acesso
+                    </a>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tab_3">
+          <div style="margin-bottom:10px;text-align:right">
+            <a class="btn btn-primary" href="/painel/acessos/add?contest_id=3">
+              <i class="fa fa-key"></i>&nbsp;&nbsp; Adicionar curador</a>
+          </div>
+          <div style="display:flex;flex-wrap:wrap">
+            {% for group in res.3 %}
+            <div class="curadoria_group">
+              <div class="wrap">
+                <h4>Grupo {{ group.group.name }}</h4>
+                <div class="qtd">{{ group.roteiros }} projetos</div>
+                <div class="info">
+                  {% for ur in group.members %}
+                  <div class="member">
+                    <span title="{{ ur.user.email }}">{{ ur.user.first_name }}</span>
+                    <a href="/painel/acessos/del/{{ ur.id }}"
+                       style="color:#f33; float:right"
+                       onclick="return confirm('Tem certeza que deseja remover esse acesso?')">
+                      remover acesso
+                    </a>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+
+</div>
+{% endblock %}
+

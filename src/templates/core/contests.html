@@ -1,0 +1,49 @@
+{% extends 'core/index.html' %}
+{% load helpers %}
+
+{% block content %}
+
+<div class="{{ msg_class }}">{{ msg }}</div>
+
+<style>
+@media (min-width: 1024px) {
+  .lista_concursos > li:first-child {
+    width: 100%;
+    height: 400px;
+  }
+  .lista_concursos > li:first-child img {
+    height: 400px;
+  }
+  .lista_concursos > li:first-child .pad {
+    bottom: -240px;
+  }
+}
+@media (max-width: 1024px) {
+  .lista_concursos li .block .pad {
+    margin-left: -42%;
+  }
+}
+
+</style>
+
+<ul class="lista_concursos">
+    {% for contest in contests %}
+    <li>
+        <div class="block">
+            <a href="/concurso/{{ contest.url }}">
+                <div style="height:126px;background:#eee">
+                  <img src="{{ contest.image_url }}">
+                </div>
+            </a>
+
+            <div class="pad">
+                <div>
+                    <p>{{ contest.name }}</p>
+                </div>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

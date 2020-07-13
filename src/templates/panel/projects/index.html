@@ -1,0 +1,41 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-file-video"></i>&nbsp; Projetos de série{% endblock %}
+
+{% block content %}
+
+  {% if msg %}
+     <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4 style="margin:0"><i class="icon fa fa-check"></i> {{ msg }}</h4>
+    </div>
+  {% endif %}
+
+  <h4>Listando {{ items | length }} projetos</h4>
+
+  <div class="row" style="display:flex;flex-wrap:wrap">
+    {% for item in items %}
+    <div style="width:33.333%">
+      <div class="" style="margin:5px">
+        <div class="box">
+          <div class="box-body no-padding" style="text-align:center">
+            <a href="/painel/projetos/ver/{{ item.id }}">
+                
+              <i style="display:block;font-size:50px;margin:10px" class="fa
+                {% if item.data.script|is_image %}fa-file-image
+                {% else %}fa-file-pdf
+              {% endif %}"></i>
+
+              {{ item.data.titulo }}
+              <br>&nbsp;
+             </a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+

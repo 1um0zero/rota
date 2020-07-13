@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:url" content="http://www.rotafestival.com">
+    <meta property="og:title" content="ROTA | Festival de Roteiro Audiovisual">
+    <meta property="og:image" content="http://www.rotafestival.com/static/core/img/logo3.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="500">
+    <meta property="og:image:height" content="500">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/core/css/reset.min.css">
+    <link rel="stylesheet" href="/static/core/css/main.min.css?v=2.2">
+    <script src="/static/core/js/jquery-3.4.1.min.js"></script>
+    <script src="/static/core/js/jquery.mask.min.js"></script>
+    <title>ROTA | Festival de Roteiro Audiovisual</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="content">
+          <a href="/" class="raw">
+             <img src="/static/core/img/logo4.png" width="150">
+          </a>
+          
+          {% if not request.user.is_authenticated %}
+            <a href="/entrar" class="btn action">Entrar</a>
+          {% else %}
+            <div class="user">
+              Olá, {{ request.user.first_name }}<br>
+              <a href="/conta" class="link">minha conta</a>
+              <a href="/sair" class="link" style="margin-left:10px">sair</a>
+            </div>
+          {% endif %}
+        </div>
+      </header>
+  
+      <div id="mobile-menu" style="display:none"></div>
+
+      <nav>
+        <img src="/static/core/img/logo5.png" width="150" id="mobile-menu-logo"
+          style="display:none">
+        <ul>
+          <li class="logo">
+            <a href="/">
+                <img src="/static/core/img/logo4.png">
+            </a>
+          </li>
+          {% for page in pages %}
+          <li class="{% if current_page == page.url %}active{% endif %}">
+            <a href="{{ page.url }}">{{ page.title }}</a>
+          </li>
+          {% endfor %}
+  
+          {% if not request.user.is_authenticated %}
+            <li class="mobile" style="display:none">
+              <a href="/entrar">Entrar</a>
+            </li>
+          {% else %}
+            <li class="mobile" style="display:none">
+              <a href="/conta">Minha conta</a>
+            </li>
+            <li class="mobile" style="display:none">
+              <a href="/sair">Sair</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+
+      <div id="content">
+        {% block banner %}
+        <div id="banner">
+          <div class="banner content">
+            <h1>{{ title }}</h1>
+          </div>
+        </div>
+        {% endblock %}
+
+        <div class="content min-height">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+
+      <footer>
+        <div class="content">
+          © 2019 ROTA | Festival de Roteiro Audiovisual - Todos os direitos reservados
+        </div>
+      </footer>
+
+    </main>
+
+    <script>
+      window.mobileMenuOpen = false;
+
+      $(document).ready(function(){
+        window.menuFixed = false;
+
+        $(window).scroll(function(){
+          if (window.scrollY > 85){
+            if (!window.menuFixed){
+              if (!window.mobileMenuOpen){
+                $('nav').addClass('fixed');
+                $('header').addClass('margin-bottom');
+                window.menuFixed = true;
+              }
+            }
+          } else {
+            if (window.menuFixed){
+              $('nav').removeClass('fixed');
+              $('header').removeClass('margin-bottom');
+              window.menuFixed = false;
+            }
+          }
+        });
+
+        $('#mobile-menu').click(function(){
+          if (!window.mobileMenuOpen){
+            $('nav').css({'left': '0%'});
+            $('nav').removeClass('fixed');
+            $('header').removeClass('margin-bottom');
+          } else {
+            $('nav').css({'left': '100%'});
+          }
+          window.mobileMenuOpen = !window.mobileMenuOpen;
+        });
+      });
+
+      window.scroll();
+
+      $(document).ready(function(){
+        $('.ajaxForm').submit(function(ev){
+          ev.preventDefault();
+          let btn = $(this).find('button[type=submit]');
+          let originalText = btn.text();
+          btn.text('Aguarde, enviando...');
+          btn.addClass('grey').removeClass('action').attr('disabled', true);
+          $(this).find('.errorlist.ajaxForm').remove();
+
+          $.getJSON({
+            url: $(this).attr('action'),
+            method: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: function(r){
+              btn.removeClass('grey').addClass('action').attr('disabled', false);
+              btn.text(originalText);
+
+              if (r.error){
+                let _err = '<ul class="errorlist ajaxForm"><li class="t">ERRO';
+                _err += '</li><li class="r"></li></ul>';
+                let err = $(_err);
+                err.find('.r').text(r.error);
+                btn.before(err);
+              } else {
+                $(this)[0].onSuccess(r);
+              }
+            }.bind(this)
+          });
+        });
+      });
+
+    </script>
+
+
+    {% if is_prod %}
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-57118632-2"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-57118632-2');
+      </script>
+    {% endif %}
+
+  </body>
+</html>

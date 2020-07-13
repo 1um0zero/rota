@@ -1,0 +1,510 @@
+<style>
+  h5 {
+    font-weight: bold;
+  }
+  .box-form {
+    background: #eee;
+    padding: 20px;
+  }
+  small.small {
+    color: #777;
+    font-size: 11px;
+    line-height: 11px;
+  }
+  #id_pfpj, #id_genero {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #id_pfpj li:last-child {
+    margin-left: 20px;
+  }
+  #id_genero li {
+    width: 25%;
+  }
+  .modelo {
+    display: inline-block;
+    margin: 10px 0 11px;
+    padding: 4px;
+  }
+  @media (max-width: 1023px) {
+    #id_genero li {
+      width: 100%;
+    }
+  }
+</style>
+
+
+<form method="post" enctype="multipart/form-data" id="subscription_form">
+  {% csrf_token %}
+
+  <h5>Responsável pelo projeto</h5>
+
+  <div class="contentForm">
+
+    <div class="form-item small">
+      <label>
+      </label>
+      <div class="input">
+        {{ form.pfpj }}
+      </div>
+      <div class="error">
+        {{ form.pfpj.errors }}
+      </div>
+    </div>
+
+    <div class="form-item div-pf">
+      <label>
+        RG
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.rg }}
+      </div>
+      <span class="error">
+        {{ form.rg.errors }}
+      </span>
+    </div>
+
+    <!--<div style="width:4%"></div>-->
+
+    <!--<div class="form-item small" style="width:22%">-->
+      <!--<label>-->
+        <!--Foto do RG (frente)-->
+        <!--<span class="req">*</span>-->
+      <!--</label>-->
+      <!--<div class="input">-->
+        <!--{{ form.rg_front }}-->
+      <!--</div>-->
+      <!--<span class="error">-->
+        <!--{{ form.rg_front.errors }}-->
+      <!--</span>-->
+    <!--</div>-->
+
+    <!--<div class="form-item small" style="width:22%">-->
+      <!--<label>-->
+        <!--Foto do RG (verso)-->
+        <!--<span class="req">*</span>-->
+      <!--</label>-->
+      <!--<div class="input">-->
+        <!--{{ form.rg_back }}-->
+      <!--</div>-->
+      <!--<span class="error">-->
+        <!--{{ form.rg_back.errors }}-->
+      <!--</span>-->
+    <!--</div>-->
+
+    <div class="form-item div-pj" style="display:none">
+      <label>
+        CNPJ
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.cnpj }}
+      </div>
+      <span class="error">
+        {{ form.cnpj.errors }}
+      </span>
+    </div>
+ 
+    <div class="form-item div-pj" style="display:none">
+      <label>
+        Razão social
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.razao_social }}
+      </div>
+      <span class="error">
+        {{ form.razao_social.errors }}
+      </span>
+    </div>
+
+    <div class="form-item div-pj" style="display:none">
+      <label>
+        Nome fantasia
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.nome_fantasia }}
+      </div>
+      <span class="error">
+        {{ form.nome_fantasia.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        CEP
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.cep }}
+      </div>
+      <div class="error">
+        {{ form.cep.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Endereço
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address }}
+      </div>
+      <span class="error">
+        {{ form.address.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small" style="width:15%">
+      <label>
+        Número
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_number }}
+      </div>
+      <span class="error">
+        {{ form.address_number.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small" style="width:23%">
+      <label>
+        Complemento
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_complement }}
+      </div>
+      <div class="erros">
+        {{ form.address_complement.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Bairro
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_neighborhood }}
+      </div>
+      <span class="error">
+        {{ form.address_neighborhood.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Cidade
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_city }}
+      </div>
+      <span class="error">
+        {{ form.address_city.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Estado
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_state }}
+      </div>
+      <span class="error">
+        {{ form.address_state.errors }}
+      </span>
+    </div>
+
+    <div class="form-item ddd">
+      <div class="smallddd">
+        <label>
+          <small class="small block">&nbsp;</small>
+          DDD
+        </label>
+        <div class="input">
+          {{ form.phone_home_ddd }}
+        </div>
+      </div>
+
+
+      <div class="mediumddd">
+        <label>
+          <small class="small block">&nbsp;</small>
+          Telefone residencial
+        </label>
+        <div class="input telefone">
+          {{ form.phone_home }}
+        </div>
+        <span class="error">
+          {{ form.phone_home.errors }}
+        </span>
+      </div>
+    </div>
+
+    <h5 class="dados-roteiro">
+      Dados do projeto
+    </h5>
+
+    <div class="form-item small">
+      <label>
+        Título <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.titulo }}
+      </div>
+      <div class="error">
+        {{ form.titulo.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Número ou protocolo de registro da obra na Biblioteca Nacional <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.registro_biblioteca }}
+      </div>
+      <div class="error">
+        {{ form.registro_biblioteca.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small" style="width:25%">
+      <label>
+        Características <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.caracteristicas_1 }}
+      </div>
+      <div class="error">
+        {{ form.caracteristicas_1.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small" style="width:25%">
+      <label>
+        Obra seriada? <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.caracteristicas_2 }}
+      </div>
+      <div class="error">
+        {{ form.caracteristicas_2.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small" style="width:25%">
+      <label>
+        Duração <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.caracteristicas_3 }}
+      </div>
+      <div class="error">
+        {{ form.caracteristicas_3.errors }}
+      </div>
+    </div>
+
+    <!--<div class="form-item small">-->
+      <!--<label>-->
+        <!--Outras. Qual(ais)? <span class="req">*</span>-->
+      <!--</label>-->
+      <!--<div class="input">-->
+        <!--{{ form.caracteristicas_4 }}-->
+      <!--</div>-->
+      <!--<div class="error">-->
+        <!--{{ form.caracteristicas_4.errors }}-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <div class="form-item small" style="width:25%">
+      <label>
+        Veículo <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.veiculo }}
+      </div>
+      <div class="error">
+        {{ form.veiculo.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small" style="width:100%">
+      <label>
+        Gênero <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.genero }}
+      </div>
+      <div class="error">
+        {{ form.genero.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small" style="width:100%">
+      <label>
+        Logline <span class="req">*</span>
+        <small class="small">
+          descreva seu projeto em uma frase
+        </small>
+      </label>
+      <div class="input">
+        {{ form.logline }}
+      </div>
+      <div class="error">
+        {{ form.logline.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Sinopse <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.sinopse }}
+      </div>
+      <div class="error">
+        {{ form.sinopse.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Argumento <span class="req">*</span>
+      <div class="input">
+        {{ form.argumento }}
+      </div>
+      <div class="error">
+        {{ form.argumento.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Perfil dos personagens principais
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.personagens }}
+      </div>
+      <div class="error">
+        {{ form.personagens.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Público alvo
+        <span class="req">*</span>
+        <small class="small">
+          descreva como o seu projeto pode chamar a atenção do
+          seu público alvo
+        </small>
+      </label>
+      <div class="input">
+        {{ form.publico_alvo }}
+      </div>
+      <div class="error">
+        {{ form.publico_alvo.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Biografia do criador
+        <span class="req">*</span>
+        <small class="small">
+          escreva a biografia do(as) roteirista(s) e/ou da
+          produtora proponente
+        </small>
+      </label>
+      <div class="input">
+        {{ form.biografia }}
+      </div>
+      <div class="error">
+        {{ form.biografia.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Informações adicionais
+        <span class="req">*</span>
+        <small class="small">
+          pontos considerados relevantes para o projeto
+        </small>
+      </label>
+      <div class="input">
+        {{ form.info_adicional }}
+      </div>
+      <div class="error">
+        {{ form.info_adicional.errors }}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form roteiro">
+    <label>
+      <strong>
+        <input type="checkbox" required>
+        Declaro estar ciente e de acordo com os
+        <a href="javascript:regulamento()" class="link">termos do Regulamento</a>
+        do ENCONTRO DE NEGÓCIOS DO III ROTA – Festival de Roteiro Audiovisual.
+      </strong>
+    </label>
+
+    <strong><span class="req">*</span> Preenchimento obrigatório</strong>
+    O formulário incompleto desclassifica automaticamente a inscrição.
+    <br><br><br>
+
+  </div>
+  <input type="submit" class="btn action" value="Enviar inscrição">
+</form>
+
+<script>
+  function regulamento(){
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $("#h4_regulamento").offset().top - 100
+    }, 150);
+  }
+  $(document).ready(function () {
+    $('input[name=pfpj]').click(function(){
+      if ($(this).val() === 'pf'){
+        $('.div-pf').show().find('input').attr('required', true);
+        $('.div-pj').hide().find('input').attr('required', false);
+      } else {
+        $('.div-pf').hide().find('input').attr('required', false);
+        $('.div-pj').show().find('input').attr('required', true);
+      }
+    });
+
+    setTimeout(function(){
+      if (!$('input[name=pfpj]:checked').length){
+        $('input[name=pfpj]').eq(0).click();
+      } else {
+        $('input[name=pfpj]:checked').click();
+      }
+    }, 100);
+
+    //$('#id_rg').mask('00.000.000-0');
+    $('#id_cnpj').mask('00.000.000/0000-00');
+    $('#id_cep').mask('00000-000');
+
+    $('#id_phone_home_ddd').mask('00');
+    $('#id_phone_home').mask('0000-0000');
+    $('#id_phone_home_ddd').keyup(function () {
+      if ($(this).val().length === 2) {
+        $('#id_phone_home')[0].focus();
+      }
+    });
+  });
+</script>

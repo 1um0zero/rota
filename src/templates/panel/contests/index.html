@@ -1,0 +1,52 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-trophy"></i>&nbsp; Linhas de ação{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+
+      {% if msg %}
+         <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4 style="margin:0"><i class="icon fa fa-check"></i> {{ msg }}</h4>
+        </div>
+      {% endif %}
+
+      <div class="box">
+        <div class="box-body no-padding">
+          <table class="table">
+              <thead><tr>
+                <th width="50%">Título</th>
+                <th>Exibir no site?</th>
+                <th>Inscrições abertas?</th>
+                <th>Limite de inscrições</th>
+                <th>Inscrições realizadas</th>
+              </tr></thead>
+            <tbody id="tbl_content">
+            {% for contest in contests %}
+                <tr class="page_id_{{ page.id }}">
+                    <td>
+                      <a href="/painel/linhas/edit/{{ contest.id }}">
+                        {{ contest.name }}
+                      </a>
+                    </td>
+                    <td>{{ contest.display_on_site | yesno }}</td>
+                    <td>{{ contest.subscription_open | yesno }}</td>
+                    <td>
+                      {% if contest.subscription_limit == 0 %}
+                        ilimitado
+                      {% else %}
+                        {{ contest.subscription_limit }}
+                      {% endif %}
+                    </td>
+                    <td>{{ contest.subscriptions }}</td>
+                </tr>
+            {% endfor %}
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,398 @@
+<style>
+  h5 {
+    font-weight: bold;
+  }
+  .box-form {
+    background: #eee;
+    padding: 20px;
+  }
+  small.small {
+    color: #777;
+    font-size: 11px;
+  }
+  #id_letter, #id_letter2 {
+    display: inline-block;
+    width: 49%;
+  }
+</style>
+
+
+<form method="post" enctype="multipart/form-data" id="subscription_form">
+  {% csrf_token %}
+
+  <h5>Dados pessoais</h5>
+
+  <div class="contentForm">
+    <div class="form-item">
+      <label>
+        Pseudônimo
+        <span class="req">*</span>
+        <small class="small block">Não pode ser nome artístico, nem seu nome
+          abreviado nem qualquer referência ao seu nome próprio.</small>
+      </label>
+      <div class="input">
+        {{ form.nickname }}
+      </div>
+      <span class="error">
+        {{ form.nickname.errors }}
+      </span>
+    </div>
+
+
+    <div class="form-item ddd">
+      <div class="smallddd">
+        <label>
+          <small class="small block">&nbsp;</small>
+          DDD
+        </label>
+        <div class="input">
+          {{ form.phone_home_ddd }}
+        </div>
+      </div>
+
+
+      <div class="mediumddd">
+        <label>
+          <small class="small block">&nbsp;</small>
+          Telefone residencial
+        </label>
+        <div class="input telefone">
+          {{ form.phone_home }}
+        </div>
+        <span class="error">
+          {{ form.phone_home.errors }}
+        </span>
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        RG
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.rg }}
+      </div>
+      <span class="error">
+        {{ form.rg.errors }}
+      </span>
+    </div>
+    
+    <div style="width:4%"></div>
+
+    <div class="form-item small" style="width:22%">
+      <label>
+        Foto do RG (frente)
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.rg_front }}
+      </div>
+      <span class="error">
+        {{ form.rg_front.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small" style="width:22%">
+      <label>
+        Foto do RG (verso)
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.rg_back }}
+      </div>
+      <span class="error">
+        {{ form.rg_back.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        CEP
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.cep }}
+      </div>
+    <div class="error">
+      {{ form.cep.errors }}
+    </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Endereço
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address }}
+      </div>
+      <span class="error">
+        {{ form.address.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small" style="width:15%">
+      <label>
+        Número
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_number }}
+      </div>
+      <span class="error">
+        {{ form.address_number.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small" style="width:23%">
+      <label>
+        Complemento
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_complement }}
+      </div>
+      <div class="erros">
+        {{ form.address_complement.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Bairro
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_neighborhood }}
+      </div>
+      <span class="error">
+        {{ form.address_neighborhood.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Cidade
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_city }}
+      </div>
+      <span class="error">
+        {{ form.address_city.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Estado
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_state }}
+      </div>
+      <span class="error">
+        {{ form.address_state.errors }}
+      </span>
+    </div>
+
+
+    <h5 class="dados-roteiro">
+      Dados do roteiro
+    </h5>
+
+    <div class="form-item small">
+      <label>
+        Título do Roteiro <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.title }}
+      </div>
+      <div class="error">
+        {{ form.title.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Você está inscrevendo até no máximo 03 (três) roteiros?
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.max_subscriptions }}
+      </div>
+      <div class="error">
+        {{ form.max_subscriptions.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        O seu roteiro tem até 20 páginas no formato Master Scenes?
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.max_pages }}
+      </div>
+      <div class="error">
+        {{ form.max_pages.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Você é
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.is_student }}
+      </div>
+      <div class="error">
+        {{ form.is_student.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        O roteiro possui coautor(es)?
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.coauthors }}
+      </div>
+      <div class="error">
+        {{ form.coauthors.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Carta de anuência do coautor, caso tenha
+        <span class="req" id="coauthor_req" style="display:none">*</span>
+        <small class="small">
+          <br>
+          <a href="/static/docs/AutorizaçãoCoautorConcurso2019.doc"
+              style="display:inline-block;margin:10px 0 10px" class="link">
+            modelo aqui</a>
+        </small>
+      </label>
+      <div class="radio">
+        {{ form.letter }}
+        {{ form.letter2 }}
+      </div>
+      <div class="error">
+        {{ form.letter.errors }}
+        {{ form.letter2.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Roteiro <span class="req">*</span>
+        <small class="small" style="display:block;margin:10px 0 20px">
+          anexo já incluindo capa, sinopse e perfil de personagens com
+          o máximo de 24 páginas</small>
+      </label>
+      <div class="radio">
+        {{ form.script }}
+      </div>
+      <div class="error">
+        {{ form.script.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        O roteiro é original ou adaptado?
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.is_original }}
+      </div>
+      <div class="error">
+        {{ form.is_original.errors }}
+      </div>
+    </div>
+
+    <div class="form-item" style="margin-top: 20px;">
+      <label>
+        Termo de responsabilidade
+        <span class="req">*</span>
+        <small class="small">
+          <br>
+          <a href="/static/docs/TermoResponsabilidadeCONCURSO2019.doc"
+              style="display:inline-block;margin:10px 0 10px" class="link">
+            modelo aqui</a>
+        </small>
+      </label>
+      <br>
+      <div class="radio">
+        {{ form.responsibility }}
+      </div>
+      <div class="error">
+        {{ form.responsibility.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Autorizo a inclusão do roteiro inscrito no banco de roteiros do ROTA,
+        disponibilizado a agentes do mercado audiovisual.
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.authorize }}
+      </div>
+      <div class="error">
+        {{ form.authorize.errors }}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form roteiro">
+    <label>
+      <strong>
+        <input type="checkbox" required>
+        Declaro estar ciente e de acordo com os <a href="javascript:regulamento()" class="link">termos do
+          Regulamento</a> do CONCURSO DE ROTEIROS DE CURTAS-METRAGENS do
+        <em>ROTA – Festival de Roteiro Audiovisual 2019</em></strong>
+    </label>
+
+    <strong><span class="req">*</span> Preenchimento obrigatório</strong>
+
+    <p class="warning" style="font-size:14px">
+    O formulário incompleto desclassifica automaticamente a inscrição,
+    bem como a falta de documentos anexos.
+    </p>
+
+  </div>
+  <input type="submit" class="btn action" value="Enviar inscrição">
+</form>
+
+<script>
+  function regulamento(){
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $("#h4_regulamento").offset().top - 100
+    }, 150);
+  }
+  $(document).ready(function () {
+    $('input[name=coauthors]').change(function(){
+      let status = $(this).val() == 'sim';
+      $('#id_letter').attr('required', status);
+      $('#coauthor_req')[status ? 'show' : 'hide']();
+    });
+
+    //$('#id_rg').mask('00.000.000-0');
+    $('#id_cep').mask('00000-000');
+
+    $('#id_phone_home_ddd').mask('00');
+    $('#id_phone_home').mask('0000-0000');
+    $('#id_phone_home_ddd').keyup(function () {
+      if ($(this).val().length === 2) {
+        $('#id_phone_home')[0].focus();
+      }
+    });
+  });
+</script>

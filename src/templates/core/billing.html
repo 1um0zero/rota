@@ -1,0 +1,273 @@
+{% extends 'core/index.html' %}
+{% load helpers %}
+
+{% block content %}
+{% if res %}
+  {{ res }}
+{% endif %}
+
+  <style>
+    #payment_error {
+      background: #fdd;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    #payment_error ul li {
+      font-size: 15px;
+    }
+    #payment_error strong {
+      color: #900;
+      margin: 0;
+      font-size: 14px;
+      padding: 2px 8px;
+    }
+  </style>
+
+  <div class="{{ msg_class }}">{{ msg }}</div>
+
+  {% if not product_id %}
+    <div class="highlight">
+      <div>mais popular</div>
+    </div>
+
+    <div id="products">
+      {% for product in products %}
+        <div class="product">
+          <strong>{{ product.name }}</strong>
+
+          {% if product.price2 %}
+            <em>SEGUNDO LOTE</em>
+          {% else %}
+            <em>LOTE ÚNICO</em>
+          {% endif %}
+          <div class="price">{{ product.price | real }}</div>
+        
+          <!--
+          <a href="/planos-e-precos?id={{ product.id }}" class="btn action">comprar</a>
+          -->
+
+          {{ product.description | safe }}
+
+          <!--{% if product.price2 %}-->
+            <!--<em class="sec">SEGUNDO LOTE</em>-->
+            <!--<div class="price sec">{{ product.price2 | real }}</div>-->
+            <!--<div class="date sec">a partir de {{ product.price2_date }}</div>-->
+          <!--{% endif %}-->
+
+          <br>
+
+          <a href="{{ product.url }}" class="link">mais informações</a>
+
+        </div>
+      {% endfor %}
+    </div>
+  
+  {% else %}
+    <div class="col-duo box-billing">
+
+      <div style="">
+        {% if is_seminario %}
+          <h3>Escolha o dia do Seminário</h3>
+          <select style="width:100%;padding:5px" id="data_desejada" required>
+            <option value="04">04 de outubro de 2019</option>
+            <option value="05">05 de outubro de 2019</option>
+            <option value="06">06 de outubro de 2019</option>
+          </select>
+        {% endif %}
+
+        <h3>Escolha a forma de pagamento</h3>
+
+        <div id="payment_methods">
+          <label>
+            <input type="radio" name="payment_method" value="0" checked>
+            Cartão de crédito
+            <img src="/static/core/img/ico-brands.png">
+          </label>
+          <label>
+            <input type="radio" name="payment_method" value="1">
+            Boleto
+            <img src="/static/core/img/ico-boleto.png">
+          </label>
+        </div>
+
+        <div id="box_credit_card">
+          <h3>Preencha os dados do cartão</h3>
+
+          <form method="post" class="form form_billing" id="form_billing">
+              {% csrf_token %}
+            
+              <div class="contentForm">
+
+                <div class="form-item small" style="width:100%">
+                  <label>Número do cartão de crédito <span class="req">*</span> </label>
+                  <div class="input">
+                    {{ form.card_number }}
+                  </div>
+                  <div class="error">
+                    {{ form.card_number.error }}
+                  </div>
+                </div>
+
+                <div class="form-item small">
+                  <label>Data de validade <span class="req">*</span> </label>
+                  <div class="input">
+                    {{ form.card_date }}
+                  </div>
+                  <div class="error">
+                    {{ form.date.error }}
+                  </div>
+                </div>
+
+                <div class="form-item small">
+                  <label>Código de segurança <span class="req">*</span> </label>
+                  <div class="input">
+                    {{ form.card_code }}
+                  </div>
+                  <div class="error">
+                    {{ form.code.error }}
+                  </div>
+                </div>
+
+                <div class="form-item small" style="width:100%">
+                  <label>Nome do titular do cartão <span class="req">*</span> </label>
+                  <div class="input">
+                    {{ form.card_holder }}
+                  </div>
+                  <div class="error">
+                    {{ form.card_holder.error }}
+                  </div>
+                </div>
+
+                <div class="form-item small">
+                  <label>CPF <span class="req">*</span> </label>
+                  <div class="input">
+                    {{ form.cpf }}
+                  </div>
+                  <div class="error">
+                    {{ form.cpf.error }}
+                  </div>
+                </div>
+
+                <div class="form-item small">
+                  <label>Data de nascimento <span class="req">*</span> </label>
+                  <div class="input">
+                    {{ form.birthdate }}
+                  </div>
+                  <div class="error">
+                    {{ form.birthdate.error }}
+                  </div>
+                </div>
+
+                <div class="form-item small" style="width:100%">
+                  <label>Opções de parcelamento <span class="req">*</span> </label>
+                  <div class="input">
+                    <select id="select_installments" name="installments" readonly>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+
+              <!--<div class="product_info_form">-->
+                <!--<div>{{ product.name }} - {{ product.price | real }}</div>-->
+              <!--</div>-->
+
+              <div id="payment_error" style="display:none">
+                <strong>Erro</strong>
+                <ul class="errorlist">
+                  <li class="error"></li>
+                </ul>
+              </div>
+
+              <input type="hidden" name="payment_method" value="0">
+              <input type="hidden" name="sender_hash" id="sender_hash">
+              <input type="hidden" name="card_token" id="card_token">
+              <input type="hidden" name="brand" id="brand">
+              <input type="hidden" name="data_desejada" id="input_data_desejada">
+
+              <button type="submit" class="btn action btnEfetuarPagamento">Efetuar pagamento</button>
+          </form>
+        </div>
+
+        <div id="box_boleto" style="display:none;position:relative">
+          <h3>2. Preencha o CPF</h3>
+
+          <div class="form-item small">
+            <form class="form_billing" id="form_boleto">
+              {% csrf_token %}
+
+              <div id="hide_cpf">
+                <label>CPF <span class="req">*</span> </label>
+                <div class="input">
+                  <input type="text" name="cpf" maxlength="11" required id="id_cpf_boleto">
+                </div>
+
+                <div class="boleto_error" style="display:none;margin-top:20px">
+                  <ul class="errorlist">
+                    <li><strong>ERRO</strong></li>
+                  </ul>
+                </div>
+              </div>
+              
+              <a href="javascript:;" id="boleto_image" style="display:none"
+                target="_blank" title="Clique para ampliar">
+                <img>
+              </a>
+
+              <div id="sucesso_boleto" style="display:none">Boleto gerado com sucesso!</div>
+              <a href="javascript:;" id="boleto_print" style="display:none;margin-top:20px" class="btn" target="_blank">
+                                    Imprimir boleto</a>
+
+              <input type="hidden" name="payment_method" value="1">
+              <input type="hidden" name="sender_hash" id="sender_hash_boleto">
+              <input type="hidden" name="data_desejada" id="input_data_desejada_boleto">
+
+              <input type="submit" class="btn action" value="Gerar boleto"
+                style="margin-top:20px;" id="btn_gerar_boleto">
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div style="margin-top:50px">
+        <div class="box-product-info">
+          <h2>{{ product.name }}</h2>
+          <br>
+
+          <div> {{ product.description | safe }} </div>
+          <br>
+
+          <div style="font-size:20px">{{ product.price | real }}</div>
+          <br>
+
+          <a href="/planos-e-precos" class="btn grey small">alterar</a>
+
+          <div style="margin-top:50px">
+            <img src="/static/core/img/pagseguro_uol-e1522352900205.jpg" width="200" style="margin-top:10px">
+            <br>
+            <img src="/static/core/img/ssl-site-seguro.png" width="200" style="margin-top:50px">
+          </div>
+
+        </div>
+    </div>
+
+    {% if environment == 'production' %}
+      <script type="text/javascript" src=
+        "https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
+    {% else %}
+      <script type="text/javascript" src=
+        "https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
+    {% endif %}
+
+    <script>
+      window.session_id = '{{ session_id }}';
+      window.price = '{{ product.price | realFloat }}';
+    </script>
+    <script type="text/javascript" src="/static/core/js/billing.js"></script>
+
+  {% endif %}
+
+{% endblock %}
+

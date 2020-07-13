@@ -1,0 +1,23 @@
+{% extends 'core/index.html' %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/mootools/1.6.0/mootools.min.js"></script>
+<img id="logo3" src="/static/core/img/logo3.jpg" style="display:block;margin:auto">
+
+<script>
+function logoResize(){
+    let size = Math.min(window.getSize().x, window.getSize().y);
+    $('logo3').set('width', size);
+    if (window.getSize().y > size){
+        let mt = (window.getSize().y - size) / 2;
+        $('logo3').setStyle('margin-top', mt);
+    } else {
+        $('logo3').setStyle('margin-top', 0);
+    }
+}
+window.addEvent('domready', function(){
+    logoResize();
+    window.addEvent('resize', logoResize);
+});
+</script>
+{% endblock %}

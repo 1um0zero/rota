@@ -1,0 +1,68 @@
+{% extends 'core/index.html' %}
+
+{% block content %}
+<style>
+#id_ddd {
+  display: inline-block;
+  width: 20px;
+  margin-right: 5px;
+}
+#id_phone {
+  display: inline-block;
+}
+</style>
+
+<div class="c">
+  <div class="col-duo">
+    <div>
+        <p>Já tem cadastro? <a href="/entrar" class="link">Clique aqui</a> para entrar.</p>
+
+        <form method="post" class="form">
+            {% csrf_token %}
+
+            <strong>{{ form.name.label }}</strong>
+            {{ form.name }}
+            {{ form.name.errors }}
+
+            <strong>{{ form.email.label }}</strong>
+            {{ form.email }}
+            {{ form.email.errors }}
+
+            <strong>{{ form.phone.label }}</strong>
+            <div style="display:flex">
+              {{ form.ddd }}
+              {{ form.phone }}
+            </div>
+            {{ form.ddd.errors }}
+            {{ form.phone.errors }}
+
+            <div style="display:flex">
+              <div style="width:50%;margin-right:5px">
+                <strong>{{ form.pass1.label }}</strong>
+                {{ form.pass1 }}
+              </div>
+              <div style="width:50%">
+                <strong>{{ form.pass2.label }}</strong>
+                {{ form.pass2 }}
+              </div>
+            </div>
+            {{ form.pass1.errors }}
+
+            <br><br><br>
+            <button type="submit" class="btn action">Cadastrar</button>
+        </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('#id_phone').mask('00000-0000');
+    $('#id_ddd').keyup(function(){
+      if ($(this).val().length === 2){
+        $('#id_phone')[0].focus();
+      }
+    });
+  });
+</script>
+{% endblock %}

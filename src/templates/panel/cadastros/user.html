@@ -1,0 +1,214 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-users"></i>&nbsp; Cadastro{% endblock %}
+
+{% block content %}
+<style>
+  .payments strong:not(:first-of-type) {
+    display: block;
+    margin-top: 10px;
+  }
+</style>
+
+<div class="row">
+
+  <div class="col-md-4">
+
+    <div class="box box-primary">
+      <div class="box-body box-profile">
+
+        <h3 class="profile-username text-center">{{ user.first_name }}</h3>
+        <p class="text-muted text-center">{{ user.email }}</p>
+
+        <ul class="list-group list-group-unbordered">
+          <li class="list-group-item">
+            <b>Telefone</b> <span class="pull-right">({{ up.ddd }}) {{ up.phone }}</span>
+          </li>
+          <li class="list-group-item">
+            <b>Inscrições</b> <span class="pull-right">{{ subscriptions.count }}</span>
+          </li>
+          <li class="list-group-item">
+            <b>Tentativas de pagamento</b> <span class="pull-right">{{ total_orders }}</span>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+
+
+    {% for order in orders %}
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Pedido realizado</h3>
+        </div>
+        <div class="box-body payments">
+          <div>
+            <strong>ID do pedido</strong>
+            <div>{{ order.id }}</div>
+
+            <strong>Produto</strong>
+            <div>
+              {{ order.product.name }}
+              {% if order.product.id == 3 %}
+                -  dia  {{ order.data_desejada }}
+              {% endif %}
+            </div>
+
+            <strong>Data</strong>
+            <div>{{ order.created_at }}</div>
+
+            <strong>Preço</strong>
+            <div>{{ order.price | real }}</div>
+
+            <strong>Forma de pagamento</strong>
+            <div>
+              {% if order.payment_method == 0 %}
+                cartão de crédito ({{ order.card_brand }} final {{ order.card_end }})
+                <div>
+                  {% if order.parcelas > 1 %}
+                    {{ order.parcelas }} parcelas de
+                    {{ order.valor_parcela|real }}
+                  {% else %}
+                    à vista
+                  {% endif %}
+                </div>
+              {% elif order.payment_method == 1 %}
+                boleto
+              {% endif %}
+            </div>
+
+            <strong>Status</strong>
+            <div>{{ order.status | pagseguro_status }}</div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+  </div>
+
+  <div class="col-md-8">
+
+    {% for subscription in subscriptions %}
+
+    <div class="box box-primary" id="inscricao_{{ subscription.id }}">
+        <div class="box-header with-border">
+          <h3 class="box-title">
+            Inscrição #{{ subscription.id }} - {{ subscription.contest.name }}
+          </h3>
+          <div style="float:right">{{ subscription.created_at }}</div>
+        </div>
+        <div class="box-body box-profile">
+            <br>
+            
+            {% if subscription.contest.id == 1 %}
+              {% include 'panel/subscription_card/roteiro.html' %}
+            {% elif subscription.contest.id == 2 %}
+              {% include 'panel/subscription_card/encontro.html' %}
+            {% elif subscription.contest.id == 3 %}
+              {% include 'panel/subscription_card/lab.html' %}
+            {% elif subscription.contest.id == 4 %}
+              {% include 'panel/subscription_card/mostra.html' %}
+            {% endif %}
+
+            {% if subscriptions.orders %}
+
+              Tentativas de pagamento:<br>
+
+              <ul>
+              {% for order in subscription.orders %}
+                  <li>
+                    <a href="/painel/pedidos/{{ order.id }}">
+                      Pedido realizado em {{ order.created_at }}
+                    </a>
+                  </li>
+              {% endfor %}
+              </ul>
+            {% endif %}
+
+        </div>
+      </div>
+      <br><br>
+
+    {% endfor %}
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+  function folderExplorer(el){
+    this.el = el;
+
+    this.close = function(){
+      $('.folders').remove();
+    }
+
+    this.update = function(list){
+      this.ul.empty();
+      list.forEach((data) => {
+        let li = $('<li>').append(
+          $('<i>').attr('class', 'fa fa-folder'),
+          $('<span>').text(data.name)
+        );
+        li.click((ev) => {
+          $.getJSON('/painel/folders?f=' + data.id, (r) => {
+            if (r.length === 0){
+              this.select(data);
+            } else {
+              this.update(r);
+            }
+          });
+        });
+        li.appendTo(this.ul);
+      });
+    }
+
+    this.select = function(data){
+      $(this.el).find('span').text(data.name);
+      let _id = $(this.el).attr('id').replace('subscription-', '');
+      $.post('/painel/folders', {
+        subscription_id: _id,
+        folder_id: data.id
+      });
+      this.close();
+    }
+
+    $(el).click((ev) => {
+      if ($('.folders').length > 0){
+        this.close();
+      } else {
+        this.explorer = $('<div>').attr('class', 'folders');
+        this.ul = $('<ul>').appendTo(this.explorer);
+        this.update(window.folders);
+        this.explorer.insertAfter(el);
+      }
+    });
+  }
+
+  $(document).ready(function(){
+    $('.select_change_status').change(function(){
+      $.post({
+        url: '/painel/inscricoes/change_status',
+        data: {
+          'id': this.id.replace('subscription_', ''),
+          'status': this.value
+        },
+        success: function(){
+          window.location.reload();
+        }
+      });
+    });
+
+    $('.current_folder').each(function(n, el){
+      new folderExplorer(el);
+    });
+    $.getJSON('/painel/folders', (r) => {
+      window.folders = r;
+    });
+
+  });
+</script>
+{% endblock %}

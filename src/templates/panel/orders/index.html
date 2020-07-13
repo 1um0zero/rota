@@ -1,0 +1,161 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-shopping-cart"></i>&nbsp; Pedidos{% endblock %}
+
+{% block content %}
+<style>
+@media (max-width: 767px) {
+  #tbl_orders, #tbl_content {
+    font-size: 13px;
+  }
+
+  #tbl_orders thead tr th:first-child,
+  #tbl_orders thead tr th:nth-child(5),
+  #tbl_orders thead tr th:last-child {
+    display: none;
+  }
+  #tbl_content tr td:first-child,
+  #tbl_content tr td:nth-child(5),
+  #tbl_content tr td:last-child {
+    display: none;
+  }
+}
+</style>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Filtros</h3>
+      </div>
+      <form role="form">
+        <div class="box-body">
+
+          <div class="form-group">
+            <label for="exampleInputProduto">Produto</label>
+            <select class="form-control" name="product" style="width:50%">
+              <option></option>
+              {% for product in products %}
+                <option value="{{ product.id }}"
+                    {% if product.id == filter.product %}selected{% endif %}>
+                  {{ product.name }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputProduto">Dia escolhido</label>
+            <select class="form-control" name="dia" style="width:50%">
+              <option></option>
+              {% for dia in dias %}
+                <option value="{{ dia.id }}"
+                    {% if dia.id == filter.dia %}selected{% endif %}>
+                  {{ dia.name }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputProduto">Status</label>
+            <select class="form-control" name="status" style="width:50%">
+              <option></option>
+              {% for status in statuses %}
+                <option value="{{ status.id }}"
+                    {% if status.id == filter.status %}selected{% endif %}>
+                  {{ status.name }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+        </div>
+        <div class="box-footer">
+          <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="margin-top:20px">
+  <div class="col-md-12">
+    <p style="padding:0 2px;font-size:18px">
+      <i class="fa fa-info-circle"></i> {{ total }} registros encontrados
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+
+    {% if msg %}
+       <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h4 style="margin:0"><i class="icon fa fa-check"></i> {{ msg }}</h4>
+      </div>
+    {% endif %}
+
+    <div class="box">
+      <div class="box-body no-padding">
+        <table class="table" id="tbl_orders">
+            <thead><tr>
+              <th>#</th>
+              <th>ID do pedido</th>
+              <th>Usuário</th>
+              <th>Produto</th>
+              <th>Dia escolhido</th>
+              <th>Valor do pagamento</th>
+              <th>Forma de pagamento</th>
+              <th>Status do pedido</th>
+              <th>Data do pedido</th>
+            </tr></thead>
+          <tbody id="tbl_content">
+          {% for order in orders %}
+              <tr>
+                  <td style="color:#666">{{ forloop.counter }}</td>
+                  <td>{{ order.id }}</td>
+                  <td>
+                    <a href="/painel/cadastro/{{ order.user.id }}">
+                      {{ order.user.first_name }}
+                    </a>
+                  </td>
+                  <td>
+                    {{ order.product.name }}
+                  </td>
+                  <td>
+                    {% if order.product.id == 3 %}
+                      {% if order.data_desejada %}
+                        dia  {{ order.data_desejada }}
+                      {% else %}
+                      <span style="color:#f00;font-weight:bold">dia não escolhido</span>
+                      {% endif %}
+                    {% else %}
+                      -
+                    {% endif %}
+                  </td>
+                  <td> {{ order.price | real }} </td>
+                  <td>
+                    {% if order.payment_method == 0 %}
+                      cartão de crédito ({{ order.parcelas }}x)
+                    {% else %}
+                      boleto
+                    {% endif %}
+                  </td>
+                  <td>
+                    <span style="{% if order.status == 3 or order.status == 4 %}color:#393;{% endif %}">
+                      {{ order.status | pagseguro_status }}
+                    </span>
+                  </td>
+                  <td>{{ order.created_at }}</td>
+              </tr>
+          {% endfor %}
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

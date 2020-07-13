@@ -1,0 +1,778 @@
+<style>
+  h5 {
+    font-weight: bold;
+  }
+  .box-form {
+    background: #eee;
+    padding: 20px;
+  }
+  small.small {
+    color: #777;
+    font-size: 11px;
+  }
+  @media (max-width: 1023px) {
+    .row_fotos {
+      flex-wrap: wrap;
+    }
+    .row_fotos > div {
+      width: 100%;
+    }
+  }
+</style>
+
+
+<form method="post" enctype="multipart/form-data" id="subscription_form">
+  {% csrf_token %}
+
+  <h5>Dados pessoais</h5>
+
+  <div class="contentForm">
+
+    <div class="form-item">
+      <label>
+        RG
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.rg }}
+      </div>
+      <span class="error">
+        {{ form.rg.errors }}
+      </span>
+    </div>
+    
+    <div style="width:4%"></div>
+
+    <div class="form-item small" style="width:22%">
+      <label>
+        Foto do RG (frente)
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.rg_front }}
+      </div>
+      <span class="error">
+        {{ form.rg_front.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small" style="width:22%">
+      <label>
+        Foto do RG (verso)
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.rg_back }}
+      </div>
+      <span class="error">
+        {{ form.rg_back.errors }}
+      </span>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Data de nascimento
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.nascimento }}
+      </div>
+      <span class="error">
+        {{ form.rg.nascimento }}
+      </span>
+    </div>
+
+    <div class="form-item ddd">
+      <div class="smallddd">
+        <label>
+          DDD
+          <span class="req">*</span>
+        </label>
+        <div class="input">
+          {{ form.phone_home_ddd }}
+        </div>
+      </div>
+
+      <div class="mediumddd">
+        <label>
+          Telefone residencial
+          <span class="req">*</span>
+        </label>
+        <div class="input telefone">
+          {{ form.phone_home }}
+        </div>
+        <span class="error">
+          {{ form.phone_home.errors }}
+        </span>
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        CEP
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.cep }}
+      </div>
+      <div class="error">
+        {{ form.cep.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Endereço
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address }}
+      </div>
+      <span class="error">
+        {{ form.address.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small" style="width:15%">
+      <label>
+        Número
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_number }}
+      </div>
+      <span class="error">
+        {{ form.address_number.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small" style="width:23%">
+      <label>
+        Complemento
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_complement }}
+      </div>
+      <div class="erros">
+        {{ form.address_complement.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Bairro
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_neighborhood }}
+      </div>
+      <span class="error">
+        {{ form.address_neighborhood.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Cidade
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_city }}
+      </div>
+      <span class="error">
+        {{ form.address_city.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Estado
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_state }}
+      </div>
+      <span class="error">
+        {{ form.address_state.errors }}
+      </span>
+    </div>
+
+
+    <h5 class="dados-roteiro" style="">
+      Dados do filme
+    </h5>
+
+    <div class="form-item small">
+      <label>
+        Título <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.titulo }}
+      </div>
+      <div class="error">
+        {{ form.titulo.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small" style="width:35%">
+      <label>
+        Link do filme <span class="req">*</span>
+        <small class="small" style="margin-left:10px">(Youtube ou Vimeo)</small>
+      </label>
+      <div class="input">
+        {{ form.url }}
+      </div>
+      <div class="error">
+        {{ form.url.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small" style="width:15%">
+      <label>
+        Senha
+        <small class="small" style="margin-left:10px">para acessar o link</small>
+      </label>
+      <div class="input">
+        {{ form.url_pass }}
+      </div>
+      <div class="error">
+        {{ form.url_pass.errors }}
+      </div>
+    </div>
+
+
+    <div class="form-item small" style="width:100%">
+      <label>
+        Sinopse <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.sinopse }}
+      </div>
+      <div class="error">
+        {{ form.sinopse.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Duração <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.duracao }}
+      </div>
+      <div class="error">
+        {{ form.duracao.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Ano <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.ano }}
+      </div>
+      <div class="error">
+        {{ form.ano.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Cidade de produção <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.cidade }}
+      </div>
+      <div class="error">
+        {{ form.cidade.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Estado de produção <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.estado }}
+      </div>
+      <div class="error">
+        {{ form.estado.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Categoria <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.categoria }}
+      </div>
+      <div class="error">
+        {{ form.categoria.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Classificação <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.classificacao }}
+      </div>
+      <div class="error">
+        {{ form.classificacao.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Formato de finalização <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.formato_finalizacao }}
+      </div>
+      <div class="error">
+        {{ form.formato_finalizacao.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Formato de exibição <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.formato_exibicao }}
+      </div>
+      <div class="error">
+        {{ form.formato_exibicao.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Formato de janela da cópia de exibição <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.formato_janela }}
+      </div>
+      <div class="error">
+        {{ form.formato_janela.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Som <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.som }}
+      </div>
+      <div class="error">
+        {{ form.som.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Cor <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.cor }}
+      </div>
+      <div class="error">
+        {{ form.cor.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Certificado de Produto Brasileiro – CPB: <span class="req">*</span>
+        <small class="small" style="display:block">
+          Saiba mais em <a class="link" href="http://www.ancine.gov.br/manuais/passo-passo-sistemas/sad" target="_blank">
+            http://www.ancine.gov.br/manuais/passo-passo-sistemas/sad</a>
+        </small>
+      </label>
+      <div class="input">
+        {{ form.cpb }}
+      </div>
+      <div class="error">
+        {{ form.cpb.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Site
+      </label>
+      <div class="input">
+        {{ form.site }}
+      </div>
+      <div class="error">
+        {{ form.site.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Facebook
+      </label>
+      <div class="input">
+        {{ form.facebook }}
+      </div>
+      <div class="error">
+        {{ form.facebook.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small" style="width:100%">
+      <label>
+        Participação em Festivais <span class="req">*</span>
+        <small class="small" style="display:block">
+          Do festival mais antigo para o mais novo: Festival
+          1 (2016), Festival 2 (2015)</small>
+      </label>
+      <div class="input">
+        {{ form.festivais }}
+      </div>
+      <div class="error">
+        {{ form.festivais.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small" style="width:100%">
+      <label>
+        Prêmios recebidos <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.premios }}
+      </div>
+      <div class="error">
+        {{ form.premios.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small" style="width:100%">
+      <label style="margin-bottom:30px">
+        Envie de 1 a 3 fotos do filme em formato digital de alta resolução
+      </label>
+      <div class="input row_fotos" style="display:flex">
+        <div class="form-item small">
+          <label>
+            Foto 1 <span class="req">*</span>
+          </label>
+          <div class="input">
+            {{ form.foto_1 }}
+          </div>
+          <div class="error">
+            {{ form.foto_1.errors }}
+          </div>
+        </div>
+
+        <div class="form-item small">
+          <label>
+            Foto 2
+          </label>
+          <div class="input">
+            {{ form.foto_2 }}
+          </div>
+          <div class="error">
+            {{ form.foto_2.errors }}
+          </div>
+        </div>
+
+        <div class="form-item small">
+          <label>
+            Foto 3
+          </label>
+          <div class="input">
+            {{ form.foto_3 }}
+          </div>
+          <div class="error">
+            {{ form.foto_3.errors }}
+          </div>
+        </div>
+      </div>
+      <div class="error">
+      </div>
+    </div>
+
+    <h5 class="dados-roteiro">Ficha técnica</h5>
+
+    <div class="form-item small">
+      <label>
+        Roteirista <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.roteirista }}
+      </div>
+      <div class="error">
+        {{ form.roteirista.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Diretor(a) <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.diretor }}
+      </div>
+      <div class="error">
+        {{ form.diretor.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Diretor(a) de produção <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.diretor_producao }}
+      </div>
+      <div class="error">
+        {{ form.diretor_producao.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Produtor(a) executivo <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.produtor_executivo }}
+      </div>
+      <div class="error">
+        {{ form.produtor_executivo.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Fotografia <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.fotografia }}
+      </div>
+      <div class="error">
+        {{ form.fotografia.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Trilha sonora original <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.trilha }}
+      </div>
+      <div class="error">
+        {{ form.trilha.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Montagem <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.montagem }}
+      </div>
+      <div class="error">
+        {{ form.montagem.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Direção de arte <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.direcao_arte }}
+      </div>
+      <div class="error">
+        {{ form.direcao_arte.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Som <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.tec_som }}
+      </div>
+      <div class="error">
+        {{ form.tec_som.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Edição de som <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.edicao_som }}
+      </div>
+      <div class="error">
+        {{ form.edicao_som.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small" style="width:100%">
+      <label>
+        Elenco <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.elenco }}
+      </div>
+      <div class="error">
+        {{ form.elenco.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        O proponente está inscrevendo até no máximo 03 (três) filmes?
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.max_filmes }}
+      </div>
+      <div class="error">
+        {{ form.max_filmes.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        O filme tem até 20 minutos incluindo os créditos?
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.max_min }}
+      </div>
+      <div class="error">
+        {{ form.max_min.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Termo de responsabilidade
+        <span class="req">*</span>
+        <small class="small">
+          <br>
+          <a href="http://www.rotafestival.com/static/docs/TermoResponsabilidadeMOSTRA2019.doc"
+              style="display:inline-block;margin:10px 0 10px" class="link">
+            modelo aqui</a>
+        </small>
+      </label>
+      <br>
+      <div class="radio">
+        {{ form.responsibility }}
+      </div>
+      <div class="error">
+        {{ form.responsibility.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        O proponente é:
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.is_student }}
+      </div>
+      <div class="error">
+        {{ form.is_student.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Carta de autorização do coautor #1, caso tenha
+        <small class="small">
+          <br>
+          <a href="http://www.rotafestival.com/static/docs/AutorizaçãoCoautorMostra2019.doc"
+              style="display:inline-block;margin:10px 0 10px" class="link">
+            modelo aqui</a>
+        </small>
+      </label>
+      <div class="radio">
+        {{ form.letter1 }}
+      </div>
+      <div class="error">
+        {{ form.letter1.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Carta de autorização do coautor #2, caso tenha
+        <small class="small">
+          <br>
+          <a href="http://www.rotafestival.com/static/docs/AutorizaçãoCoautorMostra2019.doc"
+              style="display:inline-block;margin:10px 0 10px" class="link">
+            modelo aqui</a>
+        </small>
+      </label>
+      <div class="radio">
+        {{ form.letter2 }}
+      </div>
+      <div class="error">
+        {{ form.letter2.errors }}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form roteiro">
+    <label>
+      <strong>
+        <input type="checkbox" required>
+        Declaro estar ciente e de acordo com os <a href="javascript:regulamento()" class="link">termos do
+          Regulamento</a> da MOSTRA DE CURTAS-METRAGENS do Rota – Festival de Roteiro
+        Audiovisual 2019
+      </strong>
+    </label>
+
+    <strong><span class="req">*</span> Preenchimento obrigatório</strong>
+
+    <p class="warning" style="font-size:13px">
+    O formulário incompleto desclassifica automaticamente a inscrição,
+    bem como a falta de documentos anexos.
+    </p>
+
+  </div>
+  <input type="submit" class="btn action" value="Enviar inscrição">
+</form>
+
+<script>
+  function regulamento(){
+    $([document.documentElement, document.body]).animate({
+      scrollTop: $("#h4_regulamento").offset().top - 100
+    }, 150);
+  }
+$(document).ready(function () {
+  $('input[name=coauthors]').change(function(){
+    let status = $(this).val() == 'sim';
+    $('#id_letter').attr('required', status);
+    $('#coauthor_req')[status ? 'show' : 'hide']();
+  });
+
+  //$('#id_rg').mask('00.000.000-0');
+  $('#id_nascimento').mask('00/00/0000');
+  $('#id_cep').mask('00000-000');
+
+  $('#id_phone_home_ddd').mask('00');
+  $('#id_phone_home').mask('0000-0000');
+  $('#id_phone_home_ddd').keyup(function () {
+    if ($(this).val().length === 2) {
+      $('#id_phone_home')[0].focus();
+    }
+  });
+});
+</script>

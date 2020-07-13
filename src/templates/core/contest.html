@@ -1,0 +1,186 @@
+{% extends 'core/index.html' %}
+{% load helpers %}
+
+{% block content %}
+
+<style>
+  .box-payment {
+    border:1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 30px;
+    padding: 20px;
+  }
+  .col-duo.concurso {
+    grid-template-columns: 2fr 1fr;
+  }
+  .clearP p {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  .small {
+    font-size: 14px;
+  }
+  span.counter {
+    color: #666;
+    font-size: 12px;
+  }
+
+  @media (max-width: 1300px){
+    .col-duo.concurso {
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+</style>
+
+
+<div class="concurso">
+  <div>
+    {% if contest.image_url %}
+    <div class="contest_image">
+      <div style="width: 100%; height: 400px; background: url(' {{ contest.image_url }} ');background-position:bottom"></div>
+    </div>
+    {% endif %}
+
+    <div class="c contentDescription">
+
+      <h4>Descrição</h4>
+      <div id="contest_description">
+        {{ contest.description | sanitize | safe }}
+      </div>
+
+      {% if contest.regulation %}
+        <h4 id="h4_regulamento" name="h4_regulamento">Regulamento</h4>
+        <div id="regulation">
+          <div>
+            {{ contest.regulation | sanitize | safe }}
+          </div>
+          <div class="showRegulation">
+            Ver mais...
+          </div>
+          <div class="hideRegulation">Fechar</div>
+        </div>
+        <div class="fade"></div>
+      {% endif %}
+
+
+      <h4 id="h4_inscricao">Inscrição</h4>
+
+      {% if not contest.subscription_open %}
+        <div style="font-size:18px;text-align:center">Inscrições encerradas.</div>
+
+      {% elif not has_limit %}
+        <div style="font-size:18px;text-align:center">Inscrições encerradas.</div>
+    
+      {% elif block_user %}
+        <ul class="errorlist" style="width:50%;margin:50px auto">
+          <li style="font-size:16px;padding:10px;text-align:center">{{ error }}</li>
+        </ul>
+
+      {% else %}
+        {% if request.user.is_authenticated %}
+          {% if error %}
+            <ul class="errorlist" style="width:50%;margin:50px auto">
+              <li style="font-size:16px;padding:10px;text-align:center">{{ error }}</li>
+            </ul>
+          {% endif %}
+
+          {% if contest.id == 1 %}
+            {% include 'core/forms/roteiro.html' %}
+          {% elif contest.id == 2 %}
+            {% include 'core/forms/encontro.html' %}
+          {% elif contest.id == 3 %}
+            {% include 'core/forms/lab.html' %}
+          {% elif contest.id == 4 %}
+            {% include 'core/forms/mostra.html' %}
+          {% elif contest.id == 5 %}
+            {% include 'core/forms/seminario.html' %}
+          {% endif %}
+
+        {% else %}
+          <div style="font-size:18px;text-align:center">
+            Você precisa <a href="/entrar" class="link">fazer o login</a>
+            para se inscrever.
+            Se ainda não for cadastrado, faça
+            seu <a href="/cadastro" class="link">cadastro</a>.
+          </div>
+        {% endif %}
+
+      {% endif %}
+
+    </div>
+
+  </div>
+
+  <div>
+    <div class="box-payment" style="display: none;">
+      <strong>Regulamento</strong>
+      <div class="regulation clearP small">
+        {{ contest.regulation | safe }}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  window.formSent = false;
+  $(document).ready(function(){
+    
+    {% if error %}
+      $([document.documentElement, document.body]).animate({
+          scrollTop: $("#h4_inscricao").offset().top - 100
+      }, 150);
+    {% endif %}
+
+    $('#subscription_form').submit(function(){
+      if (!window.formSent){
+        let submit = $(this).find('input[type=submit]');
+        submit[0].disabled = true;
+        window.formSent = true;
+        submit.attr('class', 'btn grey');
+        submit.val('Aguarde, enviando...');
+      }
+    });
+
+    $('.regulation > a').click(function(){
+      if ($(this).hasClass('visible')){
+        $(this).removeClass('visible');
+        $(this).text('ver regulamento');
+        $('.regulation .text').hide();
+      } else {
+        $(this).addClass('visible');
+        $(this).text('esconder regulamento');
+        $('.regulation .text').show();
+      }
+    });
+
+    $(".showRegulation").click( function () {
+      $(".hideRegulation").show();
+      $(this).hide().parent().css({
+        height: "auto"
+      });
+    });
+
+    $(".hideRegulation").click( function () {
+      $(".showRegulation").show();
+      $(this).hide().parent().css({
+        height: "390px"
+      });
+    });
+
+    $('.charCounter').each(function(n, el){
+      let input = $(el).find('.input > *');
+      let maxLength = input.attr('maxlength');
+      let label = $('<span class="counter">');
+      label.appendTo($(el));
+      input.keyup(function(){
+        let n = $(this).val().length;
+        label.text((maxLength - n) + ' caracteres restantes');
+      });
+      input.keydown(function(){
+        $(this).keyup();
+      });
+      input.keyup();
+    });
+  });
+
+</script>
+{% endblock %}

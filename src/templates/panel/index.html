@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>ROTA | Painel de controle</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="/static/panel/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="/static/panel/dist/css/AdminLTE.css">
+  <link rel="stylesheet" href="/static/panel/dist/css/skins/_all-skins.min.css">
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+      <header class="main-header">
+        <a href="/painel" class="logo">
+          <span class="logo-mini"><b style="font-size:15px">ROTA</b></span>
+          <span class="logo-lg"><b>ROTA</b> Painel</span>
+        </a>
+        <nav class="navbar navbar-static-top">
+          <a href="javascript:;" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+              <i class="fa fa-bars"></i>
+          </a>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <li class="dropdown user user-menu">
+                <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">
+                  <!--
+                  <img src="/static/panel/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                  -->
+                  <i class="fa fa-user"></i>
+
+                  <span class="hidden-xs">
+                    {{ request.session.painel.name }}
+                  </span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="user-header">
+                    <!--
+                    <img src="/static/panel/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    -->
+                    <i class="fa fa-user" style="font-size:46px;color:#fff;margin-top:20px"></i>
+                    <p>
+                      {{ request.session.painel.name }}
+                      <br>
+                      <small>{{ request.session.painel.role.1 }}</small>
+                    </p>
+                  </li>
+                  <li class="user-footer">
+                    <div class="pull-right">
+                      <a href="/painel/logout" class="btn btn-default btn-flat">Sair</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      
+      <aside class="main-sidebar">
+        <section class="sidebar">
+          <form method="get" class="sidebar-form">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="Buscar...">
+                  <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+                  </span>
+            </div>
+          </form>
+          
+          <ul class="sidebar-menu">
+
+            <li class="header"></li>
+
+            {% if request.session.painel.is_admin %}
+              <li class="">
+                <a href="/painel">
+                  <i class="fa fa-chart-line"></i> <span>Dashboard</span>
+                </a>
+              </li>
+              <li class="">
+                <a href="/painel/linhas">
+                  <i class="fa fa-trophy"></i> <span>Linhas de ação</span>
+                </a>
+              </li>
+              <li class="">
+                <a href="/painel/cadastros">
+                  <i class="fa fa-users"></i> <span>Cadastros</span>
+                </a>
+              </li>
+              <li class="">
+                <a href="/painel/inscricoes">
+                  <i class="fa fa-id-card"></i> <span>Inscrições</span>
+                </a>
+              </li>
+              <li class="">
+                <a href="/painel/pedidos">
+                  <i class="fa fa-shopping-cart"></i> <span>Pedidos</span>
+                </a>
+              </li>
+              <li class="">
+                <a href="/painel/conteudo">
+                  <i class="fa fa-copy"></i> <span>Páginas de conteúdo</span>
+                </a>
+              </li>
+              <li class="">
+                <a href="/painel/convidados">
+                  <i class="fa fa-star"></i> <span>Convidados</span>
+                </a>
+              </li>
+              <li class="">
+                <a href="/painel/acessos">
+                  <i class="fa fa-key"></i> <span>Controle de acessos</span>
+                </a>
+              </li>
+              <!--
+              <li class="">
+                <a href="/painel/curtas">
+                  <i class="fa fa-video"></i> <span>Curtas</span>
+                </a>
+              </li>
+              -->
+            {% endif %}
+
+            {% if request.session.painel.is_admin or request.session.painel.is_curador %}
+              
+              {% if request.session.painel.is_admin or request.session.painel.view_roteiros %}
+                <li class="">
+                  <a href="/painel/roteiros">
+                    <i class="fa fa-file-pdf"></i> <span>Roteiros</span>
+                  </a>
+                </li>
+              {% endif %}
+
+              {% if request.session.painel.is_admin or request.session.painel.view_projetos %}
+                <li class="">
+                  <a href="/painel/projetos">
+                    <i class="fa fa-file-video"></i> <span>Projetos de série</span>
+                  </a>
+                </li>
+              {% endif %}
+
+              {% if request.session.painel.is_admin or request.session.painel.view_encontro %}
+                <li class="">
+                  <a href="/painel/encontro">
+                    <i class="fa fa-briefcase"></i> <span>Encontro de negócios</span>
+                  </a>
+                </li>
+              {% endif %}
+
+            {% endif %}
+          </ul>
+        </section>
+      </aside>
+
+    <div class="content-wrapper" style="min-height: 916px;">
+        <section class="content-header">
+          <h1 id="page_title">
+              {% block title %}{% endblock %}
+          </h1>
+
+          <ol class="breadcrumb">
+            <li><a href="/painel">Painel</a></li>
+            {% block breadcrumb %}{% endblock %}
+            <li class="active" id="breadcrumb"></li>
+          </ol>
+        </section>
+        <section class="content">
+            {% block content %}{% endblock %}
+        </section>
+      </div>
+
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <strong>ROTA | Festival de Roteiro Audiovisual</strong>
+        </div>
+        Copyright &copy; 2019 - Todos os direitos reservados
+      </footer>
+
+    </div>
+
+    <script src="/static/panel/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="/static/panel/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/static/panel/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/panel/plugins/chartjs/Chart.min.js"></script>
+    <script src="/static/panel/dist/js/app.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        // breadcrumb
+        $('#breadcrumb').text($('#page_title').text());
+
+        // menu
+        var currentPage = window.location.pathname.replace('/painel/', '');
+        currentPage = currentPage.replace(/([^\/]+).*/, '$1');
+
+        $('.sidebar-menu li a').each(function(n, el){
+            var link = $(el).attr('href').replace(/\/painel\/?/, '');
+            if (link === currentPage){
+                $(el).parent().addClass('active');
+            }
+        });
+    });
+    </script>
+
+    {% block js %}{% endblock %}
+</body>
+</html>

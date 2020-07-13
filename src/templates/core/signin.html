@@ -1,0 +1,34 @@
+{% extends 'core/content.html' %}
+
+{% block content %}
+<div class="c">
+  <div class="col-duo">
+      <div>
+          <p>Ainda não tem cadastro? <a href="/cadastro" class="link">Cadastre-se</a>
+              e garanta a sua vaga.</p>
+
+          <form method="post" class="form">
+              {% csrf_token %}
+
+                <strong>Email</strong>
+                <input type="email" name="email" value="{{ email|default:'' }}">
+
+                <strong>Senha</strong>
+                <input type="password" name="password">
+
+              {% if error %}
+                <ul class="errorlist">
+                  <li class="big">{{ error }}</li>
+                </ul><br>
+              {% endif %}
+              
+              <br><br>
+              <button type="submit" class="btn action">Entrar</button>
+              <a href="/recuperar-senha" class="btn grey mLeft">esqueceu a senha?</a>
+          </form>
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+

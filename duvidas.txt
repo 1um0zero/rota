@@ -1,0 +1,12 @@
+l31rb4g@gmail.com
+
+
+- Como testo o upload?
+Exception Type:	FileNotFoundError
+Exception Value:	
+[Errno 2] No such file or directory: 'D:\\Projetos-dev\\rota\\src\\static\\uploads\\c0fe53bc-bd15-406b-9077-0d62958138ca'
+Exception Location:	D:\Projetos-dev\rota\src\core\views\contest.py in contest, line 63
+
+
+- Como é feita a página do produto?
+

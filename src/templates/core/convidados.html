@@ -1,0 +1,73 @@
+{% extends 'core/index.html' %}
+{% load helpers %}
+
+{% block content %}
+
+<div class="{{ msg_class }}">{{ msg }}</div>
+
+<style>
+ul.convidados {
+  display: flex;
+  flex-wrap: wrap;
+}
+ul.convidados li {
+  width: calc(50% - 30px);
+}
+ul.convidados li:nth-child(odd) {
+  margin: 0 30px 0 0;
+}
+ul.convidados li p {
+  text-align: justify;
+  font-size: 13px;
+}
+ul.convidados li img {
+  float: left;
+  margin: 0 10px 10px 0;
+  width: 250px;
+}
+ul.convidados h2 {
+  margin-top: 10px;
+}
+ul.convidados h3 {
+  margin: 0 0 10px;
+  color: #666;
+}
+
+@media (max-width: 1024px){
+  ul.convidados {
+    margin: 5px;
+  }
+  ul.convidados h2 {
+    margin: 10px 5px 0 10px;
+  } 
+  ul.convidados h3 {
+    margin: 2px 0 5px 10px;
+  }
+  ul.convidados li {
+    width: 100%;
+  }
+  ul.convidados li:nth-child(odd) {
+    margin: 0;
+  }
+  ul.convidados li img {
+    width: 100%;
+  }
+}
+</style>
+
+<ul class="convidados">
+  {% for convidado in convidados %}
+  <li>
+    <div class="block">
+      <h2>{{ convidado.name }}</h2>
+      <h3>{{ convidado.contest.name }}</h3>
+      <p>
+        <img src="/static/convidados/{{ convidado.picture }}">
+        {{ convidado.bio|nl2br|safe }}
+      </p>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

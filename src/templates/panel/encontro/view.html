@@ -1,0 +1,97 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-briefcase"></i>&nbsp; Projeto - Encontro de Negócios{% endblock %}
+
+{% block content %}
+<style>
+  .card {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .card li {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+  }
+  .card li span.block {
+    display: block;
+    margin-left: 200px;
+    margin-top: -20px;
+  }
+  .card img.img {
+    max-width: 100px;
+    max-height: 100px;
+    border: 1px solid #333;
+    margin-left: 50px;
+  }
+  .card strong {
+    display: inline-block;
+    width: 200px;
+  }
+
+
+  @media (max-width: 767px){
+    ul.card strong {
+      display: block;
+      width: 100%;
+    }
+    ul.card span.block {
+      display: block;
+      margin: 0;
+    }
+  }
+</style>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-body no-padding">
+        <ul class="card">
+          <li><strong>Título</strong> {{ subscription.user_data.titulo }}</li>
+
+          <li><strong>Características</strong> {{ subscription.user_data.caracteristicas_1 }}</li>
+
+          <li><strong>Obra seriada?</strong> {{ subscription.user_data.caracteristicas_2 }}</li>
+
+          <li><strong>Duração</strong> {{ subscription.user_data.caracteristicas_3 }}</li>
+
+          <li><strong>Veículo</strong> {{ subscription.user_data.veiculo|join:', ' }}</li>
+
+          <li><strong>Gênero</strong> {{ subscription.user_data.genero|join:', ' }}</li>
+
+          <li><strong>Logline</strong> {{ subscription.user_data.logline }}</li>
+
+          <li><strong>Sinopse</strong><span class="block">{{ subscription.user_data.sinopse | linebreaks }}</span></li>
+
+          <li><strong>Argumento</strong><span class="block">{{ subscription.user_data.argumento | linebreaks }}</span></li>
+
+          <li><strong>Personagens</strong><span class="block">{{ subscription.user_data.personagens | linebreaks }}</span></li>
+
+          <li><strong>Público alvo</strong><span class="block">{{ subscription.user_data.publico_alvo | linebreaks }}</span></li>
+
+          <li><strong>Biografia</strong><span class="block">{{ subscription.user_data.biografia | linebreaks }}</span></li>
+
+          <li><strong>Informações adicionais</strong><span class="block">{{ subscription.user_data.info_adicional | linebreaks }}</span></li>
+        
+          {% comment %}
+          <li>
+            <strong>Registro na Biblioteca Nacional</strong>
+            <a href="/static/uploads/{{ subscription.user_data.registro_biblioteca }}" target="_blank">
+              Download
+            </a>
+            {% if subscription.user_data.registro_biblioteca|is_image %}
+              <a href="/static/uploads/{{ subscription.user_data.registro_biblioteca }}" target="_blank">
+                <img class="img" src="/static/uploads/{{ subscription.user_data.registro_biblioteca }}">
+              </a>
+            {% endif %}
+          </li>
+          {% endcomment %}
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

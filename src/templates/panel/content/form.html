@@ -1,0 +1,77 @@
+{% extends 'panel/index.html' %}
+
+{% block js %}
+<script src="/static/panel/tinymce/tinymce.min.js"></script>
+<script>
+  tinymce.init({
+    selector: '#page_content',
+    plugins: ['code', 'image', 'link', 'table'],
+    toolbar: 'undo redo | styleselect fontsizeselect | bold italic | align | forecolor backcolor | link image'
+  });
+  $(document).ready(function(){
+      $('#input_title')[0].focus();
+  });
+</script>
+{% endblock %}
+
+{% block title %}<i class="fa fa-copy"></i>&nbsp; Editar página de conteúdo{% endblock %}
+
+{% block breadcrumb %}
+  <li><a href="/painel/conteudo">Conteúdo</a></li>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <form role="form" method="POST">
+              {% csrf_token %}
+              <div class="box-body">
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div class="form-group">
+                      <label for="">Título da página</label>
+                      <input class="form-control" name="title" id="input_title" value="{{ title }}" required
+                          {% if fixed %}disabled{% endif %}>
+                    </div>
+
+                    <div class="form-group">
+                      <label>
+                          <input type="checkbox" class="minimal" name="is_published" value="1"
+                            {% if is_published %}checked{% endif %}
+                            {% if fixed %}disabled{% endif %}>
+                        <span style="margin-left:10px">Página publicada?</span>
+                      </label>
+
+                      <label style="margin-left:50px">
+                          <input type="checkbox" class="minimal" name="display_on_menu" value="1"
+                            {% if display_on_menu %}checked{% endif %}
+                            {% if fixed %}disabled{% endif %}>
+                        <span style="margin-left:10px">Exibir no menu?</span>
+                      </label>
+                    </div>
+
+                    <div class="form-group">
+                      <textarea class="form-control" id="page_content" style="height:500px" name="content">
+                          {{ content }}
+                      </textarea>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                {%  if id %}
+                    <a href="/painel/conteudo/del/{{ id }}" class="btn btn-xs btn-danger pull-right"
+                        onclick="return confirm('Tem certeza que deseja excluir essa página?')">
+                      Excluir página</a>
+                {% endif %}
+              </div>
+            </form>
+        </div>
+    </div>
+  </div>
+{% endblock %}

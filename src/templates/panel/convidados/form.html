@@ -1,0 +1,84 @@
+{% extends 'panel/index.html' %}
+
+{% block js %}
+<script src="/static/panel/tinymce/tinymce.min.js"></script>
+<script>
+  /*
+  tinymce.init({
+    selector: '#page_content',
+    plugins: ['code', 'image', 'link', 'table'],
+    toolbar: 'undo redo | styleselect fontsizeselect | bold italic | align | forecolor backcolor | link image'
+  });
+  $(document).ready(function(){
+      $('#input_title')[0].focus();
+  });
+*/
+</script>
+{% endblock %}
+
+{% block title %}<i class="fa fa-copy"></i>&nbsp; Editar convidado{% endblock %}
+
+{% block breadcrumb %}
+  <li><a href="/painel/convidados">Curadores</a></li>
+{% endblock %}
+
+{% block content %}
+  <style>
+    input[name=picture]{
+      border: none;
+      padding: 0;
+      margin: 20px;
+    }
+  </style>
+
+  <div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+          <form role="form" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="box-body">
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div class="form-group">
+                      <label for="">Nome</label>
+                      <input class="form-control" name="name"
+                        value="{% if form.name.value %}{{ form.name.value }}{% endif %}" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="">Foto</label>
+                      {% if convidado.picture %}
+                        <img src="/static/convidados/{{ convidado.picture }}" width="250">
+                      {% endif %}
+                      <input type="file" class="form-control" name="picture" value="{{ picture }}">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="">Linha de ação</label>
+                        {{ form.contest_id }}
+                    </div>
+
+                    <div class="form-group">
+                      <label for="">Mini bio</label>
+                      <textarea class="form-control" id="page_content" style="height:200px" name="bio">{{ form.bio.value|default:'' }}</textarea>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                {%  if id %}
+                    <a href="/painel/conteudo/del/{{ id }}" class="btn btn-xs btn-danger pull-right"
+                        onclick="return confirm('Tem certeza que deseja excluir essa página?')">
+                      Excluir página</a>
+                {% endif %}
+              </div>
+            </form>
+        </div>
+    </div>
+  </div>
+{% endblock %}
+

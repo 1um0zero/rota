@@ -1,0 +1,228 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-chart-line"></i>&nbsp; Dashboard{% endblock %}
+
+{% block content %}
+<style>
+@media (max-width: 767px){
+  .totals_faturamento .row > div {
+    height: 100px;
+  }
+}
+</style>
+
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Cadastros</span>
+          <span class="info-box-number">{{ qt_users }}</span>
+          <!--<small style="color:#777">100%</small>-->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-red"><i class="fa fa-id-card"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Inscrições</span>
+          <span class="info-box-number">{{ qt_subscriptions }}</span>
+          <small style="color:#777">{{ pct_subscriptions }}%</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix visible-sm-block"></div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-yellow">
+            <i class="fa fa-shopping-cart"></i>
+        </span>
+        <div class="info-box-content">
+          <span class="info-box-text">Pedidos feitos</span>
+          <span class="info-box-number">{{ qt_orders }}</span>
+          <small style="color:#777">{{ pct_orders }}%</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-green"><i class="fa fa-dollar-sign"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Pagamentos confirmados</span>
+          <span class="info-box-number">{{ qt_payments }}</span>
+          <small style="color:#777">{{ pct_payments }}%</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Últimos 15 dias</h3>
+        </div>
+
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-9">
+              <p class="text-center">
+              <strong>{{ two_weeks }} a {{ today }}</strong>
+              </p>
+              <div class="chart">
+                <canvas id="salesChart" style="height: 219px; width: 1075px;"
+                  height="200" width="1075"></canvas>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+
+              <p class="text-center" style="margin-top:25px">
+                <strong></strong>
+              </p>
+
+              <div class="progress-group">
+                <span class="progress-text">Cadastros</span>
+                <span class="progress-number">+ {{ totals.users }}</span>
+
+                <div class="progress sm">
+                  <div class="progress-bar progress-bar-aqua" style="width:{{ totals.users_pct }}%"></div>
+                </div>
+              </div>
+
+              <div class="progress-group">
+                <span class="progress-text">Inscrições</span>
+                <span class="progress-number">+ {{ totals.subscriptions }}</span>
+
+                <div class="progress sm">
+                  <div class="progress-bar progress-bar-red" style="width:{{ totals.subscriptions_pct }}%"></div>
+                </div>
+              </div>
+
+              <div class="progress-group">
+                <span class="progress-text">Pedidos feitos</span>
+                <span class="progress-number">+ {{ totals.orders }}</span>
+
+                <div class="progress sm">
+                  <div class="progress-bar progress-bar-yellow" style="width:{{ totals.orders_pct }}%"></div>
+                </div>
+              </div>
+
+              <div class="progress-group">
+                <span class="progress-text">Pagamentos confirmados</span>
+                <span class="progress-number">+ {{ totals.payments }}</span>
+
+                <div class="progress sm">
+                  <div class="progress-bar progress-bar-green" style="width:{{ totals.payments_pct }}%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="box">
+    <div class="box-body totals_faturamento">
+
+      <div class="row" style="margin:20px 0">
+        <div class="col-sm-3 col-xs-6">
+          <div class="description-block border-right">
+            <h5 class="description-header">{{ totals.faturamento | real }}</h5>
+            <span class="description-text">FATURAMENTO TOTAL</span>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+          <div class="description-block border-right">
+            <h5 class="description-header">{{ totals.ticket | real }}</h5>
+            <span class="description-text">TICKET MÉDIO</span>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+          <div class="description-block border-right">
+            <h5 class="description-header">{{ totals.em_aberto }}</h5>
+            <span class="description-text">PEDIDOS EM ABERTO</span>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+          <div class="description-block border-right">
+            <h5 class="description-header">{{ totals.cancelados }}</h5>
+            <span class="description-text">PEDIDOS CANCELADOS</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Últimas inscrições</h3>
+          <a href="/painel/inscricoes" class="btn btn-sm btn-default btn-flat pull-right">
+            Ver todas as inscrições</a>
+        </div>
+
+        <div class="box-body">
+          <div class="table-responsive">
+            <table class="table no-margin">
+              <thead>
+              <tr>
+                <th>ID da inscrição</th>
+                <th>Usuário</th>
+                <th>Linha de ação</th>
+                <th>Data</th>
+                <th>Status</th>
+              </tr>
+              </thead>
+              <tbody>
+                {% for subscription in last_subscriptions %}
+                  <tr>
+                    <td><a href="/painel/cadastro/{{ subscription.user.id }}#inscricao_{{ subscription.id }}">
+                        {{ subscription.id }}</a></td>
+                    <td>{{ subscription.user.first_name }}</td>
+                    <td>{{ subscription.contest.name }}</td>
+                    <td>{{ subscription.created_at }}</td>
+                    <td>
+                      {% if subscription.status == 0 %}
+                        <label class="label label-default">em análise</label>
+                      {% elif subscription.status == 1 %}
+                        <label class="label label-success">aprovada</label>
+                      {% elif subscription.status == 2 %}
+                        <label class="label label-danger">reprovada</label>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.chart_labels = {{ chart_labels | safe }};
+    window.chart_users = {{ chart_users }};
+    window.chart_subscriptions = {{ chart_subscriptions }};
+    window.chart_orders = {{ chart_orders }};
+    window.chart_payments = {{ chart_payments }};
+  </script>
+{% endblock %}
+
+{% block js %}
+  <script src="/static/panel/dist/js/pages/dashboard2.js"></script>
+{% endblock %}

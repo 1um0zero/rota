@@ -1,0 +1,32 @@
+{% extends 'core/index.html' %}
+{% load helpers %}
+
+{% block content %}
+<h1>Envie seu roteiro</h1>
+
+<div>
+    {% if success %}
+        <div>Roteiro enviado com sucesso!</div>
+    {% else %}
+        {% if request.user.is_authenticated %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                Nome: <input name="name" placeholder="Nome"
+                    value="{{ name }}" required><br><br>
+                PDF: <input type="file" name="script" required><br><br>
+                <input type="submit" value="enviar">
+            </form>
+
+            {% if error %}
+                <p>{{ error }}</p>
+           {% endif %}
+        {% else %}
+            <input type="submit" value="enviar" disabled>
+            <p>Você precisa estar logado para enviar um roteiro.</p>
+        {% endif %}
+    {% endif %}
+</div>
+
+
+
+{% endblock %}

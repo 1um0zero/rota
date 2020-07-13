@@ -1,0 +1,224 @@
+{% load helpers %}
+<style>
+  .card {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .card li {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+  }
+  .card li span.block {
+    display: block;
+    margin-left: 200px;
+    margin-top: -20px;
+  }
+  .card img.img {
+    max-width: 100px;
+    max-height: 100px;
+    border: 1px solid #333;
+    margin-left: 50px;
+  }
+  .card strong {
+    display: inline-block;
+    width: 200px;
+  }
+</style>
+
+<ul class="card">
+
+  <li>
+    <strong>Situação</strong>
+    <span>
+      <span>
+        {% if subscription.status == 0 %}
+          <label class="label label-default">em análise</label>
+        {% elif subscription.status == 1 %}
+          <label class="label label-success">aprovada</label>
+        {% elif subscription.status == 2 %}
+          <label class="label label-danger">reprovada</label>
+        {% endif %}
+      </span>
+      <select class="select_change_status" id="subscription_{{ subscription.id }}"
+          style="margin-left:20px">
+        <option value="0" {% if subscription.status == 0 %}selected{% endif %}>em análise</option>
+        <option value="1" {% if subscription.status == 1 %}selected{% endif %}>aprovada</option>
+        <option value="2" {% if subscription.status == 2 %}selected{% endif %}>reprovada</option>
+      </select>
+    </span>
+  </li>
+
+  <li><strong>Telefone residencial</strong>
+    {% if subscription.user_data.phone_home_ddd and subscription.user_data.phone_home %}
+      ({{ subscription.user_data.phone_home_ddd }})
+      {{ subscription.user_data.phone_home }}
+    {% else %}
+      <em>não informado</em>
+    {% endif %}
+  </li>
+
+  <li>
+    <strong>RG</strong> {{ subscription.user_data.rg }}
+    
+    {% if subscription.user_data.rg_front|is_image %}
+      <a href="/static/uploads/{{ subscription.user_data.rg_front }}" target="_blank">
+        <img class="img" src="/static/uploads/{{ subscription.user_data.rg_front }}">
+      </a>
+    {% else %}
+      <a href="/static/uploads/{{ subscription.user_data.rg_front }}" target="_blank"
+          style="margin-left:20px">
+        RG (frente)
+      </a>
+    {% endif %}
+
+    {% if subscription.user_data.rg_back|is_image %}
+      <a href="/static/uploads/{{ subscription.user_data.rg_back }}" target="_blank">
+        <img class="img" src="/static/uploads/{{ subscription.user_data.rg_back }}">
+      </a>
+    {% else %}
+      <a href="/static/uploads/{{ subscription.user_data.rg_back }}" target="_blank"
+          style="margin-left:20px">
+        RG (verso)
+      </a>
+    {% endif %}
+  </li>
+
+  <li><strong>CEP</strong> {{ subscription.user_data.cep }}</li>
+
+  <li><strong>Endereço</strong> {{ subscription.user_data.address }}</li>
+
+  <li><strong>Número</strong> {{ subscription.user_data.address_number }}</li>
+
+  <li><strong>Complemento</strong> {{ subscription.user_data.address_complement }}</li>
+
+  <li><strong>Bairro</strong> {{ subscription.user_data.address_neighborhood }}</li>
+
+  <li><strong>Cidade</strong> {{ subscription.user_data.address_city }}</li>
+
+  <li><strong>Estado</strong> {{ subscription.user_data.address_state }}</li>
+
+  <li><strong>Título</strong> {{ subscription.user_data.titulo }}</li>
+
+  <li><strong>Gênero</strong> {{ subscription.user_data.genero }}</li>
+
+  <li><strong>Logline</strong> {{ subscription.user_data.logline }}</li>
+
+  <li><strong>Número de episódios por temporada</strong> {{ subscription.user_data.numero_episodios }}</li>
+
+  <li><strong>Tipo ou formato</strong><span class="block">{{ subscription.user_data.tipo_formato|list }}</span></li>
+
+  <li><strong>Proposta da série</strong><span class="block">{{ subscription.user_data.proposta | linebreaks }}</span></li>
+
+  <li><strong>Conceito da série</strong><span class="block">{{ subscription.user_data.conceito | linebreaks }}</span></li>
+
+  <li><strong>Arco da/o protagonista</strong><span class="block">{{ subscription.user_data.arco_protagonista | linebreaks }}</span></li>
+
+  <li><strong>Universo</strong><span class="block">{{ subscription.user_data.universo | linebreaks }}</span></li>
+
+  <li><strong>Personagens principais</strong><span class="block">{{ subscription.user_data.personagens | linebreaks }}</span></li>
+
+  <li><strong>Arco da temporada 1</strong><span class="block">{{ subscription.user_data.arco_temporada | linebreaks }}</span></li>
+
+  <li><strong>Temporadas futuras</strong><span class="block">{{ subscription.user_data.temporadas_futuras | linebreaks }}</span></li>
+
+  <li>
+    <strong>Sinopse do piloto</strong>
+    <a href="/static/uploads/{{ subscription.user_data.sinopse }}" target="_blank">
+      Download
+    </a>
+    {% if subscription.user_data.sinopse|is_image %}
+      <a href="/static/uploads/{{ subscription.user_data.sinopse }}" target="_blank">
+        <img class="img" src="/static/uploads/{{ subscription.user_data.sinopse }}">
+      </a>
+    {% endif %}
+  </li>
+
+  <li>
+    <strong>Termo de responsabilidade</strong>
+    <a href="/static/uploads/{{ subscription.user_data.responsibility }}" target="_blank">
+      Download
+    </a>
+    {% if subscription.user_data.responsibility|is_image %}
+      <a href="/static/uploads/{{ subscription.user_data.responsibility }}" target="_blank">
+        <img class="img" src="/static/uploads/{{ subscription.user_data.responsibility }}">
+      </a>
+    {% endif %}
+  </li>
+
+  <li>
+    <strong>Currículo do/a(s) roteirista(s)</strong>
+    <a href="/static/uploads/{{ subscription.user_data.curriculo }}" target="_blank">
+      Download
+    </a>
+    {% if subscription.user_data.curriculo|is_image %}
+      <a href="/static/uploads/{{ subscription.user_data.curriculo }}" target="_blank">
+        <img class="img" src="/static/uploads/{{ subscription.user_data.curriculo }}">
+      </a>
+    {% endif %}
+  </li>
+
+  <li>
+    <strong>Comprovante de Registro na Biblioteca Nacional</strong>
+    <a href="/static/uploads/{{ subscription.user_data.registro_biblioteca }}" target="_blank">
+      Download
+    </a>
+    {% if subscription.user_data.registro_biblioteca|is_image %}
+      <a href="/static/uploads/{{ subscription.user_data.registro_biblioteca }}" target="_blank">
+        <img class="img" src="/static/uploads/{{ subscription.user_data.registro_biblioteca }}">
+      </a>
+    {% endif %}
+  </li>
+
+  <li>
+    <strong>Documento que comprove a liberação dos direitos, em caso de adaptação de obra de outro autor</strong>
+    {% if subscription.user_data.documento_direitos %}
+      <a href="/static/uploads/{{ subscription.user_data.documento_direitos }}" target="_blank">
+        Download
+      </a>
+      {% if subscription.user_data.documento_direitos|is_image %}
+        <a href="/static/uploads/{{ subscription.user_data.documento_direitos }}" target="_blank">
+          <img class="img" src="/static/uploads/{{ subscription.user_data.documento_direitos }}">
+        </a>
+      {% endif %}
+    {% else %}
+      <em>não enviado</em>
+    {% endif %}
+  </li>
+
+  <li>
+    <strong>Carta de Autorização do(s) coautor(es) - #1</strong>
+    {% if subscription.user_data.letter %}
+      <a href="/static/uploads/{{ subscription.user_data.letter }}" target="_blank">
+        Download
+      </a>
+      {% if subscription.user_data.letter|is_image %}
+        <a href="/static/uploads/{{ subscription.user_data.letter }}" target="_blank">
+          <img class="img" src="/static/uploads/{{ subscription.user_data.letter }}">
+        </a>
+      {% endif %}
+    {% else %}
+      <em>não enviada</em>
+    {% endif %}
+  </li>
+
+  <li>
+    <strong>Carta de Autorização do(s) coautor(es) - #2</strong>
+    {% if subscription.user_data.letter2 %}
+      <a href="/static/uploads/{{ subscription.user_data.letter2 }}" target="_blank">
+        Download
+      </a>
+      {% if subscription.user_data.letter2|is_image %}
+        <a href="/static/uploads/{{ subscription.user_data.letter2 }}" target="_blank">
+          <img class="img" src="/static/uploads/{{ subscription.user_data.letter2 }}">
+        </a>
+      {% endif %}
+    {% else %}
+      <em>não enviada</em>
+    {% endif %}
+  </li>
+
+
+
+
+</ul>

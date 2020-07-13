@@ -1,0 +1,93 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-briefcase"></i>&nbsp; Encontro de negócios{% endblock %}
+
+{% block content %}
+
+  <style>
+    #folders {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    #folders > a {
+      width: 33.3%;
+      padding: 20px 0;
+      text-align: center;
+      cursor: pointer;
+      color: #333;
+    }
+    #folders > a:hover {
+      background: #ffff99;
+    }
+    #folders > a i {
+      display: block;
+      font-size: 50px;
+    }
+    h3, h3 a {
+      font-size: 18px;
+      color: #444;
+    }
+    h3 strong {
+      padding: 0 4px;
+    }
+    h3 a:hover {
+      color: #666;
+      text-decoration: underline;
+    }
+    @media (min-width: 1023px){
+      #folders > a {
+        width: 10%;
+      }
+    }
+  </style>
+
+  {% if msg %}
+     <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4 style="margin:0"><i class="icon fa fa-check"></i> {{ msg }}</h4>
+    </div>
+  {% endif %}
+
+  <h3>{{ path|safe }}</h3>
+
+  {% if folders %}
+    <div id="folders">
+      {% for folder in folders %}
+      <a href="/painel/encontro?f={{ folder.id }}">
+        <i class="fa fa-folder"></i> {{ folder.name }}
+      </a>
+      {% endfor %}
+    </div>
+  {% else %}
+      <h4 style="margin-top:30px">Listando {{ items | length }} projetos</h4>
+  {% endif %}
+
+  {% if items %}
+    <div class="row" style="display:flex;flex-wrap:wrap">
+      {% for item in items %}
+      <div style="width:33.333%">
+        <div class="" style="margin:5px">
+          <div class="box">
+            <div class="box-body no-padding" style="text-align:center">
+              <a href="/painel/encontro/ver/{{ item.id }}">
+                  
+                <i style="display:block;font-size:50px;margin:10px" class="fa
+                  {% if item.data.script|is_image %}fa-file-image
+                  {% else %}fa-file-pdf
+                {% endif %}"></i>
+
+                {{ item.data.titulo }}
+                <br>&nbsp;
+               </a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,524 @@
+<style>
+  h5 {
+    font-weight: bold;
+  }
+  .box-form {
+    background: #eee;
+    padding: 20px;
+  }
+  small.small {
+    color: #777;
+    font-size: 11px;
+    line-height: 11px;
+  }
+  #id_tipo_formato {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #id_tipo_formato li {
+    width: 20%;
+  }
+  .modelo {
+    display: inline-block;
+    margin: 10px 0 11px;
+    padding: 4px;
+  }
+  #id_letter, #id_letter2 {
+    display: inline-block;
+    width: 49%;
+  }
+</style>
+
+
+<form method="post" enctype="multipart/form-data" id="subscription_form">
+  {% csrf_token %}
+
+  <h5>Dados pessoais</h5>
+
+  <div class="contentForm">
+
+    <div class="form-item">
+      <label>
+        RG
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.rg }}
+      </div>
+      <span class="error">
+        {{ form.rg.errors }}
+      </span>
+    </div>
+    
+    <div style="width:4%"></div>
+
+    <div class="form-item small" style="width:22%">
+      <label>
+        Foto do RG (frente)
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.rg_front }}
+      </div>
+      <span class="error">
+        {{ form.rg_front.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small" style="width:22%">
+      <label>
+        Foto do RG (verso)
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.rg_back }}
+      </div>
+      <span class="error">
+        {{ form.rg_back.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        CEP
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.cep }}
+      </div>
+      <div class="error">
+        {{ form.cep.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Endereço
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address }}
+      </div>
+      <span class="error">
+        {{ form.address.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small" style="width:15%">
+      <label>
+        Número
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_number }}
+      </div>
+      <span class="error">
+        {{ form.address_number.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small" style="width:23%">
+      <label>
+        Complemento
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_complement }}
+      </div>
+      <div class="erros">
+        {{ form.address_complement.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Bairro
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_neighborhood }}
+      </div>
+      <span class="error">
+        {{ form.address_neighborhood.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Cidade
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_city }}
+      </div>
+      <span class="error">
+        {{ form.address_city.errors }}
+      </span>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Estado
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.address_state }}
+      </div>
+      <span class="error">
+        {{ form.address_state.errors }}
+      </span>
+    </div>
+
+    <div class="form-item ddd">
+      <div class="smallddd">
+        <label>
+          <small class="small block">&nbsp;</small>
+          DDD
+        </label>
+        <div class="input">
+          {{ form.phone_home_ddd }}
+        </div>
+      </div>
+
+
+      <div class="mediumddd">
+        <label>
+          <small class="small block">&nbsp;</small>
+          Telefone residencial
+        </label>
+        <div class="input telefone">
+          {{ form.phone_home }}
+        </div>
+        <span class="error">
+          {{ form.phone_home.errors }}
+        </span>
+      </div>
+    </div>
+
+    <h5 class="dados-roteiro">
+      Dados do projeto
+    </h5>
+
+    <div class="form-item small charCounter">
+      <label>
+        Título <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.titulo }}
+      </div>
+      <div class="error">
+        {{ form.titulo.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Gênero <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.genero }}
+      </div>
+      <div class="error">
+        {{ form.genero.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Logline <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.logline }}
+      </div>
+      <div class="error">
+        {{ form.logline.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Número de episódios (por temporada) <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.numero_episodios }}
+      </div>
+      <div class="error">
+        {{ form.numero_episodios.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small" style="width:100%">
+      <label>
+        Tipo ou formato <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.tipo_formato }}
+      </div>
+      <div class="error">
+        {{ form.tipo_formato.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Proposta da série
+        <span class="req">*</span>
+        <br>
+        <small class="small">
+          Descreva por que essa série é interessante, do que ela trata, qual a
+          proposta da temática que será apresentada ao longo da série e
+          o público-alvo. 
+        </small>
+      </label>
+      <div class="input">
+        {{ form.proposta }}
+      </div>
+      <div class="error">
+        {{ form.proposta.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Conceito da série
+        <span class="req">*</span>
+        <br>
+        <small class="small">
+          Descreva a ideia central, a força motriz da série (que a fará se sustentar por diversas temporadas). Descreva ainda como a história se desenvolverá em sua linha central. Fale um pouco também da estrutura da série e seus dispositivos narrativos.
+        </small>
+      </label>
+      <div class="input">
+        {{ form.conceito }}
+      </div>
+      <div class="error">
+        {{ form.conceito.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Arco da/o protagonista
+        <br>
+        <small class="small">
+          Descreva quem é, o que quer e como será a jornada do protagonista ao longo da série (no caso de série com arco do protagonista).
+        </small>
+      </label>
+      <div class="input">
+        {{ form.arco_protagonista }}
+      </div>
+      <div class="error">
+        {{ form.arco_protagonista.errors }}
+      </div>
+    </div>
+    
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Universo
+        <span class="req">*</span>
+        <br>
+        <small class="small">
+          Descreva a configuração do espaço ficcional construído (especificidades do recorte de mundo, diegese, época em que se passa, etc.)
+        </small>
+      </label>
+      <div class="input">
+        {{ form.universo }}
+      </div>
+      <div class="error">
+        {{ form.universo.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Personagens principais
+        <span class="req">*</span>
+        <br>
+        <small class="small">
+          Descreva nome, idade e personalidade (qualidades, defeitos, conflitos, carências, visão de mundo, etc.) dos personagens principais da série.
+        </small>
+      </label>
+      <div class="input">
+        {{ form.personagens }}
+      </div>
+      <div class="error">
+        {{ form.personagens.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Arco da temporada 1
+        <span class="req">*</span>
+        <br>
+        <small class="small">
+          Descreva como a história irá se desenrolar, apresentando os principais conflitos, viradas e gancho para a segunda temporada (se houver). No caso de séries de episódios independentes, apresente os enredos dos diferentes episódios e explique como eles dialogam para construir o conjunto da série.
+        </small>
+      </label>
+      <div class="input">
+        {{ form.arco_temporada }}
+      </div>
+      <div class="error">
+        {{ form.arco_temporada.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Temporadas futuras
+        <span class="req">*</span>
+        <br>
+        <small class="small">
+          Indique os caminhos que a série irá tomar nas temporadas futuras. No caso de antologia, ou formatos que compreendam episódios independentes, faça uma pequena sinopse de temporadas seguintes.
+        </small>
+      </label>
+      <div class="input">
+        {{ form.temporadas_futuras }}
+      </div>
+      <div class="error">
+        {{ form.temporadas_futuras.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Sinopse do piloto
+        <span class="req">*</span>
+        <br>
+        <small class="small">
+          Formatação: fonte Arial, tamanho 11; espaçamento entre as linhas: 1,5;
+          margens: normal (superior e inferior: 2,5 cm / esq e direita: 3 cm);
+          número de páginas: até 5; arquivo PDF.
+        </small>
+      </label>
+      <div class="input">
+        {{ form.sinopse }}
+      </div>
+      <div class="error">
+        {{ form.sinopse.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Termo de Responsabilidade
+        <span class="req">*</span>
+        <small class="small">
+          <br>
+          <a href="http://www.rotafestival.com/static/docs/TermoResponsabilidadeLAB2019.doc"
+            class="link modelo">
+            modelo aqui</a>
+        </small>
+      </label>
+      <div class="radio">
+        {{ form.responsibility }}
+      </div>
+      <div class="error">
+        {{ form.responsibility.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Currículo do/a(s) roteirista(s)
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.curriculo }}
+      </div>
+      <div class="error">
+        {{ form.curriculo.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Comprovante de Registro na Biblioteca Nacional ou do protocolo do registro
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.registro_biblioteca }}
+      </div>
+      <div class="error">
+        {{ form.registro_biblioteca.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Documento que comprove a liberação dos direitos, em caso de adaptação 
+        de obra de outro autor
+      </label>
+      <div class="radio" style="margin-top:49px">
+        {{ form.documento_direitos }}
+      </div>
+      <div class="error">
+        {{ form.documento_direitos.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Carta de Autorização do(s) coautor(es), datada, assinada 
+        pelo(s) mesmo(s) e escaneada, caso se aplique
+        <small class="small">
+          <br>
+          <a href="http://www.rotafestival.com/static/docs/AutorizaçãoCoautorLAB2019.doc"
+              style="display:inline-block;margin:10px 0 10px" class="link modelo">
+            modelo aqui</a>
+        </small>
+      </label>
+      <div class="radio">
+        {{ form.letter }}
+        {{ form.letter2 }}
+      </div>
+      <div class="error">
+        {{ form.letter.errors }}
+        {{ form.letter2.errors }}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form roteiro">
+    <label>
+      <strong>
+        <input type="checkbox" required>
+        Declaro estar ciente e de acordo com os
+        <a href="javascript:regulamento()" class="link">termos do Regulamento</a>
+        do LABORATÓRIO DE PROJETOS DE SÉRIES do III ROTA – Festival de Roteiro Audiovisual.
+      </strong>
+    </label>
+
+    <strong><span class="req">*</span> Preenchimento obrigatório</strong>
+    O formulário incompleto desclassifica automaticamente a inscrição.
+    <br><br><br>
+
+  </div>
+  <input type="submit" class="btn action" value="Enviar inscrição">
+</form>
+
+<script>
+  function regulamento(){
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $("#h4_regulamento").offset().top - 100
+    }, 150);
+  }
+  $(document).ready(function () {
+    $('input[name=coauthors]').change(function(){
+      let status = $(this).val() == 'sim';
+      $('#id_letter').attr('required', status);
+      $('#coauthor_req')[status ? 'show' : 'hide']();
+    });
+
+    //$('#id_rg').mask('00.000.000-0');
+    $('#id_cep').mask('00000-000');
+
+    $('#id_phone_home_ddd').mask('00');
+    $('#id_phone_home').mask('0000-0000');
+    $('#id_phone_home_ddd').keyup(function () {
+      if ($(this).val().length === 2) {
+        $('#id_phone_home')[0].focus();
+      }
+    });
+  });
+</script>

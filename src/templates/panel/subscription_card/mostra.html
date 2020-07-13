@@ -1,0 +1,307 @@
+{% load helpers %}
+<style>
+  .card {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .card li {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+  }
+  .card li span.block {
+    display: block;
+    margin-left: 200px;
+    margin-top: -20px;
+  }
+  .card img.img {
+    max-width: 100px;
+    max-height: 100px;
+    border: 1px solid #333;
+    margin-left: 50px;
+  }
+  .card strong {
+    display: inline-block;
+    width: 200px;
+  }
+</style>
+
+<ul class="card">
+
+  <li>
+    <strong>Situação</strong>
+    <span>
+      <span>
+        {% if subscription.status == 0 %}
+          <label class="label label-default">em análise</label>
+        {% elif subscription.status == 1 %}
+          <label class="label label-success">aprovada</label>
+        {% elif subscription.status == 2 %}
+          <label class="label label-danger">reprovada</label>
+        {% endif %}
+      </span>
+      <select class="select_change_status" id="subscription_{{ subscription.id }}"
+          style="margin-left:20px">
+        <option value="0" {% if subscription.status == 0 %}selected{% endif %}>em análise</option>
+        <option value="1" {% if subscription.status == 1 %}selected{% endif %}>aprovada</option>
+        <option value="2" {% if subscription.status == 2 %}selected{% endif %}>reprovada</option>
+      </select>
+    </span>
+  </li>
+
+  <li><strong>Telefone residencial</strong>
+    {% if subscription.user_data.phone_home_ddd and subscription.user_data.phone_home %}
+      ({{ subscription.user_data.phone_home_ddd }})
+      {{ subscription.user_data.phone_home }}
+    {% else %}
+      <em>não informado</em>
+    {% endif %}
+  </li>
+
+  <li>
+    <strong>RG</strong> {{ subscription.user_data.rg }}
+    
+    {% if subscription.user_data.rg_front|is_image %}
+      <a href="/static/uploads/{{ subscription.user_data.rg_front }}" target="_blank">
+        <img class="img" src="/static/uploads/{{ subscription.user_data.rg_front }}">
+      </a>
+    {% else %}
+      <a href="/static/uploads/{{ subscription.user_data.rg_front }}" target="_blank"
+          style="margin-left:20px">
+        RG (frente)
+      </a>
+    {% endif %}
+
+    {% if subscription.user_data.rg_back|is_image %}
+      <a href="/static/uploads/{{ subscription.user_data.rg_back }}" target="_blank">
+        <img class="img" src="/static/uploads/{{ subscription.user_data.rg_back }}">
+      </a>
+    {% else %}
+      <a href="/static/uploads/{{ subscription.user_data.rg_back }}" target="_blank"
+          style="margin-left:20px">
+        RG (verso)
+      </a>
+    {% endif %}
+  </li>
+
+  <li><strong>CEP</strong> {{ subscription.user_data.cep }}</li>
+
+  <li><strong>Endereço</strong> {{ subscription.user_data.address }}</li>
+
+  <li><strong>Número</strong> {{ subscription.user_data.address_number }}</li>
+
+  <li><strong>Complemento</strong> {{ subscription.user_data.address_complement }}</li>
+
+  <li><strong>Bairro</strong> {{ subscription.user_data.address_neighborhood }}</li>
+
+  <li><strong>Cidade</strong> {{ subscription.user_data.address_city }}</li>
+
+  <li><strong>Estado</strong> {{ subscription.user_data.address_state }}</li>
+
+  <li><strong>Título</strong> {{ subscription.user_data.titulo }}</li>
+
+  <li><strong>Link</strong>
+    <a href="{{ subscription.user_data.url }}" target="blank">{{ subscription.user_data.url }}</a>
+    {% if subscription.user_data.url_pass %}
+      <span style="margin-left:20px">
+        senha:&nbsp; <span style="font-size:16px;font-weight:bold">{{ subscription.user_data.url_pass }}</span>
+      </span>
+    {% endif %}
+  </li>
+
+  <li><strong>Sinopse</strong><span class="block">{{ subscription.user_data.sinopse }}</span></li>
+
+  <li><strong>Ano</strong> {{ subscription.user_data.ano }}</li>
+
+  <li><strong>Cidade</strong> {{ subscription.user_data.cidade }}</li>
+
+  <li><strong>Estado</strong> {{ subscription.user_data.estado }}</li>
+
+  <li><strong>Categoria</strong>
+    {% if subscription.user_data.categoria == '1' %}
+       Ficção
+    {% elif subscription.user_data.categoria == '2' %}
+       Documentário
+    {% endif %}
+  </li>
+
+  <li><strong>Classificação</strong>
+    {% if subscription.user_data.classificacao == '1' %}
+        Livre
+    {% elif subscription.user_data.classificacao == '2' %}
+       10 anos
+    {% elif subscription.user_data.classificacao == '3' %}
+       12 anos
+    {% elif subscription.user_data.classificacao == '4' %}
+       14 anos
+    {% elif subscription.user_data.classificacao == '5' %}
+       16 anos
+    {% elif subscription.user_data.classificacao == '6' %}
+       18 anos
+    {% endif %}
+  </li>
+
+  <li><strong>Formato de finalização</strong> {{ subscription.user_data.formato_finalizacao }}</li>
+
+  <li><strong>Formato de exibição</strong> {{ subscription.user_data.formato_exibicao }}</li>
+
+  <li><strong>Formato de janela da cópia</strong> {{ subscription.user_data.formato_janela }}</li>
+
+  <li><strong>Som</strong> {{ subscription.user_data.som }}</li>
+
+  <li><strong>Cor</strong>
+    {% if subscription.user_data.cor == '1' %}
+      PB
+    {% elif subscription.user_data.cor == '2' %}
+      Cor
+    {% endif %}
+  </li>
+
+  <li><strong>CPB</strong> {{ subscription.user_data.cpb }}</li>
+
+  <li><strong>Site</strong>
+    {% if subscription.user_data.site %}
+      <a href="{{ subscription.user_data.site }}" target="blank">{{ subscription.user_data.site }}</a>
+    {% else %}
+      <em>não enviado</em>
+    {% endif %}
+  </li>
+
+  <li><strong>Facebook</strong>
+    {% if subscription.user_data.facebook %}
+      <a href="{{ subscription.user_data.facebook }}" target="blank">{{ subscription.user_data.facebook }}</a>
+    {% else %}
+      <em>não enviado</em>
+    {% endif %}
+  </li>
+
+  <li><strong>Festivais</strong>
+    <span class="block">{{ subscription.user_data.festivais|nl2br|safe }}</span></li>
+
+  <li><strong>Prêmios recebidos</strong>
+    <span class="block">{{ subscription.user_data.premios|nl2br|safe }}</span></li>
+
+  <li>
+    <strong>Foto 1</strong>
+    <a href="/static/uploads/{{ subscription.user_data.foto_1 }}" target="_blank">
+      Download
+    </a>
+    {% if subscription.user_data.foto_1|is_image %}
+      <a href="/static/uploads/{{ subscription.user_data.foto_1 }}" target="_blank">
+        <img class="img" src="/static/uploads/{{ subscription.user_data.foto_1 }}">
+      </a>
+    {% endif %}
+  </li>
+
+  <li>
+    <strong>Foto 2</strong>
+    {% if subscription.user_data.foto_2 %}
+      <a href="/static/uploads/{{ subscription.user_data.foto_2 }}" target="_blank">
+        Download
+      </a>
+      {% if subscription.user_data.foto_2|is_image %}
+        <a href="/static/uploads/{{ subscription.user_data.foto_2 }}" target="_blank">
+          <img class="img" src="/static/uploads/{{ subscription.user_data.foto_2 }}">
+        </a>
+      {% endif %}
+    {% else %}
+      <em>não enviada</em>
+    {% endif %}
+  </li>
+
+  <li>
+    <strong>Foto 3</strong>
+    {% if subscription.user_data.foto_3 %}
+      <a href="/static/uploads/{{ subscription.user_data.foto_3 }}" target="_blank">
+        Download
+      </a>
+      {% if subscription.user_data.foto_3|is_image %}
+        <a href="/static/uploads/{{ subscription.user_data.foto_3 }}" target="_blank">
+          <img class="img" src="/static/uploads/{{ subscription.user_data.foto_3 }}">
+        </a>
+      {% endif %}
+    {% else %}
+      <em>não enviada</em>
+    {% endif %}
+  </li>
+
+  <li><strong>Roteirista</strong><span class="block">{{ subscription.user_data.roteirista }}</span></li>
+
+  <li><strong>Diretor(a)</strong><span class="block">{{ subscription.user_data.diretor }}</span></li>
+
+  <li><strong>Diretor(a) de produção</strong>
+    <span class="block">{{ subscription.user_data.diretor_producao }}</span></li>
+
+  <li><strong>Produtor executivo</strong>
+    <span class="block">{{ subscription.user_data.produtor_executivo }}</span></li>
+
+  <li><strong>Fotografia</strong><span class="block">{{ subscription.user_data.fotografia }}</span></li>
+
+  <li><strong>Trilha sonora original</strong><span class="block">{{ subscription.user_data.trilha }}</span></li>
+
+  <li><strong>Montagem</strong><span class="block">{{ subscription.user_data.montagem }}</span></li>
+
+  <li><strong>Direção de arte</strong><span class="block">{{ subscription.user_data.direcao_arte }}</span></li>
+
+  <li><strong>Som</strong><span class="block">{{ subscription.user_data.tec_som }}</span></li>
+
+  <li><strong>Edição de som</strong><span class="block">{{ subscription.user_data.edicao_som }}</span></li>
+
+  <li><strong>Elenco</strong><span class="block">{{ subscription.user_data.elenco|nl2br|safe }}</span></li>
+
+  <li><strong>Máximo 03 (três) filmes?</strong>
+    <span class="block">{{ subscription.user_data.max_filmes }}</span></li>
+
+  <li><strong>Até 20 minutos?</strong><span class="block">{{ subscription.user_data.max_min }}</span></li>
+
+  <li>
+    <strong>Termo de responsabilidade</strong>
+    {% if subscription.user_data.responsibility %}
+      <a href="/static/uploads/{{ subscription.user_data.responsibility }}" target="_blank">
+        Download
+      </a>
+      {% if subscription.user_data.responsibility|is_image %}
+        <a href="/static/uploads/{{ subscription.user_data.responsibility }}" target="_blank">
+          <img class="img" src="/static/uploads/{{ subscription.user_data.responsibility }}">
+        </a>
+      {% endif %}
+    {% else %}
+        <em>não enviado</em>
+    {% endif %}
+  </li>
+
+  <li><strong>O proponente é:</strong><span class="block">{{ subscription.user_data.is_student }}</span></li>
+
+  <li>
+    <strong>Carta de autorização do coautor #1</strong>
+    {% if subscription.user_data.letter1 %}
+      <a href="/static/uploads/{{ subscription.user_data.letter1 }}" target="_blank">
+        Download
+      </a>
+      {% if subscription.user_data.letter1|is_image %}
+        <a href="/static/uploads/{{ subscription.user_data.letter1 }}" target="_blank">
+          <img class="img" src="/static/uploads/{{ subscription.user_data.letter1 }}">
+        </a>
+      {% endif %}
+      {% else %}
+        <em>não enviada</em>
+    {% endif %}
+  </li>
+
+  <li>
+    <strong>Carta de autorização do coautor #2</strong>
+    {% if subscription.user_data.letter2 %}
+      <a href="/static/uploads/{{ subscription.user_data.letter2 }}" target="_blank">
+        Download
+      </a>
+      {% if subscription.user_data.letter2|is_image %}
+        <a href="/static/uploads/{{ subscription.user_data.letter2 }}" target="_blank">
+          <img class="img" src="/static/uploads/{{ subscription.user_data.letter2 }}">
+        </a>
+      {% endif %}
+      {% else %}
+        <em>não enviada</em>
+    {% endif %}
+  </li>
+
+</ul>

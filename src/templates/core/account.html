@@ -1,0 +1,164 @@
+{% extends 'core/index.html' %}
+{% load helpers %}
+
+{% block content %}
+
+<div class="acc_content">
+  
+  <div class="acc_menu">
+    <ul >
+      <li><a href="javascript:;" id="btn_dados" class="active">Dados pessoais</a></li>
+      <li><a href="javascript:;" id="btn_inscricoes">Inscrições</a></li>
+      <li><a href="javascript:;" id="btn_pagamentos">Pedidos</a></li>
+      <li><a href="javascript:;" id="btn_alterar_senha">Alterar senha</a></li>
+    </ul>
+  </div>
+
+  <div class="middle">
+
+    <div class="box-acc box-dados">
+      <h5>Dados pessoais</h5>
+
+      <div>Nome: {{ request.user.first_name }}</div>
+      <div>Email: {{ request.user.email }}</div>
+      <div>Celular: ({{ up.ddd }}) {{ up.phone }}</div>
+    </div>
+
+    <div class="box-acc box-inscricoes" style="display:none">
+      <h5>Inscrições</h5>
+
+      {% for subscription in subscriptions %}
+        <div class="block">
+          <div><strong>Inscrição #{{ forloop.counter }}</strong></div>
+          <div>{{ subscription.contest.name }}</div>
+          <div>Enviada em {{ subscription.created_at }}</div>
+        </div>
+        <br>
+      {% endfor %}
+    </div>
+    
+    <div class="box-acc box-pagamentos" style="display:none">
+      <h5>Pedidos</h5>
+
+      {% for order in orders %}
+        <div>
+          <div><strong>Pedido #{{ forloop.counter }}</strong></div>
+          <div>
+            {{ order.product.name }}
+            {% if order.product.id == 3 %}
+              {%  if order.data_desejada %}
+                - data escolhida: {{  order.data_desejada }} de outubro de 2019
+              {% endif %}
+            {% endif  %}
+          </div>
+          <div>Feito em {{ order.created_at }}</div>
+          <div>Valor: {{ order.price | real }}</div>
+          <div>Forma de pagamento:
+              {% if order.payment_method == 0 %}
+                cartão de crédito ({{ order.card_brand }} final {{ order.card_end }})
+                {% if order.parcelas > 1 %}
+                <div>{{ order.parcelas }} parcelas de {{ order.valor_parcela | real }} - Total: {{ order.total_prazo | real }}</div>
+                {% endif %}
+              {% elif order.payment_method == 1 %}
+                {% if order.link_boleto %}
+                  <a href="{{ order.link_boleto }}" class="link" target="_blank">boleto</a>
+                {% else %}
+                  boleto
+                {% endif %}
+              {% endif %}
+          </div>
+          <div>Status:
+            {% if order.error %}
+               erro - {{ order.error }}
+            {% else %}
+              {{ order.status | pagseguro_status }}
+            {% endif %}
+          </div>
+        </div>
+        <br>
+      {% endfor %}
+    </div>
+
+    <div class="box-acc box-alterar_senha" style="display:none">
+      <h5>Alterar senha</h5>
+      <form method="post" action="/alterar-senha" class="form contentForm ajaxForm"
+        id="form_alterar_senha">
+        {% csrf_token %}
+        <div class="form-item" style="width:100%">
+          <label>
+            Senha atual
+            <span class="req">*</span>
+          </label>
+          <div class="input">
+            <input type="password" name="current_pass" placeholder="Senha atual" required>
+          </div>
+          <span class="error">
+            {{ form.rg.errors }}
+          </span>
+        </div>
+
+        <div class="form-item" style="width:100%">
+          <label>
+            Nova senha
+            <span class="req">*</span>
+          </label>
+          <div class="input">
+           <input type="password" name="pass1" placeholder="Nova senha" required>
+          </div>
+          <span class="error">
+            {{ form.rg.errors }}
+          </span>
+        </div>
+
+        <div class="form-item" style="width:100%">
+          <label>
+            Repita a nova senha
+            <span class="req">*</span>
+          </label>
+          <div class="input">
+            <input type="password" name="pass2" placeholder="Repita a nova senha" required>
+          </div>
+          <span class="error">
+            {{ form.rg.errors }}
+          </span>
+        </div>
+
+        {% if error %}
+        <p>
+          <ul class="errorlist">
+            <li class="big">{{ error }}</li>
+          </ul>
+        </p>
+        {% endif %}
+        
+        <button type="submit" class="btn action">Alterar senha</button>
+      </form>
+    </div>
+
+  </div>
+
+  <div class="right" style="width:400px">
+  </div>
+
+</div>
+
+<script>
+  $('document').ready(function(){
+
+    $('.acc_menu li a').each(function(n, el){
+      $(el).click(function(){
+        $('.box-acc').hide();
+        $('.' + $(this).attr('id').replace('btn_', 'box-')).show();
+        $('.acc_menu a.active').removeClass('active');
+        $(this).addClass('active');
+      });
+    });
+
+    $('#form_alterar_senha')[0].onSuccess = function(){
+      $('#form_alterar_senha').hide().after(
+        $('<div class="success">Senha alterada com sucesso!</div>')
+      );
+    };
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-file-pdf"></i>&nbsp; Projeto de série{% endblock %}
+
+{% block content %}
+<style>
+  .card {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .card li {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+  }
+  .card li span.block {
+    display: block;
+    margin-left: 200px;
+    margin-top: -20px;
+  }
+  .card img.img {
+    max-width: 100px;
+    max-height: 100px;
+    border: 1px solid #333;
+    margin-left: 50px;
+  }
+  .card strong {
+    display: inline-block;
+    width: 200px;
+  }
+
+
+  @media (max-width: 767px){
+    ul.card strong {
+      display: block;
+      width: 100%;
+    }
+    ul.card span.block {
+      display: block;
+      margin: 0;
+    }
+  }
+</style>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-body no-padding">
+        <ul class="card">
+          <li><strong>Título</strong> {{ subscription.user_data.titulo }}</li>
+
+          <li><strong>Gênero</strong> {{ subscription.user_data.genero }}</li>
+
+          <li><strong>Logline</strong> {{ subscription.user_data.logline }}</li>
+
+          <li><strong>Número de episódios por temporada</strong> {{ subscription.user_data.numero_episodios }}</li>
+
+          <li><strong>Tipo ou formato</strong><span class="block">{{ subscription.user_data.tipo_formato|list }}</span></li>
+
+          <li><strong>Proposta da série</strong><span class="block">{{ subscription.user_data.proposta | linebreaks }}</span></li>
+
+          <li><strong>Conceito da série</strong><span class="block">{{ subscription.user_data.conceito | linebreaks }}</span></li>
+
+          <li><strong>Arco da/o protagonista</strong><span class="block">{{ subscription.user_data.arco_protagonista | linebreaks }}</span></li>
+
+          <li><strong>Universo</strong><span class="block">{{ subscription.user_data.universo | linebreaks }}</span></li>
+
+          <li><strong>Personagens principais</strong><span class="block">{{ subscription.user_data.personagens | linebreaks }}</span></li>
+
+          <li><strong>Arco da temporada 1</strong><span class="block">{{ subscription.user_data.arco_temporada | linebreaks }}</span></li>
+
+          <li><strong>Temporadas futuras</strong><span class="block">{{ subscription.user_data.temporadas_futuras | linebreaks }}</span></li>
+
+          <li>
+            <strong>Sinopse do piloto</strong>
+            <a href="/static/uploads/{{ subscription.user_data.sinopse }}" target="_blank">
+              Download
+            </a>
+            {% if subscription.user_data.sinopse|is_image %}
+              <a href="/static/uploads/{{ subscription.user_data.sinopse }}" target="_blank">
+                <img class="img" src="/static/uploads/{{ subscription.user_data.sinopse }}">
+              </a>
+            {% endif %}
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

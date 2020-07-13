@@ -1,0 +1,64 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-star"></i>&nbsp; Convidados{% endblock %}
+
+{% block content %}
+<style>
+.tbl_convidados td {
+  line-height: 50px!important;
+}
+</style>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Convidados</h3>
+      </div>
+      <div class="box-body no-padding">
+        <table class="table tbl_convidados">
+          <thead>
+            <tr>
+              <th>Foto</th>
+              <th>Nome</th>
+              <th>Linha de ação</th>
+              <th>Mini bio</th>
+              <th>
+                  <a class="btn btn-xs btn-primary pull-right" href="/painel/convidados/add">
+                   <i class="fa fa-plus"></i>&nbsp;&nbsp; Adicionar convidado</a>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="tbl_content">
+            {% for user in convidados %}
+            <tr>
+              <td>
+                {% if user.picture %}
+                  <a href="/painel/convidados/edit/{{ user.id }}">
+                    <img src="/static/convidados/{{ user.picture }}" height="50">
+                  </a>
+                {% else %}
+                <em style="display:inline-block;height:50px">sem foto</em>
+                {% endif %}
+              </td>
+              <td>
+                <a href="/painel/convidados/edit/{{ user.id }}">
+                  {{ user.name }}
+                </a>
+              </td>
+              <td>{{ user.contest.name }}</td>
+              <td>{{ user.bio|truncatewords:10 }}</td>
+              <td><a href="/painel/convidados/del/{{ user.id }}"
+                    onclick="return confirm('Tem certeza que deseja excluir esse convidado?')">
+                      excluir convidado</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
