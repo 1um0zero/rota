@@ -4,7 +4,7 @@ from core.models import Order, Product
 def index(request):
     orders = Order.objects.all().order_by('-id')
     products = [{'id': str(product.id), 'name': product.name}
-        for product in Product.objects.all()]
+        for product in Product.objects.filter(is_enabled=True)]
     statuses = [{'id': '1', 'name': 'Aguardando pagamento'},
         {'id': '3', 'name': 'Aprovado'}]
     dias = [{'id': '-1', 'name': 'dia não escolhido'},

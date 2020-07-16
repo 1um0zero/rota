@@ -45,6 +45,7 @@
             </select>
           </div>
 
+          <!--
           <div class="form-group">
             <label for="exampleInputProduto">Dia escolhido</label>
             <select class="form-control" name="dia" style="width:50%">
@@ -57,6 +58,7 @@
               {% endfor %}
             </select>
           </div>
+          -->
 
           <div class="form-group">
             <label for="exampleInputProduto">Status</label>
@@ -106,7 +108,7 @@
               <th>ID do pedido</th>
               <th>Usuário</th>
               <th>Produto</th>
-              <th>Dia escolhido</th>
+              <!--<th>Dia escolhido</th>-->
               <th>Valor do pagamento</th>
               <th>Forma de pagamento</th>
               <th>Status do pedido</th>
@@ -125,6 +127,7 @@
                   <td>
                     {{ order.product.name }}
                   </td>
+                  <!--
                   <td>
                     {% if order.product.id == 3 %}
                       {% if order.data_desejada %}
@@ -136,6 +139,7 @@
                       -
                     {% endif %}
                   </td>
+                  -->
                   <td> {{ order.price | real }} </td>
                   <td>
                     {% if order.payment_method == 0 %}
