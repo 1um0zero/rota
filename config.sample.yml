@@ -1,5 +1,6 @@
 debug: true
 is_prod: false
+url: https://www.rotafestival.com
 mysql:
     host: localhost
     user: rota

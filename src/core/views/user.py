@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from core.forms.user import SignupForm
 from core.models import UserProfile, PasswordRecoveryToken, Subscription, Order
 from core import sendgrid
+from rota.settings import CONFIG
 
 
 AUTH_HOME = '/'
@@ -138,7 +139,7 @@ def recover_password(request, token=None):
                 msg = 'Você solicitou uma recuperação de senha através do site.'
                 msg += '<br><br>Por favor clique no link a seguir para efetuar'
                 msg += ' a redefinição da sua senha:<br><br>'
-                url = 'http://www.rotafestival.com/recuperar-senha/{token}'.format(
+                url =  CONFIG.get('url') + '/recuperar-senha/{token}'.format(
                     token=prt_token
                 )
                 msg += '<a href="{link}">{link}</a>'.format(link=url)

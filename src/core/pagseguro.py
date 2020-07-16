@@ -1,5 +1,6 @@
 import re
 import requests
+from rota.settings import CONFIG
 
 
 class PagSeguro:
@@ -61,7 +62,7 @@ class PagSeguro:
         data = (
             'paymentMode=default'
             '&paymentMethod=creditCard'
-            '&notificationURL=https://www.rotafestival.com/notificacao'
+            '&notificationURL=' + CONFIG.get('url') + '/notificacao'
             '&currency=BRL'
             '&extraAmount=0.00'
             '&shippingAddressRequired=false'
@@ -121,7 +122,7 @@ class PagSeguro:
         data = (
             'paymentMode=default'
             '&paymentMethod=boleto'
-            '&notificationURL=https://www.rotafestival.com/notificacao'
+            '&notificationURL=' + CONFIG.get('url') + '/notificacao'
             '&currency=BRL'
             '&extraAmount=0.00'
             '&shippingAddressRequired=false'

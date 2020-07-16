@@ -17,7 +17,7 @@ def send(destination, subject, message):
             } ],
 
             "from": {
-                "email": "nao-responda@rotafestival.com",
+                "email": "rotafestival@gmail.com",
                 "name": "ROTA - Festival de Roteiro Audiovisual"
             },
 

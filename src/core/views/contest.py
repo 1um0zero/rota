@@ -85,12 +85,12 @@ def contest(request, url):
                     )
                     sendgrid.send(request.user.email, 'Inscrição confirmada', msg)
                     
-                    if CONFIG.get('is_prod'):
-                        rota_mail = "rotafestival@gmail.com,rafapaz@gmail.com"
-                        msg = "Inscrição de número {} recebida.".format(subscription.id)
-                        sendgrid.send(rota_mail, 'Inscrição recebida', msg)
-                    else:
-                        print('skipping prod mail')
+                    #if CONFIG.get('is_prod'):
+                    #    rota_mail = "rotafestival@gmail.com,rafapaz@gmail.com"
+                    #    msg = "Inscrição de número {} recebida.".format(subscription.id)
+                    #    sendgrid.send(rota_mail, 'Inscrição recebida', msg)
+                    #else:
+                    #    print('skipping prod mail')
 
                     if contest.is_free:
                         return redirect('/confirmacao-inscricao')
