@@ -125,6 +125,12 @@ class Product(models.Model):
     url = models.CharField(max_length=100, null=True, default=None)
     position = models.IntegerField(null=True, default=0)
 
+    def is_price2(self):
+        if not self.price2:
+            return False        
+        date2 = datetime.datetime.strptime(self.price2_date, '%d/%m/%Y')        
+        return datetime.datetime.now() >= date2
+       
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

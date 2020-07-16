@@ -90,7 +90,7 @@ def index(request):
                 order = Order(
                     user_id = request.user.id,
                     product_id = product.id,
-                    price = product.price,
+                    price = product.price if not product.is_price2() else product.price2,
                     card_brand = request.POST['brand'],
                     card_end = request.POST['card_number'][-4:],
                     parcelas = installments[0],
@@ -105,7 +105,7 @@ def index(request):
             else:
                 order = Order.objects.get(pk=order_id)
                 order.product_id = product.id
-                order.price = product.price
+                order.price = product.price if not product.is_price2() else product.price2
                 order.card_brand = request.POST['brand']
                 order.card_end = request.POST['card_number'][-4:]
                 order.parcelas = installments[0]
@@ -134,7 +134,7 @@ def index(request):
                 order = Order(
                     user_id = request.user.id,
                     product_id = product.id,
-                    price = product.price,
+                    price = product.price if not product.is_price2() else product.price2,
                     payment_method = 1,
                     data_desejada = data_desejada
                 )
@@ -145,7 +145,7 @@ def index(request):
                 order = Order.objects.get(pk=order_id)
                 order.user_id = request.user.id
                 order.product_id = product.id
-                order.price = product.price
+                order.price = product.price if not product.is_price2() else product.price2
                 order.data_desejada = data_desejada
                 order.card_brand = None
                 order.card_end = None

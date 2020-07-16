@@ -35,28 +35,30 @@
         <div class="product">
           <strong>{{ product.name }}</strong>
 
-          {% if product.price2 %}
+          {% if product.is_price2 %}
             <em>SEGUNDO LOTE</em>
+            <div class="price">{{ product.price2 | real }}</div>
+          {% elif product.price2 %}
+            <em>PRIMEIRO LOTE</em>
+            <div class="price">{{ product.price | real }}</div>
           {% else %}
             <em>LOTE ÚNICO</em>
+            <div class="price">{{ product.price | real }}</div>
           {% endif %}
-          <div class="price">{{ product.price | real }}</div>
-        
-          <!--
+                            
           <a href="/planos-e-precos?id={{ product.id }}" class="btn action">comprar</a>
-          -->
-
+        
           {{ product.description | safe }}
 
-          <!--{% if product.price2 %}-->
-            <!--<em class="sec">SEGUNDO LOTE</em>-->
-            <!--<div class="price sec">{{ product.price2 | real }}</div>-->
-            <!--<div class="date sec">a partir de {{ product.price2_date }}</div>-->
-          <!--{% endif %}-->
+          {% if not product.is_price2 %}
+            <em class="sec">SEGUNDO LOTE</em>
+            <div class="price sec">{{ product.price2 | real }}</div>
+            <div class="date sec">a partir de {{ product.price2_date }}</div>
+          {% endif %}
 
           <br>
 
-          <a href="{{ product.url }}" class="link">mais informações</a>
+          <!--<a href="{{ product.url }}" class="link">mais informações</a>-->
 
         </div>
       {% endfor %}

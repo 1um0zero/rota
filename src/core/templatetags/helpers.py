@@ -124,4 +124,3 @@ def is_youtube(url):
         return True
     return False
 register.filter('is_youtube', is_youtube)
-
