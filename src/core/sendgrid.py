@@ -1,6 +1,6 @@
 import requests
 
-API_KEY = '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'
+API_KEY = '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'
 
 def send(destination, subject, message):
 
