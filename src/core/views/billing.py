@@ -84,6 +84,7 @@ def index(request):
             form = BillingForm(request.POST)
 
             card_token = request.POST['card_token']
+            card_name = request.POST['card_holder']
             birthdate = request.POST['birthdate'].replace('.', '').replace('-', '')
             
             if  not order_id:
@@ -119,6 +120,7 @@ def index(request):
             res = ps.new_credit_card_order(
                 order,
                 user_profile,
+                card_name,
                 card_token,
                 sender_hash,
                 cpf,

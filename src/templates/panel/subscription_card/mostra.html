@@ -109,6 +109,8 @@
     {% endif %}
   </li>
 
+  <li><strong>Roteirista</strong><span class="block">{{ subscription.user_data.roteirista }}</span></li>
+
   <li><strong>Sinopse</strong><span class="block">{{ subscription.user_data.sinopse }}</span></li>
 
   <li><strong>Ano</strong> {{ subscription.user_data.ano }}</li>
@@ -225,8 +227,7 @@
     {% endif %}
   </li>
 
-  <li><strong>Roteirista</strong><span class="block">{{ subscription.user_data.roteirista }}</span></li>
-
+  <!--
   <li><strong>Diretor(a)</strong><span class="block">{{ subscription.user_data.diretor }}</span></li>
 
   <li><strong>Diretor(a) de produção</strong>
@@ -248,6 +249,7 @@
   <li><strong>Edição de som</strong><span class="block">{{ subscription.user_data.edicao_som }}</span></li>
 
   <li><strong>Elenco</strong><span class="block">{{ subscription.user_data.elenco|nl2br|safe }}</span></li>
+  -->
 
   <li><strong>Máximo 03 (três) filmes?</strong>
     <span class="block">{{ subscription.user_data.max_filmes }}</span></li>

@@ -41,6 +41,7 @@ class PagSeguro:
             self,
             order,
             user_profile,
+            card_name,
             card_token,
             sender_hash,
             cpf,
@@ -82,7 +83,7 @@ class PagSeguro:
             '&senderHash=' + sender_hash +
 
             '&creditCardToken=' + card_token +
-            '&creditCardHolderName=' + order.user.first_name +
+            '&creditCardHolderName=' + card_name +
             '&creditCardHolderCPF=' + cpf +
             '&creditCardHolderBirthDate=' + nascimento +
             '&creditCardHolderAreaCode=' + user_profile.ddd +

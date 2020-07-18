@@ -62,8 +62,9 @@
         <div class="fade"></div>
       {% endif %}
 
-
-      <h4 id="h4_inscricao">Inscrição</h4>
+      {% if contest.id != 5 %}
+        <h4 id="h4_inscricao">Inscrição</h4>
+      {% endif %}
 
       {% if not contest.subscription_open %}
         <div style="font-size:18px;text-align:center">Inscrições encerradas.</div>

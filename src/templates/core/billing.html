@@ -241,7 +241,13 @@
           <div> {{ product.description | safe }} </div>
           <br>
 
-          <div style="font-size:20px">{{ product.price | real }}</div>
+          <div style="font-size:20px">
+            {% if product.is_price2 %}
+              {{ product.price2 | real }}
+            {% else %}
+              {{ product.price | real }}
+            {% endif %}
+          </div>
           <br>
 
           <a href="/planos-e-precos" class="btn grey small">alterar</a>
@@ -265,7 +271,7 @@
 
     <script>
       window.session_id = '{{ session_id }}';
-      window.price = '{{ product.price | realFloat }}';
+      window.price = '{% if product.is_price2 %} {{ product.price2 | realFloat }} {% else %} {{ product.price | realFloat }} {% endif %}';
     </script>
     <script type="text/javascript" src="/static/core/js/billing.js"></script>
 
