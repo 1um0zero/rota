@@ -28,7 +28,7 @@
             <a href="/entrar" class="btn action">Entrar</a>
           {% else %}
             <div class="user">
-              Olá, {{ request.user.first_name }}<br>
+              Olá, {{ user_profile.get_name }}<br>
               <a href="/conta" class="link">minha conta</a>
               <a href="/sair" class="link" style="margin-left:10px">sair</a>
             </div>

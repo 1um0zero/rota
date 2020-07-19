@@ -6,8 +6,12 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    social_name = models.CharField(max_length=100, null=True)
     ddd = models.CharField(max_length=2)
     phone = models.CharField(max_length=30)
+
+    def get_name(self):
+        return self.social_name if self.social_name else self.user.first_name
 
 
 class Contest(models.Model):

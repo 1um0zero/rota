@@ -19,7 +19,7 @@
     <div class="box-acc box-dados">
       <h5>Dados pessoais</h5>
 
-      <div>Nome: {{ request.user.first_name }}</div>
+      <div>Nome: {{ user_profile.get_name }}</div>
       <div>Email: {{ request.user.email }}</div>
       <div>Celular: ({{ up.ddd }}) {{ up.phone }}</div>
     </div>

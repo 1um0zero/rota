@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 class SignupForm(forms.Form):
     name = forms.CharField(label='Nome completo', max_length=100)
+    social_name = forms.CharField(label='Nome social (como prefere ser chamado)', max_length=100, required=False)
     email = forms.EmailField(max_length=150, required=True, error_messages={
         'invalid': 'Digite um email válido.'
     })

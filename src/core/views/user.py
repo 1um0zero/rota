@@ -29,6 +29,7 @@ def signup(request):
             if user:
                 UserProfile(
                     user=user,
+                    social_name=form.cleaned_data['social_name'],
                     ddd=form.cleaned_data['ddd'],
                     phone=form.cleaned_data['phone']
                 ).save()

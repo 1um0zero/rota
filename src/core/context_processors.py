@@ -1,4 +1,4 @@
-from core.models import Contest, Page
+from core.models import Contest, Page, UserProfile
 from rota.settings import CONFIG
 
 
@@ -40,10 +40,14 @@ def default(request):
         'url': '/convidados',
     })
 
-
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except:
+        user_profile = None
 
     return {
         'current_page': request.path,
         'pages': menu,
-        'is_prod': CONFIG.get('is_prod')
+        'is_prod': CONFIG.get('is_prod'),
+        'user_profile': user_profile
     }

@@ -19,7 +19,8 @@
           <table class="table">
               <thead><tr>
                 <th>ID do usuário</th>
-                <th width="50%">Nome</th>
+                <th width="25%">Nome</th>
+                <th width="25%">Nome social</th>
                 <th>Email</th>
                 <th>Telefone</th>
               </tr></thead>
@@ -38,7 +39,7 @@
                         </span>
                       </a>
                     </td>
-
+                    <td>{{ up.social_name|default_if_none:"" }}</td>
                     <td>{{ up.user.email }}</td>
                     <td>({{ up.ddd }}) {{ up.phone }}</td>
 

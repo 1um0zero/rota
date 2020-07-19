@@ -5,7 +5,7 @@ from uuid import uuid4
 from django.shortcuts import render, redirect, HttpResponse
 from rota.settings import CONFIG
 from core import sendgrid
-from core.models import Contest, Subscription, Order
+from core.models import Contest, Subscription, Order, UserProfile
 from core.forms.concurso_roteiros import ConcursoRoteiros
 from core.forms.mostra import MostraCompetitiva
 from core.forms.lab import Lab
@@ -74,13 +74,15 @@ def contest(request, url):
                     subscription = Subscription(user_id=request.user.id,
                         contest_id=contest.id, data=json.dumps(data))
                     subscription.save()
+                    
+                    user_profile = UserProfile.objects.get(user=request.user)
 
                     msg = """Olá, {name}!<br><br>Sua inscrição foi recebida.
                         Em breve, entraremos em contato para confirmar se está
                         tudo certo com a sua documentação. É só aguardar um
                         pouquinho, ok?
                     """.format(
-                        name=request.user.first_name,
+                        name=user_profile.get_name(),
                         # concurso=contest.name
                     )
                     sendgrid.send(request.user.email, 'Inscrição confirmada', msg)
