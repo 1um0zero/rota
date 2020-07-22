@@ -67,10 +67,8 @@ class Lab(forms.Form):
             ('outro(s)', 'outro(s)'),
         ]
     )
-
-    proposta = forms.CharField(max_length=2000, widget=forms.Textarea)
-
-    conceito = forms.CharField(max_length=1500, widget=forms.Textarea)
+    
+    conceito = forms.CharField(max_length=2000, widget=forms.Textarea)
 
     arco_protagonista = forms.CharField(max_length=1000, widget=forms.Textarea)
 
