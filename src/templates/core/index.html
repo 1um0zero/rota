@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/core/css/reset.min.css">
     <link rel="stylesheet" href="/static/core/css/main.min.css?v=2.2">
+    <link rel="stylesheet" href="/static/core/css/common.css">
     <script src="/static/core/js/jquery-3.4.1.min.js"></script>
     <script src="/static/core/js/jquery.mask.min.js"></script>
     <title>ROTA | Festival de Roteiro Audiovisual</title>
@@ -23,7 +24,7 @@
           <a href="/" class="raw">
              <img src="/static/core/img/logo4.png" width="150">
           </a>
-          
+         
           {% if not request.user.is_authenticated %}
             <a href="/entrar" class="btn action">Entrar</a>
           {% else %}
@@ -33,6 +34,8 @@
               <a href="/sair" class="link" style="margin-left:10px">sair</a>
             </div>
           {% endif %}
+            
+          <a href="https://arquivo.rotafestival.com" class="btn action" style="margin: 20px 20px 0 0;">EDIÇÕES ANTERIORES</a>
         </div>
       </header>
   
@@ -52,7 +55,11 @@
             <a href="{{ page.url }}">{{ page.title }}</a>
           </li>
           {% endfor %}
-  
+          
+          <li class="mobile" style="display:none">
+            <a href="https://arquivo.rotafestival.com">Edições anteriores</a>
+          </li>
+          
           {% if not request.user.is_authenticated %}
             <li class="mobile" style="display:none">
               <a href="/entrar">Entrar</a>
@@ -63,8 +70,9 @@
             </li>
             <li class="mobile" style="display:none">
               <a href="/sair">Sair</a>
-            </li>
+            </li>            
           {% endif %}
+          
         </ul>
       </nav>
 
