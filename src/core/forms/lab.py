@@ -90,7 +90,7 @@ class Lab(forms.Form):
 
     curriculo = forms.FileField()
 
-    registro_biblioteca = forms.FileField()
+    registro_biblioteca = forms.FileField(required=False)
 
     documento_direitos = forms.FileField(required=False)
 

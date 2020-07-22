@@ -158,13 +158,17 @@
 
   <li>
     <strong>Comprovante de Registro na Biblioteca Nacional</strong>
-    <a href="/static/uploads/{{ subscription.user_data.registro_biblioteca }}" target="_blank">
-      Download
-    </a>
-    {% if subscription.user_data.registro_biblioteca|is_image %}
+    {% if subscription.user_data.registro_biblioteca %}
       <a href="/static/uploads/{{ subscription.user_data.registro_biblioteca }}" target="_blank">
-        <img class="img" src="/static/uploads/{{ subscription.user_data.registro_biblioteca }}">
+        Download
       </a>
+      {% if subscription.user_data.registro_biblioteca|is_image %}
+        <a href="/static/uploads/{{ subscription.user_data.registro_biblioteca }}" target="_blank">
+          <img class="img" src="/static/uploads/{{ subscription.user_data.registro_biblioteca }}">
+        </a>
+      {% endif %}
+    {% else %}
+      <em>não enviado</em>
     {% endif %}
   </li>
 
