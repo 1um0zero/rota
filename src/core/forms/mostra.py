@@ -7,7 +7,7 @@ class MostraCompetitiva(forms.Form):
 
     titulo = forms.CharField(max_length=200)
     url = forms.CharField(max_length=255)
-    url_pass = forms.CharField(max_length=255, required=False)
+    #url_pass = forms.CharField(max_length=255, required=False)
     sinopse = forms.CharField(widget=forms.Textarea)
 
     duracao = forms.CharField(max_length=30)

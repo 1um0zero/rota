@@ -101,12 +101,12 @@
   <li><strong>Título</strong> {{ subscription.user_data.titulo }}</li>
 
   <li><strong>Link</strong>
-    <a href="{{ subscription.user_data.url }}" target="blank">{{ subscription.user_data.url }}</a>
+    <a href="{{ subscription.user_data.url }}" target="blank">{{ subscription.user_data.url }}</a>    
     {% if subscription.user_data.url_pass %}
       <span style="margin-left:20px">
         senha:&nbsp; <span style="font-size:16px;font-weight:bold">{{ subscription.user_data.url_pass }}</span>
       </span>
-    {% endif %}
+    {% endif %}    
   </li>
 
   <li><strong>Roteirista</strong><span class="block">{{ subscription.user_data.roteirista }}</span></li>
