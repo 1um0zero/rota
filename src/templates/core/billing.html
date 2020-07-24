@@ -271,7 +271,7 @@
 
     <script>
       window.session_id = '{{ session_id }}';
-      window.price = '{% if product.is_price2 %} {{ product.price2 | realFloat }} {% else %} {{ product.price | realFloat }} {% endif %}';
+      window.price = '{% if product.is_price2 %}{{ product.price2 | realFloat }}{% else %}{{ product.price | realFloat }}{% endif %}';
     </script>
     <script type="text/javascript" src="/static/core/js/billing.js"></script>
 
