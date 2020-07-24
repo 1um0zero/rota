@@ -77,13 +77,13 @@ def contest(request, url):
                     
                     user_profile = UserProfile.objects.get(user=request.user)
 
-                    msg = """Olá, {name}!<br><br>Sua inscrição foi recebida.
+                    msg = """Olá, {name}!<br><br>Sua inscrição para o {concurso} do IV Rota foi recebida.
                         Em breve, entraremos em contato para confirmar se está
                         tudo certo com a sua documentação. É só aguardar um
                         pouquinho, ok?
                     """.format(
                         name=user_profile.get_name(),
-                        # concurso=contest.name
+                        concurso=contest.name
                     )
                     sendgrid.send(request.user.email, 'Inscrição confirmada', msg)
                     
