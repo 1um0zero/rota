@@ -75,7 +75,7 @@ class PagSeguro:
             '&itemAmount1=' + ('%.2f' % order.price) +
             '&itemQuantity1=1'
 
-            '&senderName=' + order.user.first_name +
+            '&senderName=' + card_name +
             '&senderCPF=' + cpf +
             '&senderAreaCode=' + user_profile.ddd +
             '&senderPhone=' + user_profile.phone.replace('-', '') +
