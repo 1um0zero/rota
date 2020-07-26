@@ -35,11 +35,13 @@ def default(request):
         'url': '/planos-e-precos',
     })
 
+    """
     menu.append({
         'title': 'Convidados',
         'url': '/convidados',
     })
-
+    """
+    
     try:
         user_profile = UserProfile.objects.get(user=request.user)
     except:

@@ -30,6 +30,54 @@
       grid-template-columns: 3fr 2fr;
     }
   }
+
+ul.convidados {
+  display: flex;
+  flex-wrap: wrap;
+}
+ul.convidados li {
+  width: calc(50% - 30px);
+}
+ul.convidados li:nth-child(odd) {
+  margin: 0 30px 0 0;
+}
+ul.convidados li p {
+  text-align: justify;
+  font-size: 13px;
+}
+ul.convidados li img {
+  float: left;
+  margin: 0 10px 10px 0;
+  width: 250px;
+}
+ul.convidados h2 {
+  margin-top: 10px;
+}
+ul.convidados h3 {
+  margin: 0 0 10px;
+  color: #666;
+}
+
+@media (max-width: 1024px){
+  ul.convidados {
+    margin: 5px;
+  }
+  ul.convidados h2 {
+    margin: 10px 5px 0 10px;
+  } 
+  ul.convidados h3 {
+    margin: 2px 0 5px 10px;
+  }
+  ul.convidados li {
+    width: 100%;
+  }
+  ul.convidados li:nth-child(odd) {
+    margin: 0;
+  }
+  ul.convidados li img {
+    width: 100%;
+  }
+}
 </style>
 
 
@@ -45,10 +93,35 @@
 
       <h4>Descrição</h4>
       <div id="contest_description">
-        {{ contest.description | sanitize | safe }}
+        {{ contest.description | sanitize | safe }}      
       </div>
 
-      {% if contest.regulation %}
+      {% if contest.curador_set.count > 0 %}
+      
+        {% if contest.id == 2 %}
+          <h4>Players</h4>
+        {% elif contest.id == 5 %}
+          <h4>Palestrantes</h4>
+        {% else %}
+          <h4>Curadores e Jurados</h4>
+        {% endif %}
+        
+        <ul class="convidados">
+          {% for convidado in contest.curador_set.all %}
+          <li>
+            <div class="block">
+              <h2>{{ convidado.name }}</h2>              
+              <p>
+                <img src="/static/convidados/{{ convidado.picture }}">
+                {{ convidado.bio|nl2br|safe }}
+              </p>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if contest.regulation %}        
         <h4 id="h4_regulamento" name="h4_regulamento">Regulamento</h4>
         <div id="regulation">
           <div>
@@ -67,7 +140,17 @@
       {% endif %}
 
       {% if not contest.subscription_open %}
-        <div style="font-size:18px;text-align:center">Inscrições encerradas.</div>
+        <div style="font-size:18px;text-align:center">
+          {% if contest.id == 1 %}
+            Inscrições abertas de 27 de julho a 21 de agosto de 2020!
+          {% elif contest.id == 2 %}
+            Inscrições abertas de 03 de agosto a 18 de outubro de 2020!
+          {% elif contest.id == 3 %}
+            Inscrições abertas de 27 de julho a 18 de outubro de 2020!
+          {% elif contest.id == 4 %}
+            Inscrições abertas de 08 de agosto a 13 de setembro de 2020!
+          {% endif %}
+        </div>
 
       {% elif not has_limit %}
         <div style="font-size:18px;text-align:center">Inscrições encerradas.</div>

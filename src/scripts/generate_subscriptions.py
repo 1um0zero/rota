@@ -65,9 +65,48 @@ def gen_roteiro_curta():
     return json.dumps(data)
 
 
+def gen_encontro():
+    pfpj = random.choice(['pf', 'pj'])
+    
+    data = {
+        'phone_home_ddd': str(gen.integer())[:2],
+        'phone_home': str(gen.integer())[:9],        
+        'cep': str(gen.integer())[:8],
+        'address': gen.sentence(),
+        'address_number': str(gen.small_int()),
+        'address_complement': gen.word(),
+        'address_neighborhood': gen.word(),
+        'address_city': gen.name(),
+        'address_state': gen.word(),
+        'pfpj': pfpj,
+        'rg': str(gen.integer())[:9] if pfpj == 'pf' else None,
+        'cnpj': str(gen.integer())[:14] if pfpj == 'pj' else None,
+        'razao_social': gen.name() if pfpj == 'pj' else None,
+        'nome_fantasia': gen.name() if pfpj == 'pj' else None,
+        'titulo': gen.sentence(),
+        'registro_biblioteca': gen_file(),
+        'caracteristicas_1': random.choice(['ficção', 'documentário', 'mockumentary', 'docudrama', 'outro(s)']),
+        'caracteristicas_2': random.choice(['sim', 'não']),
+        'caracteristicas_3': random.choice(['curta', 'média', 'longa']),
+        'veiculo': random.choice(['Celular', 'Cinema', 'Streaming', 'TV', 'Outros']),
+        'genero': random.choice(['Comédia', 'Comédia dramática', 'Drama', 'Dramédia', 'Épico', 'Farsa', 'Histórico', 'Híbrido', 'Musical', 'Tragédia', 'Outro']),
+        'logline': gen.sentence(),
+        'sinopse': gen.paragraph(),
+        'argumento': gen.paragraph(),
+        'personagens': gen.paragraph(),
+        'publico_alvo': gen.paragraph(),
+        'biografia': gen.paragraph(),
+        'info_adicional': gen.paragraph(),
+    }
+
+    return json.dumps(data)
+
+
 def gen_data(contest):
     if contest == 1:
         return gen_roteiro_curta()
+    elif contest == 2:
+        return gen_encontro()
     
     return None
 
@@ -98,7 +137,9 @@ def run():
             phone=str(gen.integer())[:9]
         ).save()
 
-        sub_id = random.choice([1])
-        sub_data = gen_data(sub_id)
-        Subscription(user=user, contest_id=sub_id, data=sub_data, status=1).save()
+        subs = random.choice([1,2,3])
+        for i in range(subs):
+            sub_id = random.choice([1,2])
+            sub_data = gen_data(sub_id)
+            Subscription(user=user, contest_id=sub_id, data=sub_data, status=1).save()
 

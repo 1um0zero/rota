@@ -25,6 +25,8 @@ class Contest(models.Model):
     image_url = models.CharField(max_length=200, null=True)
     date = models.CharField(max_length=30, null=True)
     display_on_site = models.BooleanField(default=False)
+    #subscription_start = models.DateTimeField(null=True)
+    #subscription_end = models.DateTimeField(null=True)
 
     def has_limit(self):
         subs = Subscription.objects.filter(contest_id=self.id).count()
