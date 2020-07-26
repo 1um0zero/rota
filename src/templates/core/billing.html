@@ -50,7 +50,7 @@
         
           {{ product.description | safe }}
 
-          {% if not product.is_price2 %}
+          {% if product.price2 and not product.is_price2 %}
             <em class="sec">SEGUNDO LOTE</em>
             <div class="price sec">{{ product.price2 | real }}</div>
             <div class="date sec">a partir de {{ product.price2_date }}</div>
