@@ -36,8 +36,8 @@ urlpatterns = [
     path('pagina/<str:url>', pages.content),
     path('pagina/<str:url>', pages.content),
 
-    path('curtas', pages.shorts),
-    path('roteiros', pages.scripts),
+    #path('curtas', pages.shorts),
+    #path('roteiros', pages.scripts),
     path('convidados', pages.convidados),
 
     path('planos-e-precos', billing.index),
