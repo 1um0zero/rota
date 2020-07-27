@@ -25,6 +25,7 @@ class Contest(models.Model):
     image_url = models.CharField(max_length=200, null=True)
     date = models.CharField(max_length=30, null=True)
     display_on_site = models.BooleanField(default=False)
+    #email = models.CharField(max_length=100, null=True)
     #subscription_start = models.DateTimeField(null=True)
     #subscription_end = models.DateTimeField(null=True)
 
