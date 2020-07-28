@@ -135,7 +135,9 @@ ul.convidados h3 {
             <div class="block">
               <h2>{{ convidado.name }}</h2>              
               <p>
-                <img src="/static/convidados/{{ convidado.picture }}">
+                {% if convidado.picture %}
+                  <img src="/static/convidados/{{ convidado.picture }}">
+                {% endif %}
                 {{ convidado.bio|nl2br|safe }}
               </p>
             </div>

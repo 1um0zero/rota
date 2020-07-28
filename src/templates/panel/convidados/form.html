@@ -24,7 +24,7 @@
 
 {% block content %}
   <style>
-    input[name=picture]{
+    input[name=file_picture]{
       border: none;
       padding: 0;
       margin: 20px;
@@ -34,8 +34,22 @@
   <div class="row">
     <div class="col-md-12">
         <div class="box box-primary">
+          {% if form.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <div class="alert alert-danger">
+                          <strong>{{field.name}} : {{ error|escape }}</strong>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                  </div>
+              {% endfor %}
+          {% endif %}
           <form role="form" method="POST" enctype="multipart/form-data">
-              {% csrf_token %}
+              {% csrf_token %}              
               <div class="box-body">
                 <div class="row">
                   <div class="col-md-12">
@@ -51,12 +65,13 @@
                       {% if convidado.picture %}
                         <img src="/static/convidados/{{ convidado.picture }}" width="250">
                       {% endif %}
-                      <input type="file" class="form-control" name="picture" value="{{ picture }}">
+                      <input type="file" class="form-control" name="file_picture" value="{{ convidado.picture }}">
+                      <input type="text" class="form-control" name="picture" value="{{ convidado.picture|default_if_none:'' }}" style="display: none;">
                     </div>
 
                     <div class="form-group">
                       <label for="">Linha de ação</label>
-                        {{ form.contest_id }}
+                        {{ form.contest }}
                     </div>
 
                     <div class="form-group">
@@ -66,8 +81,8 @@
 
                   </div>
                 </div>
-              </div>
-
+              </div>              
+              <!--{{ form.as_p }}-->
               <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Salvar</button>
                 {%  if id %}

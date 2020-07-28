@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     social_name = models.CharField(max_length=100, null=True)
     ddd = models.CharField(max_length=2)
     phone = models.CharField(max_length=30)
-
+    
     def get_name(self):
         return self.social_name if self.social_name else self.user.first_name
 
@@ -25,11 +25,14 @@ class Contest(models.Model):
     image_url = models.CharField(max_length=200, null=True)
     date = models.CharField(max_length=30, null=True)
     display_on_site = models.BooleanField(default=False)
-    #text_guest = models.CharField(max_length=100, null=True)
-    #has_subscription = models.BooleanField(default=1)
-    #email = models.CharField(max_length=100, null=True)
-    #subscription_start = models.DateTimeField(null=True)
-    #subscription_end = models.DateTimeField(null=True)
+    text_guest = models.CharField(max_length=100, null=True)
+    has_subscription = models.BooleanField(default=1)
+    email = models.CharField(max_length=100, null=True)
+    subscription_start = models.DateTimeField(null=True)
+    subscription_end = models.DateTimeField(null=True)
+    
+    def __str__(self):
+        return self.name
 
     def has_limit(self):
         subs = Subscription.objects.filter(contest_id=self.id).count()
@@ -196,8 +199,8 @@ class UserRole(models.Model):
 
 
 class Curador(models.Model):
-    contest = models.ForeignKey(Contest, null=True, on_delete=models.DO_NOTHING)
+    contest = models.ForeignKey(Contest, null=True, on_delete=models.DO_NOTHING, blank=True)
     name = models.CharField(max_length=250)
-    picture = models.CharField(max_length=250, null=True)
-    bio = models.TextField(max_length=250, null=True)
+    picture = models.CharField(max_length=250, null=True, blank=True)
+    bio = models.TextField(max_length=2000, null=True, blank=True)
 
