@@ -90,15 +90,26 @@ ul.convidados h3 {
     {% endif %}
 
     <div class="menu_contest">
-      <div class="item_menu_contest">
-        <a href="javascript:regulamento()">Regulamento</a>
-      </div>
-      <div class="item_menu_contest">
-        <a href="javascript:convidados()">Curadores/Jurados</a>
-      </div>
-      <div class="item_menu_contest">
-        <a href="javascript:inscricao()">Inscrição</a>
-      </div>
+      {% if contest.regulation %}
+        <div class="item_menu_contest">
+          <a href="javascript:regulamento()">Regulamento</a>
+        </div>
+      {% endif %}
+      {% if contest.curador_set.count > 0 %}
+        <div class="item_menu_contest">
+          <a href="javascript:convidados()">
+            {% if contest.id == 2 %} Players
+            {% elif contest.id == 5 %} Palestrantes
+            {% else %} Curadores e Jurados
+            {% endif %}
+          </a>
+        </div>
+      {% endif %}
+      {% if contest.id != 5 %}
+        <div class="item_menu_contest">
+          <a href="javascript:inscricao()">Inscrição</a>
+        </div>
+      {% endif %}
     </div>
 
     <div class="c contentDescription">
