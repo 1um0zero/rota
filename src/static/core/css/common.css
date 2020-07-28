@@ -13,3 +13,25 @@
     line-height:100%;
     height: 85px;        
 }
+
+.menu_contest {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.item_menu_contest {
+    font-size:20px;
+    font-weight:400;
+    font-family:"Lato";
+    text-transform:uppercase;
+    text-align:center;    
+    position:relative;
+    display:inline;
+    color:#0190d0;
+    text-decoration-line: underline;    
+    padding: 30px;    
+}
+
+.item_menu_contest a {
+    color:#0190d0;
+}
