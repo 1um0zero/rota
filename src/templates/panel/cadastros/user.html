@@ -196,8 +196,10 @@
           'id': this.id.replace('subscription_', ''),
           'status': this.value
         },
-        success: function(){
-          window.location.reload();
+        success: function(msg, status){
+          if (msg != '')
+            alert(msg);
+          window.location.reload(true);
         }
       });
     });

@@ -33,7 +33,7 @@ def contest(request, url):
     form = forms[contest.id]()
 
     qtd_subscriptions = Subscription.objects.filter(user_id=request.user.id,
-        contest_id=contest.id).count()
+        contest_id=contest.id, status=1).count()
 
     has_limit = contest.has_limit()
 

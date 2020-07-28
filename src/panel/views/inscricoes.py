@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, HttpResponseServerError
 from core.models import Subscription, Order, UserProfile
 from django.views.decorators.csrf import csrf_exempt
 from core import sendgrid
@@ -17,6 +17,12 @@ def index(request):
 def change_status(request):
     if request.POST:
         subscription = Subscription.objects.get(pk=request.POST.get('id'))
+
+        if int(request.POST.get('status')) == 1:
+            qtd_subscriptions = Subscription.objects.filter(user=subscription.user, contest=subscription.contest, status=1).count()
+            if subscription.contest.is_free and qtd_subscriptions >= 3:
+                return HttpResponseServerError('Este usuário já tem três inscrições para esta linha de ação')
+
         subscription.status = int(request.POST.get('status'))
         subscription.save()
         
