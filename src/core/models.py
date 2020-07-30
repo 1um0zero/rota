@@ -204,6 +204,15 @@ class Curador(models.Model):
     picture = models.CharField(max_length=250, null=True, blank=True)
     bio = models.TextField(max_length=2000, null=True, blank=True)
     category = models.CharField(max_length=100, null=True, blank=True)
+    category_order = models.IntegerField(null=True, blank=True, default=0)
+    
     class Meta:
-        ordering = ['category', 'name']
+        ordering = ['category_order', 'name']
+
+    def save(self, *args, **kwargs):
+        if self.category == 'curador' or self.category == 'curadora':
+            self.category_order = 0
+        elif self.category == 'jurado' or self.category == 'jurada':
+            self.category_order = 1
+        super(Curador, self).save(*args, **kwargs)
 
