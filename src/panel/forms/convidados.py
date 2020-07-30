@@ -8,8 +8,10 @@ class CuradorForm(ModelForm):
         fields = '__all__'
         CATEGORIES = (
                 ('', ''),
-                ('curador', 'Curador(a)'),
-                ('jurado', 'Jurado(a)'),
+                ('curador', 'Curador'),
+                ('curadora', 'Curadora'),
+                ('jurado', 'Jurado'),
+                ('jurada', 'Jurada'),
                 )
         widgets = {
             'category': forms.Select(choices=CATEGORIES, attrs={'class': 'form-control'}),

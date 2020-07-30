@@ -134,7 +134,7 @@ ul.convidados h3 {
           <li>
             <div class="block">
               <h2>{{ convidado.name }}</h2>
-              {% if convidado.category %}<h3>{{ convidado.category|title }}(a)</h3>{% endif %}
+              <h3>{{ convidado.category|default_if_none:''|title }}</h3>
               <p>
                 {% if convidado.picture %}
                   <img src="/static/convidados/{{ convidado.picture }}">
