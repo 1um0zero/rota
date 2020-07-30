@@ -53,7 +53,7 @@ def contest(request, url):
                 if form.is_valid():
 
                     for field in request.POST:
-                        if field != 'csrfmiddlewaretoken':
+                        if field != 'csrfmiddlewaretoken':                            
                             data[field] = form.cleaned_data.get(field)
 
                     for filefield in request.FILES:

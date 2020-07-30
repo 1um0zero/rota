@@ -75,6 +75,11 @@
                     </div>
 
                     <div class="form-group">
+                      <label for="">Categoria</label>
+                        {{ form.category }}
+                    </div>
+
+                    <div class="form-group">
                       <label for="">Mini bio</label>
                       <textarea class="form-control" id="page_content" style="height:200px" name="bio">{{ form.bio.value|default:'' }}</textarea>
                     </div>

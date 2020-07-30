@@ -21,8 +21,9 @@
           <thead>
             <tr>
               <th>Foto</th>
-              <th>Nome</th>
+              <th>Nome</th>              
               <th>Linha de ação</th>
+              <th>Categoria</th>
               <th>Mini bio</th>
               <th>
                   <a class="btn btn-xs btn-primary pull-right" href="/painel/convidados/add">
@@ -48,7 +49,8 @@
                 </a>
               </td>
               <td>{{ user.contest.name }}</td>
-              <td>{{ user.bio|truncatewords:10 }}</td>
+              <td>{{ user.category|default_if_none:'' }}</td>
+              <td style="width: 50%">{{ user.bio|truncatewords:10 }}</td>
               <td><a href="/painel/convidados/del/{{ user.id }}"
                     onclick="return confirm('Tem certeza que deseja excluir esse convidado?')">
                       excluir convidado</a>

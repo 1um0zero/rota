@@ -133,7 +133,8 @@ ul.convidados h3 {
           {% for convidado in contest.curador_set.all %}
           <li>
             <div class="block">
-              <h2>{{ convidado.name }}</h2>              
+              <h2>{{ convidado.name }}</h2>
+              {% if convidado.category %}<h3>{{ convidado.category|title }}(a)</h3>{% endif %}
               <p>
                 {% if convidado.picture %}
                   <img src="/static/convidados/{{ convidado.picture }}">

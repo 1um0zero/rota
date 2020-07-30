@@ -203,4 +203,5 @@ class Curador(models.Model):
     name = models.CharField(max_length=250)
     picture = models.CharField(max_length=250, null=True, blank=True)
     bio = models.TextField(max_length=2000, null=True, blank=True)
+    category = models.CharField(max_length=100, null=True, blank=True)
 
