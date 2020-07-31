@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from core.models import UserProfile, Subscription
+from core.models import UserProfile, Subscription, CuradorGroup, Contest
 from rota.settings import DEBUG, UPLOAD_DIR
 from uuid import uuid4
 from essential_generators import DocumentGenerator
@@ -7,12 +7,14 @@ import random
 import os
 import json
 
-QTD = 100
+
+CHARS = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 gen = DocumentGenerator()
 
 
 def clean():
-    User.objects.exclude(username='rafapaz@gmail.com').delete()    
+    User.objects.exclude(username='rafapaz@gmail.com').delete() 
+    CuradorGroup.objects.all().delete()   
     for filename in os.listdir(UPLOAD_DIR):
         try:
             file_path = os.path.join(UPLOAD_DIR, filename)
@@ -29,6 +31,28 @@ def gen_file():
     newpath = path + '.pdf'
     os.rename(path, newpath)
     return filename + '.pdf'
+
+
+def gen_cadastro(name):
+    email = gen.email()
+    user = User.objects.create_user(
+            username=email,
+            email=email,
+            password='123456',
+            first_name=name,
+        )
+    
+    if not user:
+        return None
+
+    UserProfile(
+        user=user,
+        social_name=gen.word(),
+        ddd=str(gen.integer())[:2],
+        phone=str(gen.integer())[:9]
+    ).save()
+
+    return user
 
 
 def gen_roteiro_curta():
@@ -200,35 +224,44 @@ def gen_data(contest):
     return None
 
 
-def run():
+def run(*args):
     if not DEBUG:
         print('This script cannot be executed in production environment!')
         exit()
-    
-    clean()
-
-    for i in range(QTD):
-        email = gen.email()
-        user = User.objects.create_user(
-                username=email,
-                email=email,
-                password='123456',
-                first_name=gen.name(),
-            )
         
-        if not user:
-            continue
+    if 'clean' in args:
+        clean()
 
-        UserProfile(
-            user=user,
-            social_name=gen.word(),
-            ddd=str(gen.integer())[:2],
-            phone=str(gen.integer())[:9]
-        ).save()
+    qtd_arg = 0
+    for a in args:
+        try:
+            qtd_arg = int(a)
+            break
+        except ValueError:
+            continue
+    
+    qtd_sub = dict()
+    qtd_sub[1] = 0
+    qtd_sub[2] = 0
+    qtd_sub[3] = 0
+    qtd_sub[4] = 0
+
+    for i in range(qtd_arg):
+        user = gen_cadastro(gen.name())
+        if user is None:
+            continue
 
         subs = random.choice([1,2,3])
         for i in range(subs):
-            sub_id = random.choice([1,2,3,4])
-            sub_data = gen_data(sub_id)
-            Subscription(user=user, contest_id=sub_id, data=sub_data, status=1).save()
+            contest_id = random.choice([1,2,3,4])
+            sub_data = gen_data(contest_id)
+            Subscription(user=user, contest_id=contest_id, data=sub_data, status=1).save()
+            qtd_sub[contest_id] += 1
 
+    for contest_id, qtd in qtd_sub.items():
+        for i in range(int(qtd * 0.1)):
+            gen_cadastro('Curador_' + str(contest_id) + '_' + str(i))
+
+        if 'groups' in args:
+            for i in range(5):
+                CuradorGroup(contest=Contest.objects.get(id=contest_id), name=CHARS[i]).save()

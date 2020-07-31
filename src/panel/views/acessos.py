@@ -1,8 +1,9 @@
 import json
+import random
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User
 from django.db.models import Q, Count
-from core.models import Role, UserRole, Subscription, CuradorGroup
+from core.models import Role, UserRole, Subscription, CuradorGroup, Contest
 
 def index(request):
     admins = User.objects.filter(is_superuser=True)
@@ -52,6 +53,7 @@ def index(request):
 
 
 def distribute(contest_id):
+    """
     if contest_id == 1:
         subs = Subscription.objects.filter(contest_id=1, status=1,
             id__gte=275, group__isnull=True)
@@ -63,23 +65,25 @@ def distribute(contest_id):
     elif contest_id == 3:
         subs = Subscription.objects.filter(contest_id=3, status=1,
             group__isnull=True)
+    """
+    subs = Subscription.objects.filter(contest_id=contest_id, status=1, group__isnull=True)
 
     for sub in subs:
         user_subs = Subscription.objects.filter(
-            user_id=sub.user_id, contest_id=1, status=1, group__isnull=False)
+            user_id=sub.user_id, contest_id=contest_id, status=1, group__isnull=False)
         if user_subs:
-            other_groups = get_roteirista_groups(sub.user_id)
+            other_groups = get_roteirista_groups(sub.user_id, contest_id)
             curadores_ids = get_curadores_by_groups_ids(other_groups)
             exclude_groups = get_curadores_groups_ids(curadores_ids)
-            sub.group_id = get_next_group(exclude_groups).id
+            sub.group_id = get_next_group(contest_id, exclude_groups).id
         else:
-            sub.group_id = get_next_group().id
+            sub.group_id = get_next_group(contest_id).id
         sub.save()
 
 
-def get_roteirista_groups(user_id):
+def get_roteirista_groups(user_id, contest_id):
     groups_ids = []
-    subs = Subscription.objects.filter(contest=1, status=1, group__isnull=False,
+    subs = Subscription.objects.filter(contest=Contest.objects.get(id=contest_id), status=1, group__isnull=False,
         user_id=user_id)
     for sub in subs:
         groups_ids.append(sub.group_id)
@@ -103,7 +107,7 @@ def get_curadores_groups_ids(curadores_ids):
     return groups_ids
 
 
-def get_next_group(exclude=None):
+def get_next_group(contest_id, exclude=None):
     groups = {}
     query = """
         SELECT cg.id, COUNT(s.id) ttl
@@ -111,6 +115,7 @@ def get_next_group(exclude=None):
         LEFT JOIN core_subscription s ON s.group_id = cg.id
         WHERE 1
     """
+    query += ' AND cg.contest_id = ' + str(contest_id)
 
     if exclude:
         query += """
@@ -127,6 +132,8 @@ def get_next_group(exclude=None):
     if subs:
         sub = subs[0]
         return sub
+        
+    return random.choice(CuradorGroup.objects.filter(contest=Contest.objects.get(id=contest_id)).all())
 
 
 def add(request):
