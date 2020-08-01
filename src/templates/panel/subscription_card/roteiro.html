@@ -161,6 +161,22 @@
     {% endif %}
   </li>
 
+  <li>
+    <strong>Autorização para adaptação</strong>
+    {% if subscription.user_data.documento_direitos %}
+      <a href="/static/uploads/{{ subscription.user_data.documento_direitos }}" target="_blank">
+        Download
+      </a>
+      {% if subscription.user_data.documento_direitos|is_image %}
+        <a href="/static/uploads/{{ subscription.user_data.documento_direitos }}" target="_blank">
+          <img class="img" src="/static/uploads/{{ subscription.user_data.documento_direitos }}">
+        </a>
+      {% endif %}
+    {% else %}
+        <em>não enviada</em>
+    {% endif %}
+  </li>
+
   <li><strong>Autorizo a inclusão do roteiro</strong>
     {% if subscription.user_data.authorize == 'sim' %}
       <span class="label label-success">sim</span>

@@ -73,6 +73,8 @@ class ConcursoRoteiros(forms.Form):
 
     responsibility = forms.FileField()
 
+    documento_direitos = forms.FileField(required=False)
+
     letter = forms.FileField(required=False)
     letter2 = forms.FileField(required=False)
 

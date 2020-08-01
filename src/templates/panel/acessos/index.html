@@ -86,9 +86,15 @@
       <div class="tab-content">
 
         <div class="tab-pane active" id="tab_1">
-          <div style="margin-bottom:10px;text-align:right">
+          <div style="margin-bottom:10px;text-align:right;">
             <a class="btn btn-primary" href="/painel/acessos/add?contest_id=1">
-              <i class="fa fa-key"></i>&nbsp;&nbsp; Adicionar curador</a>
+              <i class="fa fa-key"></i>&nbsp;&nbsp; Adicionar curador
+            </a>            
+            <!--
+            <a class="btn btn-primary" href="/painel/acessos/add?contest_id=1">
+              <i class="fa fa-paste"></i>&nbsp;&nbsp; Distribuir projetos
+            </a>
+            -->            
           </div>
           <div style="display:flex;flex-wrap:wrap">
             {% for group in res.1 %}
