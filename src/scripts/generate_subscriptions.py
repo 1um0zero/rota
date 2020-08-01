@@ -80,6 +80,7 @@ def gen_roteiro_curta():
         'letter': gen_file() if coautor else None,
         'letter2': gen_file() if coautor else None,
         'is_original': 'original' if is_original else 'adaptado',
+        'documento_direitos': None if is_original else gen_file(),
         'authorize': random.choice(['sim', 'nao']),
         'is_student': random.choice(['iniciante', 'estudante']),
         'script': gen_file(),
