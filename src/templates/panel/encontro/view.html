@@ -62,11 +62,29 @@
 
           <li><strong>Logline</strong> {{ subscription.user_data.logline }}</li>
 
-          <li><strong>Sinopse</strong><span class="block">{{ subscription.user_data.sinopse | linebreaks }}</span></li>
+          <li>
+            <strong>Sinopse</strong>
+            <a href="/static/uploads/{{ subscription.user_data.sinopse }}" target="_blank">
+              Download
+            </a>
+            {% if subscription.user_data.sinopse|is_image %}
+              <a href="/static/uploads/{{ subscription.user_data.sinopse }}" target="_blank">
+                <img class="img" src="/static/uploads/{{ subscription.user_data.sinopse }}">
+              </a>
+            {% endif %}
+          </li>
 
-          <li><strong>Argumento</strong><span class="block">{{ subscription.user_data.argumento | linebreaks }}</span></li>
-
-          <li><strong>Personagens</strong><span class="block">{{ subscription.user_data.personagens | linebreaks }}</span></li>
+          <li>
+            <strong>Argumento</strong>
+            <a href="/static/uploads/{{ subscription.user_data.argumento }}" target="_blank">
+              Download
+            </a>
+            {% if subscription.user_data.argumento|is_image %}
+              <a href="/static/uploads/{{ subscription.user_data.argumento }}" target="_blank">
+                <img class="img" src="/static/uploads/{{ subscription.user_data.argumento }}">
+              </a>
+            {% endif %}
+          </li>
 
           <li><strong>Público alvo</strong><span class="block">{{ subscription.user_data.publico_alvo | linebreaks }}</span></li>
 

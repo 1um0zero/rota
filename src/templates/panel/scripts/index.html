@@ -10,6 +10,13 @@
         <h4 style="margin:0"><i class="icon fa fa-check"></i> {{ msg }}</h4>
     </div>
   {% endif %}
+  {% if error %}
+     <div class="alert alert-danger alert-dismissible">
+      <i class="icon fa fa-exclamation-triangle"></i> Sua avaliação não foi salva pois contém os seguintes erros:
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ error }}
+    </div>
+  {% endif %}
 
   <h4>Listando {{ items | length }} roteiros</h4>
 
@@ -30,7 +37,13 @@
               {{ item.data.nickname }}
               <br>&nbsp;
              </a>
-
+             {% if request.session.painel.is_curador %}
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliacao_{{item.id}}">Avaliar</button>
+             {% endif %}
+             {% include 'panel/avaliacoes/ficha_concurso.html' with sub=item form=item.form  %}
+             <script>
+               atualiza_notas_roteiro({{item.id}});
+             </script>
           </div>
         </div>
       </div>

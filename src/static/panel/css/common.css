@@ -1,0 +1,15 @@
+
+table.ficha_avaliacao  {
+    width: 100%;
+    border: 1px solid black;
+}
+
+table.ficha_avaliacao td {
+    border: 1px solid black;
+    padding: 4px;
+}
+
+.avaliacao_texto {
+    width: 40%;
+    display: inline;
+}

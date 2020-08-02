@@ -63,7 +63,7 @@ class Encontro(forms.Form):
     caracteristicas_1 = forms.ChoiceField(
         widget=forms.RadioSelect,
         choices=[(gen, gen) for gen in [
-            'ficção', 'documentário', 'mockumentary', 'docudrama', 'outro(s)',
+            'ficção', 'não ficção', 'outro',
         ]]
     )
     
@@ -100,11 +100,9 @@ class Encontro(forms.Form):
 
     logline = forms.CharField(max_length=200)
 
-    sinopse = forms.CharField(max_length=1000, widget=forms.Textarea)
+    sinopse = forms.FileField()
 
-    argumento = forms.CharField(max_length=5000, widget=forms.Textarea)
-
-    personagens = forms.CharField(max_length=2500, widget=forms.Textarea)
+    argumento = forms.FileField()
 
     publico_alvo = forms.CharField(max_length=1000, widget=forms.Textarea)
 

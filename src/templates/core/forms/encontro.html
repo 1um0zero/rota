@@ -364,9 +364,16 @@
       </div>
     </div>
 
-    <div class="form-item small charCounter" style="width:100%">
+    <div class="form-item small">
       <label>
-        Sinopse <span class="req">*</span>
+        Sinopse
+        <span class="req">*</span>
+        <br>
+        <small class="small">
+          Formatação: fonte Arial, tamanho 11; espaçamento entre as linhas: 1,5;
+          margens: normal (superior e inferior: 2,5 cm / esq e direita: 3 cm);
+          número de páginas: até 2; arquivo PDF.
+        </small>
       </label>
       <div class="input">
         {{ form.sinopse }}
@@ -376,9 +383,17 @@
       </div>
     </div>
 
-    <div class="form-item small charCounter" style="width:100%">
+    <div class="form-item small">
       <label>
-        Argumento <span class="req">*</span>
+        Argumento
+        <span class="req">*</span>
+        <br>
+        <small class="small">
+          Formatação: fonte Arial, tamanho 11; espaçamento entre as linhas: 1,5;
+          margens: normal (superior e inferior: 2,5 cm / esq e direita: 3 cm);
+          número de páginas: entre 5 e 10; arquivo PDF.
+        </small>
+      </label>
       <div class="input">
         {{ form.argumento }}
       </div>
@@ -386,20 +401,7 @@
         {{ form.argumento.errors }}
       </div>
     </div>
-
-    <div class="form-item small charCounter" style="width:100%">
-      <label>
-        Perfil dos personagens principais
-        <span class="req">*</span>
-      </label>
-      <div class="input">
-        {{ form.personagens }}
-      </div>
-      <div class="error">
-        {{ form.personagens.errors }}
-      </div>
-    </div>
-
+    
     <div class="form-item small charCounter" style="width:100%">
       <label>
         Público alvo

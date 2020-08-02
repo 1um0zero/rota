@@ -45,6 +45,7 @@ class Contest(models.Model):
 class CuradorGroup(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     name = models.CharField(max_length=10)
+    step = models.IntegerField(default=1)
 
 
 class Folder(models.Model):
@@ -189,13 +190,11 @@ class Role(models.Model):
     name = models.CharField(max_length=30)
 
 
-
 class UserRole(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE, null=True, default=None)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
-    group = models.ForeignKey(CuradorGroup, on_delete=models.DO_NOTHING,
-        null=True, default=None)
+    group = models.ForeignKey(CuradorGroup, on_delete=models.DO_NOTHING, null=True, default=None)
 
 
 class Curador(models.Model):
@@ -216,3 +215,11 @@ class Curador(models.Model):
             self.category_order = 1
         super(Curador, self).save(*args, **kwargs)
 
+
+class Evaluation(models.Model):
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
+    evaluator = models.ForeignKey(User, on_delete=models.CASCADE)
+    step = models.IntegerField(default=1)
+    grades = models.TextField(null=True)
+    questions = models.TextField(null=True)
+    

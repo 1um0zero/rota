@@ -1,0 +1,130 @@
+
+  <div class="modal fade" id="avaliacao_{{sub.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 800px;">
+      <div class="modal-content">
+        <form method="post" id="avaliacao_form_{{sub.id}}">
+        {% csrf_token %}
+            <input type="hidden" name="sub_id" value="{{sub.id}}">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title" id="exampleModalLabel">
+                    QUESTIONÁRIO DE AVALIAÇÃO DE ROTEIROS<br>
+                    CONCURSO DE ROTEIROS DE CURTAS-METRAGENS DO ROTA 2020                                
+                </h5>
+            </div>
+            <div class="modal-body">
+                <strong>NOME DO CURADOR:</strong> {{request.session.painel.name}} <br>
+                <strong>GRUPO:</strong> {{sub.group.name}}
+                <br><br>
+                <table class="ficha_avaliacao">
+                    <tr>
+                        <td rowspan="2">{{sub.group.step}}º LOTE</td>
+                        <td colspan="5" style="text-align:left">Título: <strong>{{sub.data.title}}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Excelente (2,5)</td>
+                        <td>Boa (2,0)</td>
+                        <td>Média (1,5)</td>
+                        <td>Insatisfatório (0)</td>
+                        <td>Nota (total)</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">{{form.estrutura_narrativa.label}}</td>
+                        <td><input type="radio" name="estrutura_narrativa" value="2.5" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.estrutura_narrativa.value == 2.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="estrutura_narrativa" value="2.0" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.estrutura_narrativa.value == 2.0 %} checked {% endif %}></td>
+                        <td><input type="radio" name="estrutura_narrativa" value="1.5" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.estrutura_narrativa.value == 1.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="estrutura_narrativa" value="0" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.estrutura_narrativa.value == 0 %} checked {% endif %}></td>
+                        <td id="nota_estrutura_narrativa_{{sub.id}}"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">{{form.trama.label}}</td>
+                        <td><input type="radio" name="trama" value="2.5" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.trama.value == 2.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="trama" value="2.0" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.trama.value == 2.0 %} checked {% endif %}></td>
+                        <td><input type="radio" name="trama" value="1.5" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.trama.value == 1.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="trama" value="0" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.trama.value == 0 %} checked {% endif %}></td>
+                        <td id="nota_trama_{{sub.id}}"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">{{form.personagens.label}}</td>
+                        <td><input type="radio" name="personagens" value="2.5" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.personagens.value == 2.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="personagens" value="2.0" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.personagens.value == 2.0 %} checked {% endif %}></td>
+                        <td><input type="radio" name="personagens" value="1.5" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.personagens.value == 1.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="personagens" value="0" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.personagens.value == 0 %} checked {% endif %}></td>
+                        <td id="nota_personagens_{{sub.id}}"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">{{form.dialogos.label}}</td>
+                        <td><input type="radio" name="dialogos" value="2.5" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.dialogos.value == 2.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="dialogos" value="2.0" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.dialogos.value == 2.0 %} checked {% endif %}></td>
+                        <td><input type="radio" name="dialogos" value="1.5" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.dialogos.value == 1.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="dialogos" value="0" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.dialogos.value == 0 %} checked {% endif %}></td>
+                        <td id="nota_dialogos_{{sub.id}}"></td>
+                    </tr>    
+                    <tr>
+                        <td style="text-align:left">{{form.originalidade.label}}</td>
+                        <td colspan="2"><input type="radio" name="originalidade" value="2" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.originalidade.value == 2 %} checked {% endif %}>Sim</td>
+                        <td colspan="2"><input type="radio" name="originalidade" value="0" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.originalidade.value == 0 %} checked {% endif %}>Não</td>
+                        <td id="nota_originalidade_{{sub.id}}"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="background-color: darkgray; font-weight: bold;">PONTUAÇÃO GERAL</td>
+                        <td id="nota_total_{{sub.id}}"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="text-align:left">
+                            {{form.indica_roteiro.label}}**&nbsp;&nbsp;&nbsp;                            
+                            <input type="radio" name="indica_roteiro" value="sim" {% if form.indica_roteiro.value == 'sim' %} checked {% endif %}>Sim&nbsp;
+                            <input type="radio" name="indica_roteiro" value="nao" {% if form.indica_roteiro.value == 'nao' %} checked {% endif %}>Não                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="text-align:left">
+                            {{form.indica_personagem.label}}**&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="indica_personagem" value="sim" {% if form.indica_personagem.value == 'sim' %} checked {% endif %}>Sim&nbsp;
+                            <input type="radio" name="indica_personagem" value="nao" {% if form.indica_personagem.value == 'nao' %} checked {% endif %}>Não
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="text-align:left">
+                            {{form.indica_dialogo.label}}**&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="indica_dialogo" value="sim" {% if form.indica_dialogo.value == 'sim' %} checked {% endif %}>Sim&nbsp;
+                            <input type="radio" name="indica_dialogo" value="nao" {% if form.indica_dialogo.value == 'nao' %} checked {% endif %}>Não
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:left">
+                            {{form.protagonista_feminina.label}}&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="protagonista_feminina" value="sim" {% if form.protagonista_feminina.value == 'sim' %} checked {% endif %}>Sim&nbsp;
+                            <input type="radio" name="protagonista_feminina" onclick="document.getElementById('nao_cabiria_{{sub.id}}').checked = true;" value="nao" {% if form.protagonista_feminina.value == 'nao' %} checked {% endif %}>Não
+                        </td>
+                        <td colspan="4" style="text-align:left">
+                            {{form.premio_cabiria.label}}&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="premio_cabiria" value="sim" {% if form.premio_cabiria.value == 'sim' %} checked {% endif %}>Sim&nbsp;
+                            <input type="radio" name="premio_cabiria" value="nao" id="nao_cabiria_{{sub.id}}" {% if form.premio_cabiria.value == 'nao' %} checked {% endif %}>Não
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="text-align:left">
+                            {{form.nome_prot_feminina.label}}&nbsp;&nbsp;&nbsp;{{form.nome_prot_feminina}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="text-align:left">
+                            {{form.pesquisa.label}}&nbsp;&nbsp;&nbsp;{{form.pesquisa}}
+                        </td>
+                    </tr>
+                </table>   
+                <span style="font-size: 12px;">*ORIGINALIDADE: Consideramos a originalidade como um critério de avaliação extra. Deste modo, se um roteiro pontuar os 4 primeiros itens com nota máxima (2,5), por exemplo, já terá nota 10. Caso ele pontue também por originalidade, ganhará os dois pontos por esta distinção, totalizando 12 pontos.</span>
+                <br><br>
+                <span style="font-size: 12px;">** Indicação: Você só pode indicar um roteiro para cada categoria.</span>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" onclick="submete_avaliacao_roteiro({{sub.id}}, '{{sub.msg_indicado_roteiro}}', '{{sub.msg_indicado_personagem}}', '{{sub.msg_indicado_dialogo}}');" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
