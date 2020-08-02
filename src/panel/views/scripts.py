@@ -43,12 +43,16 @@ def index(request):
     
     for item in items:
         item.data = json.loads(item.data)
+        if item.group is None:
+            item.form = AvaliacaoConcurso()
+            continue
+
         outras_avaliacoes = Evaluation.objects.filter(evaluator_id=request.session['painel']['id'], step=item.group.step)
         for a in outras_avaliacoes.all():
             if a.subscription.contest.id != item.contest.id or a.subscription.id == item.id:
                 continue
-            titulo_indicado = json.loads(a.subscription.data)['title']
-            
+
+            titulo_indicado = json.loads(a.subscription.data)['title']            
             questions = json.loads(a.questions)
             if questions['indica_roteiro'] == 'sim':
                 item.msg_indicado_roteiro = 'Melhor roteiro: {}'.format(titulo_indicado)
