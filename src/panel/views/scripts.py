@@ -14,9 +14,9 @@ def index(request):
         
     if request.session['painel']['role'][0] == 0:
         items = Subscription.objects.filter(contest_id=1, status=1)
-    elif request.session['painel']['role'][0] == 1:
+    elif request.session['painel']['role'][0] > 0:
         groups = []
-        urs = UserRole.objects.filter(user_id=request.session['painel']['id'], role_id=1)
+        urs = UserRole.objects.filter(user_id=request.session['painel']['id'], role_id=request.session['painel']['role'][0])
         for ur in urs:
             groups.append(ur.group)
 
@@ -33,7 +33,8 @@ def index(request):
                 questions[q] = form.cleaned_data.get(q)
             
             subscription = Subscription.objects.get(id=int(request.POST['sub_id']))
-            evaluation, created = Evaluation.objects.update_or_create(subscription=subscription, evaluator_id=request.session['painel']['id'], step=subscription.contest.step,
+            evaluation, created = Evaluation.objects.update_or_create(subscription=subscription, evaluator_id=request.session['painel']['id'],
+                                    role_id=request.session['painel']['role'][0], step=subscription.contest.step, 
                                     defaults={'grades': json.dumps(grades), 'questions': json.dumps(questions)})
             time.sleep(1)
             msg = "Roteiro avaliado com sucesso!"
@@ -42,12 +43,12 @@ def index(request):
     
     for item in items:
         item.data = json.loads(item.data)
-        item.ja_avaliou = item.evaluation_set.filter(evaluator_id=request.session['painel']['id'], step=item.contest.step).count()
+        item.ja_avaliou = item.evaluation_set.filter(evaluator_id=request.session['painel']['id'], step=item.contest.step, role_id=request.session['painel']['role'][0]).count()
         if item.groups is None:
             item.form = AvaliacaoConcurso()
             continue
 
-        outras_avaliacoes = Evaluation.objects.filter(evaluator_id=request.session['painel']['id'], step=item.contest.step)
+        outras_avaliacoes = Evaluation.objects.filter(evaluator_id=request.session['painel']['id'], step=item.contest.step, role_id=request.session['painel']['role'][0])
         for a in outras_avaliacoes.all():
             if a.subscription.contest.id != item.contest.id or a.subscription.id == item.id:
                 continue

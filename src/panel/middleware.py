@@ -16,7 +16,7 @@ def auth(get_response):
                     return redirect(login_url)
 
             else:
-                if request.session['painel']['role'][0] == 1: # curador
+                if request.session['painel']['role'][0] > 0: # avaliador
                     urls = [
                         '^/painel/roteiros',
                         '^/painel/projetos',

@@ -11,9 +11,9 @@ def index(request):
 
         items = Subscription.objects.filter(contest_id=3, status=1)
 
-    elif request.session['painel']['role'][0] == 1:
+    elif request.session['painel']['role'][0] > 0:
         groups = []
-        urs = UserRole.objects.filter(user_id=request.session['painel']['id'], role_id=1)
+        urs = UserRole.objects.filter(user_id=request.session['painel']['id'], role_id=request.session['painel']['role'][0])
         for ur in urs:
             groups.append(ur.group)
 

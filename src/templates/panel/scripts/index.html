@@ -40,7 +40,7 @@
               {{ item.data.nickname }}
               <br>&nbsp;
              </a>
-             {% if request.session.painel.is_curador %}
+             {% if request.session.painel.is_avaliador %}
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliacao_{{item.id}}">
                 {% if item.ja_avaliou %} Alterar avaliação {% else %} Avaliar {% endif %}
               </button>

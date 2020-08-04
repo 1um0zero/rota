@@ -223,6 +223,7 @@ class Curador(models.Model):
 class Evaluation(models.Model):
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
     evaluator = models.ForeignKey(User, on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, on_delete=models.DO_NOTHING, default=1)
     step = models.IntegerField(default=1)
     grades = models.TextField(null=True)
     questions = models.TextField(null=True)

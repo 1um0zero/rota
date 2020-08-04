@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from core.models import Subscription, Order, UserProfile
 from django.views.decorators.csrf import csrf_exempt
 from core import sendgrid
+from panel.views.acessos import distribute
 
 
 def index(request):
@@ -50,6 +51,7 @@ def change_status(request):
                         email_concurso=emails[subscription.contest.id]
                     )            
             sendgrid.send(subscription.user.email, 'Inscrição #{} aprovada!'.format(subscription.id), msg)
+            distribute(subscription.contest.id)
         elif subscription.status == 2:                    
             msg = """Olá, {name}!<br><br>Sua inscrição para o {concurso} do IV Rota foi reprovada.<br>
                     Provavelmente houve algum problema na documentação enviada.<br>

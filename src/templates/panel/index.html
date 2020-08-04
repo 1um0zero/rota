@@ -120,6 +120,12 @@
                   <i class="fa fa-key"></i> <span>Controle de acessos</span>
                 </a>
               </li>
+
+              <li class="">
+                <a href="/painel/ranking">
+                  <i class="fa fa-cubes"></i> <span>Ranking</span>
+                </a>
+              </li>
               
               <li class="">
                 <a href="/painel/curtas">
@@ -129,7 +135,7 @@
               
             {% endif %}
 
-            {% if request.session.painel.is_admin or request.session.painel.is_curador %}
+            {% if request.session.painel.is_admin or request.session.painel.is_avaliador %}
               
               {% if request.session.painel.is_admin or request.session.painel.view_roteiros %}
                 <li class="">

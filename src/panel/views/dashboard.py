@@ -38,14 +38,14 @@ def admin_login(request):
                 'name': user.first_name,
                 'role': role,
                 'is_admin': role[0] == 0,
-                'is_curador': role[0] == 1,
+                'is_avaliador': role[0] > 0,
                 'view_roteiros': 1 in contest_ids,
                 'view_encontro': 2 in contest_ids,
                 'view_projetos': 3 in contest_ids,
             }
             
             url = ''
-            if request.session['painel']['is_curador']:
+            if request.session['painel']['is_avaliador']:
                 if request.session['painel']['view_projetos']:
                     url = '/projetos'
                 elif request.session['painel']['view_encontro']:
