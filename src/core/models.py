@@ -30,6 +30,7 @@ class Contest(models.Model):
     email = models.CharField(max_length=100, null=True)
     subscription_start = models.DateTimeField(null=True)
     subscription_end = models.DateTimeField(null=True)
+    step = models.IntegerField(default=1)
     
     def __str__(self):
         return self.name
@@ -46,6 +47,8 @@ class CuradorGroup(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     name = models.CharField(max_length=10)
     step = models.IntegerField(default=1)
+    def __str__(self):
+        return self.name
 
 
 class Folder(models.Model):
@@ -59,8 +62,8 @@ class Subscription(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     data = models.TextField(null=True)
     status = models.IntegerField(default=0)
-    group = models.ForeignKey(CuradorGroup, on_delete=models.DO_NOTHING,
-        null=True, default=None)
+    #group = models.ForeignKey(CuradorGroup, on_delete=models.DO_NOTHING, null=True, default=None)
+    groups = models.ManyToManyField(CuradorGroup)
     folder = models.ForeignKey(Folder, null=True, default=None,
         on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(default=datetime.datetime.now)
@@ -85,6 +88,7 @@ class Subscription(models.Model):
                     payment_status = order.status
 
             sub.payment_status = Order.get_status(payment_status)
+            sub.group_names = sub.groups.values_list('name', flat=True)
         return subscriptions
 
 

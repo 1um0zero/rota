@@ -22,55 +22,26 @@ def index(request):
             res[i].append({
                 'group': group,
                 'members': UserRole.objects.filter(role_id=1, group=group),
-                'roteiros': Subscription.objects.filter(group=group).count()
+                'roteiros': Subscription.objects.filter(groups__in=[group]).count()
             })
-
-    # res_1 = []
-    # groups = CuradorGroup.objects.filter(contest_id=1)
-    # for group in groups:
-        # res_1.append({
-            # 'group': group,
-            # 'members': UserRole.objects.filter(role_id=1, group=group),
-            # 'roteiros': Subscription.objects.filter(group=group).count()
-        # })
-
-    # res_3 = []
-    # groups = CuradorGroup.objects.filter(contest_id=3)
-    # for group in groups:
-        # res_3.append({
-            # 'group': group,
-            # 'members': UserRole.objects.filter(role_id=1, group=group),
-            # 'roteiros': Subscription.objects.filter(group=group).count()
-        # })
 
     return render(request, 'panel/acessos/index.html', {
         'admins': admins,
         'roles_users': roles_users,
         'res': res,
-        # 'res_1': res_1,
-        # 'res_3': res_3,
     })
 
 
 def distribute(contest_id):
-    """
-    if contest_id == 1:
-        subs = Subscription.objects.filter(contest_id=1, status=1,
-            id__gte=275, group__isnull=True)
-
-    if contest_id == 2:
-        subs = Subscription.objects.filter(contest_id=2, status=1,
-            group__isnull=True)
-
-    elif contest_id == 3:
-        subs = Subscription.objects.filter(contest_id=3, status=1,
-            group__isnull=True)
-    """
-    subs = Subscription.objects.filter(contest_id=contest_id, status=1, group__isnull=True)
-
+    subs = Subscription.objects.filter(contest_id=contest_id, status=1, groups=None)
     for sub in subs:
-        user_subs = Subscription.objects.filter(
-            user_id=sub.user_id, contest_id=contest_id, status=1, group__isnull=False)
+        next_group = get_next_group(contest_id)
+        if next_group:
+            sub.groups.add(next_group)
+            sub.save()
+    """
+    for sub in subs:
+        user_subs = Subscription.objects.filter(user_id=sub.user_id, contest_id=contest_id, status=1, group__isnull=False)
         if user_subs:
             other_groups = get_roteirista_groups(sub.user_id, contest_id)
             curadores_ids = get_curadores_by_groups_ids(other_groups)
@@ -79,8 +50,21 @@ def distribute(contest_id):
         else:
             sub.group_id = get_next_group(contest_id).id
         sub.save()
+    """
 
+def get_next_group(contest_id):
+    grupos = CuradorGroup.objects.filter(contest_id=contest_id, step=1).all()
+    if grupos.count() == 0:
+        return None
 
+    qtd = []
+    for g in grupos:
+        qtd.append((g, g.subscription_set.count()))
+    qtd.sort(key=lambda x: x[1])
+
+    return qtd[0][0]
+
+"""
 def get_roteirista_groups(user_id, contest_id):
     groups_ids = []
     subs = Subscription.objects.filter(contest=Contest.objects.get(id=contest_id), status=1, group__isnull=False,
@@ -105,28 +89,18 @@ def get_curadores_groups_ids(curadores_ids):
             if ur.group_id not in groups_ids:
                 groups_ids.append(ur.group_id)
     return groups_ids
+"""
 
-
+"""
 def get_next_group(contest_id, exclude=None):
     groups = {}
-    query = """
-        SELECT cg.id, COUNT(s.id) ttl
-        FROM core_curadorgroup cg
-        LEFT JOIN core_subscription s ON s.group_id = cg.id
-        WHERE 1
-    """
+    query = 'SELECT cg.id, COUNT(s.id) ttl FROM core_curadorgroup cg LEFT JOIN core_subscription s ON s.group_id = cg.id WHERE 1 '
     query += ' AND cg.contest_id = ' + str(contest_id)
 
     if exclude:
-        query += """
-            AND cg.id NOT IN ({})
-        """.format(','.join([str(cgid) for cgid in exclude]))
+        query += ' AND cg.id NOT IN ({})'.format(','.join([str(cgid) for cgid in exclude]))
 
-    query += """
-        GROUP BY cg.id
-        ORDER BY ttl, RAND()
-        LIMIT 1
-    """
+    query += ' GROUP BY cg.id ORDER BY ttl, RAND() LIMIT 1'
 
     subs = Subscription.objects.raw(query)
     if subs:
@@ -134,7 +108,7 @@ def get_next_group(contest_id, exclude=None):
         return sub
         
     return random.choice(CuradorGroup.objects.filter(contest=Contest.objects.get(id=contest_id)).all())
-
+"""
 
 def add(request):
     roles = Role.objects.all()

@@ -260,8 +260,8 @@ def run(*args):
             qtd_sub[contest_id] += 1
 
     for contest_id, qtd in qtd_sub.items():
-        for i in range(int(qtd * 0.1)):
-            gen_cadastro('Curador_' + str(contest_id) + '_' + str(i))
+        for i in range(int(qtd * 0.05)):
+            gen_cadastro('Curador_' + str(User.objects.latest('id').id + 1))
 
         if 'groups' in args:
             for i in range(5):

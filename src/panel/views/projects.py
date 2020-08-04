@@ -12,14 +12,12 @@ def index(request):
         items = Subscription.objects.filter(contest_id=3, status=1)
 
     elif request.session['painel']['role'][0] == 1:
-        groups_ids = []
-        urs = UserRole.objects.filter(user_id=request.session['painel']['id'],
-            role_id=1)
+        groups = []
+        urs = UserRole.objects.filter(user_id=request.session['painel']['id'], role_id=1)
         for ur in urs:
-            groups_ids.append(ur.group_id)
+            groups.append(ur.group)
 
-        items = Subscription.objects.filter(contest_id=3, status=1,
-            group_id__in=groups_ids)
+        items = Subscription.objects.filter(contest_id=3, status=1, groups__in=groups).distinct()
 
     for item in items:
         item.data = json.loads(item.data)

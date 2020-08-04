@@ -43,14 +43,12 @@ def index(request):
             items = Subscription.objects.filter(contest_id=2, status=1, folder_id=folder.id if folder is not None else 0)
 
         elif request.session['painel']['role'][0] == 1:
-            groups_ids = []
-            urs = UserRole.objects.filter(user_id=request.session['painel']['id'],
-                role_id=1)
+            groups = []
+            urs = UserRole.objects.filter(user_id=request.session['painel']['id'], role_id=1)
             for ur in urs:
-                groups_ids.append(ur.group_id)
+                groups.append(ur.group)
 
-            items = Subscription.objects.filter(contest_id=2, status=1,
-                group_id__in=groups_ids, folder_id=folder.id)
+            items = Subscription.objects.filter(contest_id=2, status=1, groups__in=groups, folder_id=folder.id).distinct()
 
         for item in items:
             item.data = json.loads(item.data)

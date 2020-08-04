@@ -10,18 +10,17 @@ from rota.settings import UPLOAD_DIR
 def index(request):
     error = None
     msg = None
+    ja_avaliou = None
         
     if request.session['painel']['role'][0] == 0:
         items = Subscription.objects.filter(contest_id=1, status=1)
     elif request.session['painel']['role'][0] == 1:
-        groups_ids = []
-        urs = UserRole.objects.filter(user_id=request.session['painel']['id'],
-            role_id=1)
+        groups = []
+        urs = UserRole.objects.filter(user_id=request.session['painel']['id'], role_id=1)
         for ur in urs:
-            groups_ids.append(ur.group_id)
+            groups.append(ur.group)
 
-        items = Subscription.objects.filter(contest_id=1, status=1,
-            group_id__in=groups_ids)
+        items = Subscription.objects.filter(contest_id=1, status=1, groups__in=groups).distinct()
             
     if request.POST:        
         form = AvaliacaoConcurso(request.POST)
@@ -34,20 +33,21 @@ def index(request):
                 questions[q] = form.cleaned_data.get(q)
             
             subscription = Subscription.objects.get(id=int(request.POST['sub_id']))
-            evaluation, created = Evaluation.objects.update_or_create(subscription=subscription, evaluator_id=request.session['painel']['id'], step=subscription.group.step,
+            evaluation, created = Evaluation.objects.update_or_create(subscription=subscription, evaluator_id=request.session['painel']['id'], step=subscription.contest.step,
                                     defaults={'grades': json.dumps(grades), 'questions': json.dumps(questions)})
             time.sleep(1)
             msg = "Roteiro avaliado com sucesso!"
         else:
-            error = form.errors                
+            error = form.errors
     
     for item in items:
         item.data = json.loads(item.data)
-        if item.group is None:
+        item.ja_avaliou = item.evaluation_set.filter(evaluator_id=request.session['painel']['id'], step=item.contest.step).count()
+        if item.groups is None:
             item.form = AvaliacaoConcurso()
             continue
 
-        outras_avaliacoes = Evaluation.objects.filter(evaluator_id=request.session['painel']['id'], step=item.group.step)
+        outras_avaliacoes = Evaluation.objects.filter(evaluator_id=request.session['painel']['id'], step=item.contest.step)
         for a in outras_avaliacoes.all():
             if a.subscription.contest.id != item.contest.id or a.subscription.id == item.id:
                 continue
@@ -55,14 +55,16 @@ def index(request):
             titulo_indicado = json.loads(a.subscription.data)['title']            
             questions = json.loads(a.questions)
             if questions['indica_roteiro'] == 'sim':
-                item.msg_indicado_roteiro = 'Melhor roteiro: {}'.format(titulo_indicado)
+                item.msg_indicado_roteiro = 'Melhor roteiro: {}'.format(titulo_indicado.replace('\'',' '))
             if questions['indica_personagem'] == 'sim':
-                item.msg_indicado_personagem = 'Melhor Personagem: {}'.format(titulo_indicado)
+                item.msg_indicado_personagem = 'Melhor Personagem: {}'.format(titulo_indicado.replace('\'',' '))
             if questions['indica_dialogo'] == 'sim':
-                item.msg_indicado_dialogo = 'Melhor Diálogo: {}'.format(titulo_indicado)
+                item.msg_indicado_dialogo = 'Melhor Diálogo: {}'.format(titulo_indicado.replace('\'',' '))
+            if questions['premio_cabiria'] == 'sim':
+                item.msg_premio_cabiria = 'Prêmio Cabíria: {}'.format(titulo_indicado.replace('\'',' '))
 
         try:
-            avaliacao = Evaluation.objects.get(subscription=item, evaluator_id=request.session['painel']['id'], step=item.group.step)
+            avaliacao = Evaluation.objects.get(subscription=item, evaluator_id=request.session['painel']['id'], step=item.contest.step)
             grades = json.loads(avaliacao.grades)
             questions = json.loads(avaliacao.questions)            
             item.form = AvaliacaoConcurso(initial={**grades , **questions})            
@@ -71,7 +73,7 @@ def index(request):
 
     return render(request, 'panel/scripts/index.html', {
         'items': items,
-        'msg': msg,        
+        'msg': msg,
         'error': error
     })
 

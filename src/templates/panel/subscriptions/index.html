@@ -1,4 +1,5 @@
 {% extends 'panel/index.html' %}
+{% load helpers %}
 
 {% block title %}<i class="fa fa-id-card"></i>&nbsp; Inscrições{% endblock %}
 
@@ -43,7 +44,7 @@
                         <label class="label label-danger">reprovada</label>
                       {% endif %}
                     </td>
-                    <td>{{ subscription.group.name }}</td>
+                    <td>{{ subscription.group_names|list }}</td>
                     <td>{{ subscription.created_at }}</td>
                 </tr>
             {% endfor %}

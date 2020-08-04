@@ -15,7 +15,7 @@ function atualiza_notas_roteiro(sub_id)
 }
 
 
-function submete_avaliacao_roteiro(sub_id, msg_roteiro, msg_personagem, msg_dialogo)
+function submete_avaliacao_roteiro(sub_id, msg_roteiro, msg_personagem, msg_dialogo, msg_cabiria)
 {    
     form = document.getElementById('avaliacao_form_' + sub_id);
     msg = '';
@@ -25,6 +25,8 @@ function submete_avaliacao_roteiro(sub_id, msg_roteiro, msg_personagem, msg_dial
         msg += msg_personagem + '\n';
     if (form.indica_dialogo.value == 'sim' && msg_dialogo != '')
         msg += msg_dialogo + '\n';
+    if (form.premio_cabiria.value == 'sim' && msg_cabiria != '')
+        msg += msg_cabiria + '\n';
     
     if (msg != '') {
         alert('Você só pode indicar um roteiro para cada categoria. Se quiser mudar sua indicação, desmarque as indicações que fez anteriormente: \n\n' + msg);
