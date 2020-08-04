@@ -401,7 +401,20 @@
         {{ form.argumento.errors }}
       </div>
     </div>
-    
+
+    <div class="form-item small charCounter" style="width:100%">
+      <label>
+        Perfil dos personagens principais
+        <span class="req">*</span>
+      </label>
+      <div class="input">
+        {{ form.personagens }}
+      </div>
+      <div class="error">
+        {{ form.personagens.errors }}
+      </div>
+    </div>
+
     <div class="form-item small charCounter" style="width:100%">
       <label>
         Público alvo

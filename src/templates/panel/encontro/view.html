@@ -62,6 +62,8 @@
 
           <li><strong>Logline</strong> {{ subscription.user_data.logline }}</li>
 
+          <li><strong>Perfil dos personagens</strong><span class="block">{{ subscription.user_data.personagens | linebreaks }}</span></li>
+
           <li>
             <strong>Sinopse</strong>
             <a href="/static/uploads/{{ subscription.user_data.sinopse }}" target="_blank">

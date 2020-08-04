@@ -104,6 +104,8 @@ class Encontro(forms.Form):
 
     argumento = forms.FileField()
 
+    personagens = forms.CharField(max_length=2500, widget=forms.Textarea)
+
     publico_alvo = forms.CharField(max_length=1000, widget=forms.Textarea)
 
     biografia = forms.CharField(max_length=500, widget=forms.Textarea)
