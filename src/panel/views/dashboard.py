@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from core.models import Subscription, Order, UserRole
+from panel.utils import ficha_avaliacao
 from datetime import datetime, timedelta
 
 
@@ -19,7 +20,9 @@ def admin_login(request):
 
         user = authenticate(request, username=email, password=password)
         role = None
-        contest_ids = []
+        contest_id = None
+        step = None
+        ficha = None
 
         if user:
             if user.is_superuser:
@@ -28,28 +31,35 @@ def admin_login(request):
                 ur = UserRole.objects.filter(user_id=user.id)
                 if ur:
                     role = (ur[0].role.id, ur[0].role.name)
-                    for u in ur:
-                        contest_ids.append(u.contest_id)
+                    contest_id = ur[0].contest_id
+                    step = ur[0].group.step
         
         if role:
+            ficha = ficha_avaliacao(contest_id, role[0], step)
             request.session['painel'] = {
                 'id': user.id,
                 'email': user.email,
                 'name': user.first_name,
                 'role': role,
+                'contest': contest_id,
+                'step': step,
                 'is_admin': role[0] == 0,
-                'is_avaliador': role[0] > 0,
-                'view_roteiros': 1 in contest_ids,
-                'view_encontro': 2 in contest_ids,
-                'view_projetos': 3 in contest_ids,
+                'is_vip': role[0] > 0,
+                'is_avaliador': True if ficha else False,                
+                'view_roteiros': contest_id == 1,
+                'view_encontro': contest_id == 2,
+                'view_projetos': contest_id == 3,
+                'view_mostra': contest_id == 4,
             }
-            
+                    
             url = ''
-            if request.session['painel']['is_avaliador']:
+            if request.session['painel']['is_vip']:
                 if request.session['painel']['view_projetos']:
                     url = '/projetos'
                 elif request.session['painel']['view_encontro']:
                     url = '/encontro'
+                elif request.session['painel']['view_mostra']:
+                    url = '/curtas'
                 else:
                     url = '/roteiros'
 

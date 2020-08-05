@@ -21,7 +21,7 @@ def index(request):
         for group in groups:
             res[i].append({
                 'group': group,
-                'members': UserRole.objects.filter(role_id=1, group=group),
+                'members': UserRole.objects.filter(role_id__gte=1, group=group),
                 'roteiros': Subscription.objects.filter(groups__in=[group]).count()
             })
 

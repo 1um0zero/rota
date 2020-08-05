@@ -24,7 +24,7 @@
     {% for item in items %}
       <div class="col-md-2">
         <div class="box">          
-          <div class="box-body no-padding" style="text-align:center">
+          <div class="box-body" style="text-align:center">
             {% if item.ja_avaliou %}
               <i style="float: right; color:gold" class="fa fa-star" title="Roteiro já avaliado"></i>
             {% endif %}
@@ -41,11 +41,11 @@
               <br>&nbsp;
              </a>
              {% if request.session.painel.is_avaliador %}
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliacao_{{item.id}}">
-                {% if item.ja_avaliou %} Alterar avaliação {% else %} Avaliar {% endif %}
+              <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 5px; margin-top: 5px;" data-toggle="modal" data-target="#avaliacao_{{item.id}}">
+                <i class="fa fa-star"></i>&nbsp;{% if item.ja_avaliou %} Alterar avaliação {% else %} Avaliar {% endif %}
               </button>
              {% endif %}
-             {% include 'panel/avaliacoes/ficha_concurso.html' with sub=item form=item.form  %}
+             {% include 'panel/avaliacoes/ficha_concurso.html' with sub=item form=item.form step=step  %}
              <script>
                atualiza_notas_roteiro({{item.id}});
              </script>
