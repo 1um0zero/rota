@@ -43,11 +43,12 @@ def index(request):
     
     for item in items:
         item.data = json.loads(item.data)
-        item.ja_avaliou = item.evaluation_set.filter(evaluator_id=request.session['painel']['id'], step=request.session['painel']['step'], role_id=request.session['painel']['role'][0]).count()
-        if item.groups is None:
+        
+        if item.groups is None or request.session['painel']['role'][0] == 0:
             item.form = AvaliacaoConcurso()
             continue
-
+        
+        item.ja_avaliou = item.evaluation_set.filter(evaluator_id=request.session['painel']['id'], step=request.session['painel']['step'], role_id=request.session['painel']['role'][0]).count()
         outras_avaliacoes = Evaluation.objects.filter(evaluator_id=request.session['painel']['id'], step=request.session['painel']['step'], role_id=request.session['painel']['role'][0])
         for a in outras_avaliacoes.all():
             if a.subscription.contest.id != item.contest.id or a.subscription.id == item.id:
