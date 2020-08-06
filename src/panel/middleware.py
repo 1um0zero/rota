@@ -20,6 +20,7 @@ def auth(get_response):
                     urls = [
                         '^/painel/roteiros',
                         '^/painel/projetos',
+                        '^/painel/curtas',
                         '^/painel/encontro'
                     ]
                     if request.path != '/painel/':

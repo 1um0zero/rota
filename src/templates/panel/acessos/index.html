@@ -78,28 +78,30 @@
 
   <div class="box-body">
     <div class="nav-tabs-custom">
-      <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab_1" data-toggle="tab">Concurso de Roteiros de Curtas</a></li>
-        <li><a href="#tab_2" data-toggle="tab">Encontro de Negócios</a></li>
-        <li><a href="#tab_3" data-toggle="tab">Laboratório de Projetos de Série</a></li>
+      <ul class="nav nav-tabs">        
+        <li {% if active == 1 %} class="active" {% endif %}><a href="#tab_1" data-toggle="tab">Concurso de Roteiros de Curtas</a></li>
+        <li {% if active == 2 %} class="active" {% endif %}><a href="#tab_2" data-toggle="tab">Encontro de Negócios</a></li>
+        <li {% if active == 3 %} class="active" {% endif %}><a href="#tab_3" data-toggle="tab">Laboratório de Projetos de Série</a></li>
+        <li {% if active == 4 %} class="active" {% endif %}><a href="#tab_4" data-toggle="tab">Mostra de Curtas</a></li>
       </ul>
       <div class="tab-content">
 
-        <div class="tab-pane active" id="tab_1">
+        {% for id, contest in contests.items %}
+        <div class="tab-pane {% if active == id %} active {% endif %}" id="tab_{{id}}">
           <div style="margin-bottom:10px;text-align:right;">
-            <a class="btn btn-primary" href="/painel/acessos/add?contest_id=1">
+            <a class="btn btn-primary" href="/painel/acessos/add?contest_id={{id}}&active={{id}}">
               <i class="fa fa-key"></i>&nbsp;&nbsp; Adicionar curador
             </a>            
-            <a class="btn btn-primary" href="/painel/acessos?distribute=1&contest_id=1">
+            <a class="btn btn-primary" href="/painel/acessos?distribute=1&contest_id={{id}}&active={{id}}">
               <i class="fa fa-paste"></i>&nbsp;&nbsp; Distribuir projetos
             </a>
           </div>
           <div style="display:flex;flex-wrap:wrap">
-            {% for group in res.1 %}
+            {% for group in contest %}
             <div class="curadoria_group">
               <div class="wrap">
                 <h4>Grupo {{ group.group.name }}</h4>
-                <div class="qtd">{{ group.roteiros }} roteiros</div>
+                <div class="qtd">{{ group.roteiros }} {% if id == 1 %}roteiros{% elif id == 4 %}filmes{% else %}projetos{% endif %}</div>
                 <div class="info">
                   {% for ur in group.members %}
                   <div class="member">
@@ -117,7 +119,8 @@
             {% endfor %}
           </div>
         </div>
-
+        {% endfor %}
+<!--
         <div class="tab-pane" id="tab_2">
           <div style="margin-bottom:10px;text-align:right">
             <a class="btn btn-primary" href="/painel/acessos/add?contest_id=2">
@@ -183,7 +186,7 @@
             {% endfor %}
           </div>
         </div>
-
+      -->
       </div>
     </div>
 

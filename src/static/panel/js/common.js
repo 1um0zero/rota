@@ -1,9 +1,8 @@
 
-function atualiza_notas_roteiro(sub_id)
-{ 
-  var campos_notas = ['estrutura_narrativa','trama','personagens','dialogos','originalidade'];
-  total_valor = 0;      
-  campos = document.getElementById('avaliacao_form_' + sub_id).elements;
+function atualiza_notas(sub_id, campos_notas)
+{   
+  var total_valor = 0;      
+  var campos = document.getElementById('avaliacao_form_' + sub_id).elements;
   for (var i = 0, c; c = campos[i++];) {
       if (campos_notas.includes(c.name) && c.checked) {
           document.getElementById('nota_' + c.name + '_' + sub_id).innerHTML = c.value;
@@ -15,23 +14,32 @@ function atualiza_notas_roteiro(sub_id)
 }
 
 
-function submete_avaliacao_roteiro(sub_id, msg_roteiro, msg_personagem, msg_dialogo, msg_cabiria)
-{    
-    form = document.getElementById('avaliacao_form_' + sub_id);
-    msg = '';
-    if (form.indica_roteiro.value == 'sim' && msg_roteiro != '')
-        msg += msg_roteiro + '\n';
-    if (form.indica_personagem.value == 'sim' && msg_personagem != '')
-        msg += msg_personagem + '\n';
-    if (form.indica_dialogo.value == 'sim' && msg_dialogo != '')
-        msg += msg_dialogo + '\n';
-    if (form.premio_cabiria.value == 'sim' && msg_cabiria != '')
-        msg += msg_cabiria + '\n';
+function submete_avaliacao(sub_id, msg_indicados)
+{
+    var msg_temp = '';
+    var indicados = JSON.parse(msg_indicados);
+    var form = document.getElementById('avaliacao_form_' + sub_id);
+    var elementos_form = document.getElementById('avaliacao_form_' + sub_id).elements;
+    var campos = new Set();
+    for (var i = 0, e; e = elementos_form[i++];) { 
+        campos.add(e.name);
+    }
+
+    console.log(campos);
+    for (let c of campos) {        
+        if (Object.keys(indicados).includes(c) && form[c].value == 'sim') {
+            msg_temp += indicados[c] + '\n';            
+        }
+    }
     
-    if (msg != '') {
-        alert('Você só pode indicar um roteiro para cada categoria. Se quiser mudar sua indicação, desmarque as indicações que fez anteriormente: \n\n' + msg);
+    if (msg_temp != '') {
+        alert('Você atingiu o limite máximo de indicações nas categorias abaixo. Se quiser mudar sua indicação, desmarque as indicações que fez anteriormente: \n\n' + msg_temp);
         return;
     }
 
     form.submit();
+}
+
+function atualiza_notas_roteiro(sub_id) {
+    atualiza_notas(sub_id, ['estrutura_narrativa','trama','personagens','dialogos','originalidade']);
 }

@@ -48,6 +48,11 @@ class AvaliacaoConcursoJur(forms.Form):
 
 class AvaliacaoConcursoCabiria(forms.Form):
     indica_roteiro = forms.ChoiceField(label='Indica este roteiro para ser o vencedor do Prêmio Cabíria?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
+    def get_grades(self):
+        return []
+    
+    def get_questions(self):
+        return ['indica_roteiro']
 
 
 class AvaliacaoLab(forms.Form):
@@ -89,7 +94,16 @@ class AvaliacaoMostra(forms.Form):
 class AvaliacaoMostraJur(forms.Form):
     indica_ficcao = forms.ChoiceField(label='Indica este filme para a categoria de Melhor Ficção?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
     indica_doc = forms.ChoiceField(label='Indica este filme para a categoria de Melhor Documentário?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
-
+    def get_grades(self):
+        return []
+    
+    def get_questions(self):
+        return ['indica_ficcao', 'indica_doc']
 
 class AvaliacaoMostraSina(forms.Form):
     indica_curta = forms.ChoiceField(label='Indica este filme para ser o vencedor do Prêmio Rede Sina?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
+    def get_grades(self):
+        return []
+    
+    def get_questions(self):
+        return ['indica_curta']

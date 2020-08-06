@@ -51,7 +51,7 @@ def admin_login(request):
                 'view_projetos': contest_id == 3,
                 'view_mostra': contest_id == 4,
             }
-                    
+            
             url = ''
             if request.session['painel']['is_vip']:
                 if request.session['painel']['view_projetos']:
@@ -81,12 +81,12 @@ def admin_logout(request):
 def index(request):
 
     if not request.session['painel']['is_admin']:
-        if ('view_projetos' in request.session['painel']
-                and request.session['painel']['view_projetos']):
+        if ('view_projetos' in request.session['painel'] and request.session['painel']['view_projetos']):
             return redirect('/painel/projetos')
-        elif ('view_encontro' in request.session['painel']
-                and request.session['painel']['view_encontro']):
+        elif ('view_encontro' in request.session['painel'] and request.session['painel']['view_encontro']):
             return redirect('/painel/encontro')
+        elif ('view_mostra' in request.session['painel'] and request.session['painel']['view_mostra']):
+            return redirect('/painel/curtas')
         return redirect('/painel/roteiros')
 
     qt_users = User.objects.all().count()

@@ -127,16 +127,19 @@
                 </a>
               </li>
               -->
-              <li class="">
-                <a href="/painel/curtas">
-                  <i class="fa fa-video"></i> <span>Curtas</span>
-                </a>
-              </li>
-              
+                            
             {% endif %}
 
             {% if request.session.painel.is_admin or request.session.painel.is_vip %}
               
+              {% if request.session.painel.is_admin or request.session.painel.view_mostra %}
+                <li class="">
+                  <a href="/painel/curtas">
+                    <i class="fa fa-video"></i> <span>Curtas</span>
+                  </a>
+                </li>
+              {% endif %}
+
               {% if request.session.painel.is_admin or request.session.painel.view_roteiros %}
                 <li class="">
                   <a href="/painel/roteiros">
