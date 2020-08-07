@@ -3,8 +3,7 @@ import json
 import time
 from django.shortcuts import render, HttpResponse
 from core.models import Script, Subscription, UserRole, Evaluation
-from panel.forms.avaliacao import AvaliacaoConcurso
-from panel.utils import prepara_avaliacao, salva_avaliacao
+from panel.utils import prepara_avaliacao, salva_avaliacao, verifica_indicados
 from rota.settings import UPLOAD_DIR
 
 
@@ -31,12 +30,14 @@ def index(request):
         item.data = json.loads(item.data)
 
     items = prepara_avaliacao(items, request.session['painel'])
+    indicados = verifica_indicados(request.session['painel'])
 
     return render(request, 'panel/scripts/index.html', {
         'items': items,
         'msg': msg,
         'step': request.session['painel']['step'],
-        'error': error
+        'error': error,
+        'indicados': indicados
     })
 
 

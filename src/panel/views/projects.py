@@ -2,13 +2,15 @@ import os
 import json
 from django.shortcuts import render, HttpResponse
 from core.models import Script, Subscription, UserRole
+from panel.utils import prepara_avaliacao, salva_avaliacao, verifica_indicados
 from rota.settings import UPLOAD_DIR
 
 
 def index(request):
+    error = None
+    msg = None
     
     if request.session['painel']['role'][0] == 0:
-
         items = Subscription.objects.filter(contest_id=3, status=1)
 
     elif request.session['painel']['role'][0] > 0:
@@ -19,10 +21,23 @@ def index(request):
 
         items = Subscription.objects.filter(contest_id=3, status=1, groups__in=groups).distinct()
 
+    if request.POST:
+        error = salva_avaliacao(request.POST, request.session['painel'])
+        if not error:
+            msg = 'Projeto avaliado com sucesso!'
+
     for item in items:
         item.data = json.loads(item.data)
+    
+    items = prepara_avaliacao(items, request.session['painel'])
+    indicados = verifica_indicados(request.session['painel'])
+
     return render(request, 'panel/projects/index.html', {
-        'items': items
+        'items': items,
+        'msg': msg,
+        'step': request.session['painel']['step'],
+        'error': error,
+        'indicados': indicados
     })
 
 

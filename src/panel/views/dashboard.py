@@ -24,11 +24,11 @@ def admin_login(request):
         step = None
         ficha = None
 
-        if user:
+        if user:            
             if user.is_superuser:
                 role = (0, 'Administrador(a)')
             else:
-                ur = UserRole.objects.filter(user_id=user.id)
+                ur = UserRole.objects.filter(user_id=user.id)                
                 if ur:
                     role = (ur[0].role.id, ur[0].role.name)
                     contest_id = ur[0].contest_id

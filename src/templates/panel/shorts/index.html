@@ -8,40 +8,70 @@
     <div class="col-md-12">
 
       {% if msg %}
-         <div class="alert alert-success alert-dismissible">
+        <div class="alert alert-success alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <h4 style="margin:0"><i class="icon fa fa-check"></i> {{ msg }}</h4>
         </div>
       {% endif %}
+      {% if error %}
+        <div class="alert alert-danger alert-dismissible">
+          <i class="icon fa fa-exclamation-triangle"></i> Sua avaliação não foi salva pois contém os seguintes erros:
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{ error }}
+        </div>
+      {% endif %}
 
-      {% for short in shorts %}
+      <h4>Listando {{ items | length }} filmes</h4>
+      {% if indicados %}
+        <h4>Indicados por você:</h4>
+        {% for lst_msg in indicados.values %}
+          {% for msg in lst_msg %}
+            <i class="icon fa fa-check"></i>&nbsp;&nbsp;{{msg}}<br>
+          {% endfor %}
+        {% endfor %}
+      {% endif %}
+
+      {% for item in items %}
         <div class="col-lg-4">
-          <div class="box" style="">
-            <div class="box-body no-padding">
-              {% if short.user_data.url|is_youtube %}
+          <div class="box">
+            <div class="box-body" style="text-align:center">
+              {% if item.ja_avaliou %}
+                <i style="float: right; color:gold" class="fa fa-star" title="Filme já avaliado"></i>
+              {% endif %}
+              {% if item.data.url|is_youtube %}
                 <iframe class="youtube_iframe" width="100%"
-                    src="{{ short.user_data.url | youtube }}&t=1"
+                    src="{{ item.data.url | youtube }}&t=1"
                     frameborder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
+                    allowfullscreen style="margin-top: 10px;"></iframe>
               {% else %}
                 vimeo
               {% endif %}
             </div>
-            <div class="box-footer no-padding">
+            <div class="box-footer" style="text-align:center">
                 <div style="padding:5px">
+                    <h4>{{item.data.titulo}}</h4>
                     <div>
                         Enviado por: 
-                        {% if short.user.first_name %}
-                          {{ short.user.first_name }}
+                        {% if item.user.first_name %}
+                          {{ item.user.first_name }}
                         {% else %}
-                          {{ short.user.email }}
+                          {{ item.user.email }}
                         {% endif %}
                     </div>
                     <div style="height:40px">
-                        <a href="{{ short.url }}">{{ short.url }}</a>
+                        <a href="{{ item.url }}">{{ item.url }}</a>
                     </div>
                 </div>
+                {% if request.session.painel.is_avaliador %}
+                    <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 5px; margin-top: 5px;" data-toggle="modal" data-target="#avaliacao_{{item.id}}">
+                      <i class="fa fa-star"></i>&nbsp;{% if item.ja_avaliou %} Alterar avaliação {% else %} Avaliar {% endif %}
+                    </button>
+                    {% include 'panel/avaliacoes/'|add:item.form.get_template with sub=item form=item.form step=step  %}
+                    <script>
+                      atualiza_notas_mostra({{item.id}});
+                    </script>
+                {% endif %}
             </div>
           </div>
         </div>

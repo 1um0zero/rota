@@ -5,7 +5,7 @@ class AvaliacaoConcurso(forms.Form):
     trama = forms.FloatField(label='Qualidade da Trama', min_value=0)
     personagens = forms.FloatField(label='Qualidade dos Personagens', min_value=0)
     dialogos = forms.FloatField(label='Qualidade dos Diálogos', min_value=0)
-    originalidade = forms.FloatField(label='Originalidade*', min_value=0)
+    originalidade = forms.FloatField(label='Originalidade', min_value=0)
     
     protagonista_feminina = forms.ChoiceField(label='Tem protagonista feminina?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
     premio_cabiria = forms.ChoiceField(label='Indicaria esta protagonista para o Prêmio Cabíria?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
@@ -23,6 +23,9 @@ class AvaliacaoConcurso(forms.Form):
     
     def get_questions(self):
         return ['protagonista_feminina','premio_cabiria','nome_prot_feminina','pesquisa','indica_roteiro','indica_personagem','indica_dialogo']
+    
+    def get_template(self):
+        return 'ficha_concurso.html'
 
 
 class AvaliacaoConcursoJur(forms.Form):
@@ -30,7 +33,7 @@ class AvaliacaoConcursoJur(forms.Form):
     trama = forms.FloatField(label='Qualidade da Trama', min_value=0)
     personagens = forms.FloatField(label='Qualidade dos Personagens', min_value=0)
     dialogos = forms.FloatField(label='Qualidade dos Diálogos', min_value=0)
-    originalidade = forms.FloatField(label='Originalidade*', min_value=0)
+    originalidade = forms.FloatField(label='Originalidade', min_value=0)
     
     pesquisa = forms.CharField(label='PESQUISA ROTA: Qual o tema principal desenvolvido pelo roteiro?', max_length=300, required=False,
                             widget=forms.TextInput(attrs={'class': 'avaliacao_texto'}))
@@ -45,6 +48,9 @@ class AvaliacaoConcursoJur(forms.Form):
     def get_questions(self):
         return ['pesquisa','indica_roteiro','indica_personagem','indica_dialogo']
 
+    def get_template(self):
+        return 'ficha_concurso_jur.html'
+
 
 class AvaliacaoConcursoCabiria(forms.Form):
     indica_roteiro = forms.ChoiceField(label='Indica este roteiro para ser o vencedor do Prêmio Cabíria?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
@@ -54,21 +60,47 @@ class AvaliacaoConcursoCabiria(forms.Form):
     def get_questions(self):
         return ['indica_roteiro']
 
+    def get_template(self):
+        return 'ficha_cabiria.html'
+
 
 class AvaliacaoLab(forms.Form):
     clareza = forms.FloatField(label='Clareza do Projeto', min_value=0)
     originalidade = forms.FloatField(label='Originalidade/Inventividade', min_value=0)
     universo = forms.FloatField(label='Domínio do universo', min_value=0)
     personagens = forms.FloatField(label='Construção dos personagens', min_value=0)
-    atualidade = forms.FloatField(label='Relevância/atualidade*', min_value=0)
+    atualidade = forms.FloatField(label='Relevância/atualidade', min_value=0)
     
     indica_projeto = forms.ChoiceField(label='Aprovado para a próxima etapa? Recomendamos que a nota dos aprovados não seja inferior a 7,0', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
+    indica_suplente = forms.ChoiceField(label='Indica este projeto para a próxima etapa como um suplente?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
     
     def get_grades(self):
         return ['clareza', 'originalidade', 'universo', 'personagens', 'atualidade']
     
     def get_questions(self):
+        return ['indica_projeto', 'indica_suplente']
+    
+    def get_template(self):
+        return 'ficha_lab.html'
+
+
+class AvaliacaoLab2(forms.Form):
+    clareza = forms.FloatField(label='Clareza do Projeto', min_value=0)
+    originalidade = forms.FloatField(label='Originalidade/Inventividade', min_value=0)
+    universo = forms.FloatField(label='Domínio do universo', min_value=0)
+    personagens = forms.FloatField(label='Construção dos personagens', min_value=0)
+    atualidade = forms.FloatField(label='Relevância/atualidade', min_value=0)
+    
+    indica_projeto = forms.ChoiceField(label='Aprovado para a próxima etapa? Recomendamos que a nota dos aprovados não seja inferior a 7,0', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
+        
+    def get_grades(self):
+        return ['clareza', 'originalidade', 'universo', 'personagens', 'atualidade']
+    
+    def get_questions(self):
         return ['indica_projeto']
+
+    def get_template(self):
+        return 'ficha_lab2.html'
 
 
 class AvaliacaoMostra(forms.Form):
@@ -76,12 +108,12 @@ class AvaliacaoMostra(forms.Form):
     trama = forms.FloatField(label='Qualidade da Trama', min_value=0)
     personagens = forms.FloatField(label='Qualidade dos Personagens', min_value=0)
     dialogos = forms.FloatField(label='Qualidade dos Diálogos', min_value=0)
-    originalidade = forms.FloatField(label='Originalidade*', min_value=0)
+    originalidade = forms.FloatField(label='Originalidade', min_value=0)
 
     indica_curta = forms.ChoiceField(label='Seleciona este filme para a Mostra?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)    
     tematica_social = forms.ChoiceField(label='Tem temática social relevante?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
     premio_sina = forms.ChoiceField(label='Indicaria para o Prêmio REDE SINA de Temática Social?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)    
-    pesquisa = forms.CharField(label='PESQUISA ROTA: Qual o tema principal desenvolvido pelo roteiro?', max_length=300, required=False,
+    pesquisa = forms.CharField(label='PESQUISA ROTA: Qual o tema principal desenvolvido pelo filme?', max_length=300, required=False,
                             widget=forms.TextInput(attrs={'class': 'avaliacao_texto'}))
             
     def get_grades(self):
@@ -89,6 +121,9 @@ class AvaliacaoMostra(forms.Form):
     
     def get_questions(self):
         return ['indica_curta', 'tematica_social', 'premio_sina', 'pesquisa']
+    
+    def get_template(self):
+        return 'ficha_mostra.html'
     
 
 class AvaliacaoMostraJur(forms.Form):
@@ -99,11 +134,18 @@ class AvaliacaoMostraJur(forms.Form):
     
     def get_questions(self):
         return ['indica_ficcao', 'indica_doc']
+    
+    def get_template(self):
+        return 'ficha_mostra_jur.html'
+
 
 class AvaliacaoMostraSina(forms.Form):
-    indica_curta = forms.ChoiceField(label='Indica este filme para ser o vencedor do Prêmio Rede Sina?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
+    indica_curta = forms.ChoiceField(label='Indica este filme para ser o vencedor do Prêmio Rede Sina de temática social?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
     def get_grades(self):
         return []
     
     def get_questions(self):
         return ['indica_curta']
+
+    def get_template(self):
+        return 'ficha_mostra_sina.html'

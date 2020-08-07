@@ -19,6 +19,14 @@
   {% endif %}
 
   <h4>Listando {{ items | length }} roteiros</h4>
+  {% if indicados %}
+    <h4>Indicados por você:</h4>
+    {% for lst_msg in indicados.values %}
+      {% for msg in lst_msg %}
+        <i class="icon fa fa-check"></i>&nbsp;&nbsp;{{msg}}<br>
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
 
   <div class="row" style="display:flex;flex-wrap:wrap">
     {% for item in items %}
@@ -41,14 +49,14 @@
               <br>&nbsp;
              </a>
              {% if request.session.painel.is_avaliador %}
-              <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 5px; margin-top: 5px;" data-toggle="modal" data-target="#avaliacao_{{item.id}}">
-                <i class="fa fa-star"></i>&nbsp;{% if item.ja_avaliou %} Alterar avaliação {% else %} Avaliar {% endif %}
-              </button>
+                <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 5px; margin-top: 5px;" data-toggle="modal" data-target="#avaliacao_{{item.id}}">
+                  <i class="fa fa-star"></i>&nbsp;{% if item.ja_avaliou %} Alterar avaliação {% else %} Avaliar {% endif %}
+                </button>
+                {% include 'panel/avaliacoes/'|add:item.form.get_template with sub=item form=item.form step=step  %}
+                <script>
+                  atualiza_notas_roteiro({{item.id}});
+                </script>
              {% endif %}
-             {% include 'panel/avaliacoes/ficha_concurso.html' with sub=item form=item.form step=step  %}
-             <script>
-               atualiza_notas_roteiro({{item.id}});
-             </script>
           </div>
         </div>
       </div>

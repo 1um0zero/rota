@@ -15,7 +15,7 @@
                 </h5>
             </div>
             <div class="modal-body">
-                <strong>NOME DO CURADOR:</strong> {{request.session.painel.name}} 
+                <strong>NOME DO {{request.session.painel.role.1|upper}}:</strong> {{request.session.painel.name}} 
                 <!--<strong>GRUPO:</strong> {{sub.group.name}}-->
                 <br><br>
                 <table class="ficha_avaliacao">
@@ -63,7 +63,7 @@
                         <td id="nota_dialogos_{{sub.id}}"></td>
                     </tr>    
                     <tr>
-                        <td style="text-align:left">{{form.originalidade.label}}</td>
+                        <td style="text-align:left">{{form.originalidade.label}} *</td>
                         <td colspan="2"><input type="radio" name="originalidade" value="2" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.originalidade.value == 2 %} checked {% endif %}>Sim</td>
                         <td colspan="2"><input type="radio" name="originalidade" value="0" onclick="atualiza_notas_roteiro({{sub.id}});" {% if form.originalidade.value == 0 %} checked {% endif %}>Não</td>
                         <td id="nota_originalidade_{{sub.id}}"></td>
@@ -74,21 +74,21 @@
                     </tr>
                     <tr>
                         <td colspan="6" style="text-align:left">
-                            {{form.indica_roteiro.label}}**&nbsp;&nbsp;&nbsp;                            
+                            {{form.indica_roteiro.label}} **&nbsp;&nbsp;&nbsp;                            
                             <input type="radio" name="indica_roteiro" value="sim" {% if form.indica_roteiro.value == 'sim' %} checked {% endif %}>Sim&nbsp;
                             <input type="radio" name="indica_roteiro" value="nao" {% if form.indica_roteiro.value == 'nao' %} checked {% endif %}>Não                            
                         </td>
                     </tr>
                     <tr>
                         <td colspan="6" style="text-align:left">
-                            {{form.indica_personagem.label}}**&nbsp;&nbsp;&nbsp;
+                            {{form.indica_personagem.label}} **&nbsp;&nbsp;&nbsp;
                             <input type="radio" name="indica_personagem" value="sim" {% if form.indica_personagem.value == 'sim' %} checked {% endif %}>Sim&nbsp;
                             <input type="radio" name="indica_personagem" value="nao" {% if form.indica_personagem.value == 'nao' %} checked {% endif %}>Não
                         </td>
                     </tr>
                     <tr>
                         <td colspan="6" style="text-align:left">
-                            {{form.indica_dialogo.label}}**&nbsp;&nbsp;&nbsp;
+                            {{form.indica_dialogo.label}} **&nbsp;&nbsp;&nbsp;
                             <input type="radio" name="indica_dialogo" value="sim" {% if form.indica_dialogo.value == 'sim' %} checked {% endif %}>Sim&nbsp;
                             <input type="radio" name="indica_dialogo" value="nao" {% if form.indica_dialogo.value == 'nao' %} checked {% endif %}>Não
                         </td>
