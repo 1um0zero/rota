@@ -1,7 +1,7 @@
 import json
 from statistics import mean
 from django.shortcuts import render, HttpResponse
-from core.models import Evaluation, Subscription
+from core.models import Evaluation, Subscription, UserProfile
 
 def index(request):
     categorias_roteiro_1 = [
@@ -25,13 +25,15 @@ def index(request):
                     continue
 
                 notas.append(sum([v for k,v in json.loads(av.grades).items()]))
-                avaliadores.append(av.evaluator.first_name)
+                user_profile = UserProfile.objects.get(user=av.evaluator)
+                avaliadores.append(user_profile.get_name())
             
             if len(notas) == 0:
                 continue
 
             media = mean(notas)
-            cat['projetos'].append({'id': insc.id, 'data': json.loads(insc.data), 'autor': insc.user.first_name, 'media': media, 'avaliadores': avaliadores})
+            user_profile = UserProfile.objects.get(user=insc.user)
+            cat['projetos'].append({'id': insc.id, 'data': json.loads(insc.data), 'autor': user_profile.get_name(), 'media': media, 'avaliadores': avaliadores})
 
         if len(cat['projetos']) > 0:
             cat['projetos'].sort(reverse=True, key=lambda x: x['media'])

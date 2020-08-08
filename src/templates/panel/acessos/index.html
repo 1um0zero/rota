@@ -120,73 +120,7 @@
           </div>
         </div>
         {% endfor %}
-<!--
-        <div class="tab-pane" id="tab_2">
-          <div style="margin-bottom:10px;text-align:right">
-            <a class="btn btn-primary" href="/painel/acessos/add?contest_id=2">
-              <i class="fa fa-key"></i>&nbsp;&nbsp; Adicionar curador
-            </a>
-            <a class="btn btn-primary" href="/painel/acessos?distribute=1&contest_id=2">
-              <i class="fa fa-paste"></i>&nbsp;&nbsp; Distribuir projetos
-            </a>
-          </div>
-          <div style="display:flex;flex-wrap:wrap">
-            {% for group in res.2 %}
-            <div class="curadoria_group">
-              <div class="wrap">
-                <h4>Grupo {{ group.group.name }}</h4>
-                <div class="qtd">{{ group.roteiros }} projetos</div>
-                <div class="info">
-                  {% for ur in group.members %}
-                  <div class="member">
-                    <span title="{{ ur.user.email }}">{{ ur.user.first_name }}</span>
-                    <a href="/painel/acessos/del/{{ ur.id }}"
-                       style="color:#f33; float:right"
-                       onclick="return confirm('Tem certeza que deseja remover esse acesso?')">
-                      remover acesso
-                    </a>
-                  </div>
-                  {% endfor %}
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
 
-        <div class="tab-pane" id="tab_3">
-          <div style="margin-bottom:10px;text-align:right">
-            <a class="btn btn-primary" href="/painel/acessos/add?contest_id=3">
-              <i class="fa fa-key"></i>&nbsp;&nbsp; Adicionar curador
-            </a>
-            <a class="btn btn-primary" href="/painel/acessos?distribute=1&contest_id=3">
-              <i class="fa fa-paste"></i>&nbsp;&nbsp; Distribuir projetos
-            </a>
-          </div>
-          <div style="display:flex;flex-wrap:wrap">
-            {% for group in res.3 %}
-            <div class="curadoria_group">
-              <div class="wrap">
-                <h4>Grupo {{ group.group.name }}</h4>
-                <div class="qtd">{{ group.roteiros }} projetos</div>
-                <div class="info">
-                  {% for ur in group.members %}
-                  <div class="member">
-                    <span title="{{ ur.user.email }}">{{ ur.user.first_name }}</span>
-                    <a href="/painel/acessos/del/{{ ur.id }}"
-                       style="color:#f33; float:right"
-                       onclick="return confirm('Tem certeza que deseja remover esse acesso?')">
-                      remover acesso
-                    </a>
-                  </div>
-                  {% endfor %}
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-      -->
       </div>
     </div>
 

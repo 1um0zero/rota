@@ -2,7 +2,7 @@ from django.db.models import Sum
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from core.models import Subscription, Order, UserRole
+from core.models import Subscription, Order, UserRole, UserProfile
 from panel.utils import ficha_avaliacao
 from datetime import datetime, timedelta
 
@@ -36,10 +36,11 @@ def admin_login(request):
         
         if role:
             ficha = ficha_avaliacao(contest_id, role[0], step)
+            user_profile = UserProfile.objects.get(user=user)
             request.session['painel'] = {
                 'id': user.id,
                 'email': user.email,
-                'name': user.first_name,
+                'name': user_profile.get_name(),
                 'role': role,
                 'contest': contest_id,
                 'step': step,

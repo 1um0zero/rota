@@ -3,7 +3,7 @@ import random
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User
 from django.db.models import Q, Count
-from core.models import Role, UserRole, Subscription, CuradorGroup, Contest
+from core.models import Role, UserRole, Subscription, CuradorGroup, Contest, UserProfile
 
 def index(request):
     admins = User.objects.filter(is_superuser=True)
@@ -104,7 +104,7 @@ def search(request):
     if request.POST:
         user = request.POST['user']
         if user:
-            for user in User.objects.filter(Q(email__icontains=user) | Q(first_name__icontains=user))[:10]:
+            for user in User.objects.filter(Q(email__icontains=user) | Q(first_name__icontains=user))[:10]:                
                 data.append({
                     'id': user.id,
                     'name': user.first_name,
