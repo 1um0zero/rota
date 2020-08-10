@@ -45,8 +45,15 @@ def youtube(url):
     if 'youtube' not in url and 'youtu.be' not in url:
         url = 'about:blank'
     return url
-
 register.filter('youtube', youtube)
+
+
+def vimeo(url):
+    res = re.findall(r'vimeo.com/([0-9]*)', url)
+    if res:
+        return 'https://player.vimeo.com/video/' + res[0] + '?title=0&byline=0&portrait=0'
+    return url    
+register.filter('vimeo', vimeo)
 
 
 def pagseguro_status(status):
@@ -119,8 +126,16 @@ def uppercase(text):
     return text.upper()
 register.filter('uppercase', uppercase)
 
+
 def is_youtube(url):
     if re.findall(r'(youtube|youtu.be)', url):
         return True
     return False
 register.filter('is_youtube', is_youtube)
+
+
+def is_vimeo(url):
+    if re.findall(r'(vimeo)', url):
+        return True
+    return False
+register.filter('is_vimeo', is_vimeo)

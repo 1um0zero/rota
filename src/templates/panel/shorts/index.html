@@ -39,13 +39,15 @@
                 <i style="float: right; color:gold" class="fa fa-star" title="Filme já avaliado"></i>
               {% endif %}
               {% if item.data.url|is_youtube %}
-                <iframe class="youtube_iframe" width="100%"
-                    src="{{ item.data.url | youtube }}&t=1"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen style="margin-top: 10px;"></iframe>
+                <iframe class="youtube_iframe" width="100%" src="{{ item.data.url | youtube }}" 
+                  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin-top: 10px;">
+                </iframe>
+              {% elif item.data.url|is_vimeo %}
+                <iframe src="{{ item.data.url | vimeo }}" 
+                  class="youtube_iframe" width="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen>
+                </iframe>
               {% else %}
-                vimeo
+                <a href="{{ item.data.url }}" target="_blank">{{item.data.url}}</a>
               {% endif %}
             </div>
             <div class="box-footer" style="text-align:center">

@@ -179,7 +179,7 @@ def gen_mostra():
         'address_city': gen.name(),
         'address_state': gen.word(),
         'titulo': gen.sentence(),
-        'url': random.choice(['https://www.youtube.com/watch?v=MkWMkYsGdf0','https://www.youtube.com/watch?v=PkhXLgu-mYM','https://www.youtube.com/watch?v=m8e-FF8MsqU','https://www.youtube.com/watch?v=H-0RHqDWcJE','https://www.youtube.com/watch?v=ggFKLxAQBbc']),
+        'url': random.choice(['https://www.youtube.com/watch?v=MkWMkYsGdf0','https://vimeo.com/394416138','https://www.youtube.com/watch?v=m8e-FF8MsqU','https://www.metacafe.com/watch/12106035/','https://vimeo.com/1905990']),
         'sinopse': gen.paragraph(),
         'duracao': str(random.choice(list(range(1,21)))) + ' minutos',
         'ano': random.choice([2018, 2019, 2020]),
