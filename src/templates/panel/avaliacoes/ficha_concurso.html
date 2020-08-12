@@ -1,5 +1,5 @@
 
-  <div class="modal fade" id="avaliacao_{{sub.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="{% if not read_only %}modal fade{% endif %}" id="avaliacao_{{sub.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document" style="width: 800px;">
       <div class="modal-content">
         <form method="post" id="avaliacao_form_{{sub.id}}">
@@ -15,7 +15,7 @@
                 </h5>
             </div>
             <div class="modal-body">
-                <strong>NOME DO {{request.session.painel.role.1|upper}}:</strong> {{request.session.painel.name}} 
+                <strong>NOME DO {{role_name|upper}}:</strong> {{avaliador}} 
                 <!--<strong>GRUPO:</strong> {{sub.group.name}}-->
                 <br><br>
                 <table class="ficha_avaliacao">
@@ -128,3 +128,8 @@
       </div>
     </div>
   </div>
+  {% if read_only %}
+  <script>
+      $("#avaliacao_form_{{sub.id}} :input").prop("disabled", true);
+  </script>
+  {% endif %}

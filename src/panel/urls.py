@@ -36,5 +36,6 @@ urlpatterns = [
     path('acessos/del/<int:ur_id>', acessos.remove),
     path('acessos/search', acessos.search),
     path('ranking', ranking.index),
+    path('ficha/<int:sub_id>', ranking.ficha),
 ]
 

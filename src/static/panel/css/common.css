@@ -13,3 +13,16 @@ table.ficha_avaliacao td {
     width: 40%;
     display: inline;
 }
+
+table.tabela_ranking {
+    margin-bottom: 100px;
+    border: 1px solid rgb(172, 172, 172);
+}
+
+table.tabela_ranking td {
+    text-align: center;
+}
+
+table.tabela_ranking th {
+    text-align: center;
+}
