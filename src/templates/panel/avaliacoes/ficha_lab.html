@@ -1,21 +1,23 @@
 
-  <div class="modal fade" id="avaliacao_{{sub.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="{% if not read_only %}modal fade{% endif %}" id="avaliacao_{{loop_index}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document" style="width: 800px;">
       <div class="modal-content">
-        <form method="post" id="avaliacao_form_{{sub.id}}">
+        <form method="post" id="avaliacao_form_{{loop_index}}">
         {% csrf_token %}
             <input type="hidden" name="sub_id" value="{{sub.id}}">
             <div class="modal-header">
+                {% if not read_only %}
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
+                {% endif %}
                 <h5 class="modal-title" id="exampleModalLabel">
                     QUESTIONÁRIO DE AVALIAÇÃO DE PROJETOS<br>
                     LABORATÓRIO DE PROJETOS DE SÉRIE DO IV ROTA FESTIVAL                                
                 </h5>
             </div>
             <div class="modal-body">
-                <strong>NOME DO {{request.session.painel.role.1|upper}}:</strong> {{request.session.painel.name}} 
+                <strong>NOME DO {{role_name|upper}}:</strong> {{avaliador}}  
                 <!--<strong>GRUPO:</strong> {{sub.group.name}}-->
                 <br><br>
                 <table class="ficha_avaliacao">
@@ -32,45 +34,45 @@
                     </tr>    
                     <tr>
                         <td style="text-align:left">{{form.clareza.label}}</td>
-                        <td><input type="radio" name="clareza" value="2.5" onclick="atualiza_notas_lab({{sub.id}});" {% if form.clareza.value == 2.5 %} checked {% endif %}></td>
-                        <td><input type="radio" name="clareza" value="2.0" onclick="atualiza_notas_lab({{sub.id}});" {% if form.clareza.value == 2.0 %} checked {% endif %}></td>
-                        <td><input type="radio" name="clareza" value="1.5" onclick="atualiza_notas_lab({{sub.id}});" {% if form.clareza.value == 1.5 %} checked {% endif %}></td>
-                        <td><input type="radio" name="clareza" value="0" onclick="atualiza_notas_lab({{sub.id}});" {% if form.clareza.value == 0 %} checked {% endif %}></td>
-                        <td id="nota_clareza_{{sub.id}}"></td>
+                        <td><input type="radio" name="clareza" value="2.5" onclick="atualiza_notas_lab({{loop_index}});" {% if form.clareza.value == 2.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="clareza" value="2.0" onclick="atualiza_notas_lab({{loop_index}});" {% if form.clareza.value == 2.0 %} checked {% endif %}></td>
+                        <td><input type="radio" name="clareza" value="1.5" onclick="atualiza_notas_lab({{loop_index}});" {% if form.clareza.value == 1.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="clareza" value="0" onclick="atualiza_notas_lab({{loop_index}});" {% if form.clareza.value == 0 %} checked {% endif %}></td>
+                        <td id="nota_clareza_{{loop_index}}"></td>
                     </tr>
                     <tr>
                         <td style="text-align:left">{{form.originalidade.label}}</td>
-                        <td><input type="radio" name="originalidade" value="2.5" onclick="atualiza_notas_lab({{sub.id}});" {% if form.originalidade.value == 2.5 %} checked {% endif %}></td>
-                        <td><input type="radio" name="originalidade" value="2.0" onclick="atualiza_notas_lab({{sub.id}});" {% if form.originalidade.value == 2.0 %} checked {% endif %}></td>
-                        <td><input type="radio" name="originalidade" value="1.5" onclick="atualiza_notas_lab({{sub.id}});" {% if form.originalidade.value == 1.5 %} checked {% endif %}></td>
-                        <td><input type="radio" name="originalidade" value="0" onclick="atualiza_notas_lab({{sub.id}});" {% if form.originalidade.value == 0 %} checked {% endif %}></td>
-                        <td id="nota_originalidade_{{sub.id}}"></td>
+                        <td><input type="radio" name="originalidade" value="2.5" onclick="atualiza_notas_lab({{loop_index}});" {% if form.originalidade.value == 2.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="originalidade" value="2.0" onclick="atualiza_notas_lab({{loop_index}});" {% if form.originalidade.value == 2.0 %} checked {% endif %}></td>
+                        <td><input type="radio" name="originalidade" value="1.5" onclick="atualiza_notas_lab({{loop_index}});" {% if form.originalidade.value == 1.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="originalidade" value="0" onclick="atualiza_notas_lab({{loop_index}});" {% if form.originalidade.value == 0 %} checked {% endif %}></td>
+                        <td id="nota_originalidade_{{loop_index}}"></td>
                     </tr>
                     <tr>
                         <td style="text-align:left">{{form.universo.label}}</td>
-                        <td><input type="radio" name="universo" value="2.5" onclick="atualiza_notas_lab({{sub.id}});" {% if form.universo.value == 2.5 %} checked {% endif %}></td>
-                        <td><input type="radio" name="universo" value="2.0" onclick="atualiza_notas_lab({{sub.id}});" {% if form.universo.value == 2.0 %} checked {% endif %}></td>
-                        <td><input type="radio" name="universo" value="1.5" onclick="atualiza_notas_lab({{sub.id}});" {% if form.universo.value == 1.5 %} checked {% endif %}></td>
-                        <td><input type="radio" name="universo" value="0" onclick="atualiza_notas_lab({{sub.id}});" {% if form.universo.value == 0 %} checked {% endif %}></td>
-                        <td id="nota_universo_{{sub.id}}"></td>
+                        <td><input type="radio" name="universo" value="2.5" onclick="atualiza_notas_lab({{loop_index}});" {% if form.universo.value == 2.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="universo" value="2.0" onclick="atualiza_notas_lab({{loop_index}});" {% if form.universo.value == 2.0 %} checked {% endif %}></td>
+                        <td><input type="radio" name="universo" value="1.5" onclick="atualiza_notas_lab({{loop_index}});" {% if form.universo.value == 1.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="universo" value="0" onclick="atualiza_notas_lab({{loop_index}});" {% if form.universo.value == 0 %} checked {% endif %}></td>
+                        <td id="nota_universo_{{loop_index}}"></td>
                     </tr>
                     <tr>
                         <td style="text-align:left">{{form.personagens.label}}</td>
-                        <td><input type="radio" name="personagens" value="2.5" onclick="atualiza_notas_lab({{sub.id}});" {% if form.personagens.value == 2.5 %} checked {% endif %}></td>
-                        <td><input type="radio" name="personagens" value="2.0" onclick="atualiza_notas_lab({{sub.id}});" {% if form.personagens.value == 2.0 %} checked {% endif %}></td>
-                        <td><input type="radio" name="personagens" value="1.5" onclick="atualiza_notas_lab({{sub.id}});" {% if form.personagens.value == 1.5 %} checked {% endif %}></td>
-                        <td><input type="radio" name="personagens" value="0" onclick="atualiza_notas_lab({{sub.id}});" {% if form.personagens.value == 0 %} checked {% endif %}></td>
-                        <td id="nota_personagens_{{sub.id}}"></td>
+                        <td><input type="radio" name="personagens" value="2.5" onclick="atualiza_notas_lab({{loop_index}});" {% if form.personagens.value == 2.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="personagens" value="2.0" onclick="atualiza_notas_lab({{loop_index}});" {% if form.personagens.value == 2.0 %} checked {% endif %}></td>
+                        <td><input type="radio" name="personagens" value="1.5" onclick="atualiza_notas_lab({{loop_index}});" {% if form.personagens.value == 1.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="personagens" value="0" onclick="atualiza_notas_lab({{loop_index}});" {% if form.personagens.value == 0 %} checked {% endif %}></td>
+                        <td id="nota_personagens_{{loop_index}}"></td>
                     </tr>    
                     <tr>
                         <td style="text-align:left">{{form.atualidade.label}} *</td>
-                        <td colspan="2"><input type="radio" name="atualidade" value="2" onclick="atualiza_notas_lab({{sub.id}});" {% if form.atualidade.value == 2 %} checked {% endif %}>Sim</td>
-                        <td colspan="2"><input type="radio" name="atualidade" value="0" onclick="atualiza_notas_lab({{sub.id}});" {% if form.atualidade.value == 0 %} checked {% endif %}>Não</td>
-                        <td id="nota_atualidade_{{sub.id}}"></td>
+                        <td colspan="2"><input type="radio" name="atualidade" value="2" onclick="atualiza_notas_lab({{loop_index}});" {% if form.atualidade.value == 2 %} checked {% endif %}>Sim</td>
+                        <td colspan="2"><input type="radio" name="atualidade" value="0" onclick="atualiza_notas_lab({{loop_index}});" {% if form.atualidade.value == 0 %} checked {% endif %}>Não</td>
+                        <td id="nota_atualidade_{{loop_index}}"></td>
                     </tr>
                     <tr>
                         <td colspan="5" style="background-color: darkgray; font-weight: bold;">PONTUAÇÃO GERAL</td>
-                        <td id="nota_total_{{sub.id}}"></td>
+                        <td id="nota_total_{{loop_index}}"></td>
                     </tr>
                     <tr>
                         <td colspan="6" style="text-align:left">
@@ -94,8 +96,10 @@
                 <span style="font-size: 12px;">*** Suplente: Você só pode indicar um suplente por dupla. Ou seja, se você está em duas duplas, pode escolher no máximo dois suplentes.</span>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" onclick="submete_avaliacao({{sub.id}}, '{{sub.msg_indicados}}');" class="btn btn-primary">Salvar</button>
+                {% if not read_only %}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="submete_avaliacao({{loop_index}}, '{{sub.msg_indicados}}');" class="btn btn-primary">Salvar</button>
+                {% endif %}
             </div>
         </form>
       </div>

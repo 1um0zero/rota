@@ -1,21 +1,23 @@
 
-  <div class="modal fade" id="avaliacao_{{sub.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="{% if not read_only %}modal fade{% endif %}" id="avaliacao_{{loop_index}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document" style="width: 800px;">
       <div class="modal-content">
-        <form method="post" id="avaliacao_form_{{sub.id}}">
+        <form method="post" id="avaliacao_form_{{loop_index}}">
         {% csrf_token %}
             <input type="hidden" name="sub_id" value="{{sub.id}}">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                {% if not read_only %}
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                {% endif %}
                 <h5 class="modal-title" id="exampleModalLabel">
                     QUESTIONÁRIO DE AVALIAÇÃO DE ROTEIROS<br>
                     MOSTRA COMPETITIVA DE CURTAS-METRAGENS DO ROTA 2020                                
                 </h5>
             </div>
             <div class="modal-body">
-                <strong>NOME DO {{request.session.painel.role.1|upper}}:</strong> {{request.session.painel.name}} 
+                <strong>NOME DO {{role_name|upper}}:</strong> {{avaliador}} 
                 <!--<strong>GRUPO:</strong> {{sub.group.name}}-->
                 <br><br>
                 <table class="ficha_avaliacao">
@@ -47,8 +49,10 @@
                 <span style="font-size: 12px;">** Indicação: Você só pode indicar um roteiro para cada categoria.</span>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" onclick="submete_avaliacao({{sub.id}}, '{{sub.msg_indicados}}');" class="btn btn-primary">Salvar</button>
+                {% if not read_only %}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="submete_avaliacao({{loop_index}}, '{{sub.msg_indicados}}');" class="btn btn-primary">Salvar</button>
+                {% endif %}
             </div>
         </form>
       </div>

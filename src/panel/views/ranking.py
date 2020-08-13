@@ -1,7 +1,7 @@
 import json
 from statistics import mean
-from django.shortcuts import render, HttpResponse
-from core.models import Evaluation, Subscription, UserProfile
+from django.shortcuts import render, HttpResponse, redirect
+from core.models import Evaluation, Subscription, UserProfile, CuradorGroup
 from panel.utils import indicacoes_avaliacao, ficha_avaliacao, ROTEIRO, LABORATORIO, MOSTRA, ROLE_CURADOR, ROLE_JURADO, ROLE_CABIRIA, ROLE_SINA
 
 
@@ -46,8 +46,16 @@ def index(request):
                         media = mean(notas)
 
                     if len(indicacoes) == 0:
-                        projeto = {'id': insc.id, 'data': user_data, 'autor': user_data['nickname'], 'media': media, 'avaliadores': avaliadores, 'indicadores': []}
-                        outros[contest_id][step].append(projeto)
+                        projeto = {'id': insc.id, 'data': user_data, 'cadastro': insc.user.id, 'media': media, 'avaliadores': avaliadores, 'indicadores': []}
+                        ja_tem = False
+                        for p in outros[contest_id][step]:
+                            if p['id'] == projeto['id']:
+                                p['media'] = max(p['media'], media)
+                                p['avaliadores'] += avaliadores
+                                ja_tem = True
+
+                        if not ja_tem:
+                            outros[contest_id][step].append(projeto)
                         continue
                     
                     for cat in categorias:
@@ -58,7 +66,7 @@ def index(request):
                             if ind[0][1] == cat[1]:
                                 indicadores.append(ind[1])
                         if len(indicadores) > 0:
-                            projeto = {'id': insc.id, 'data': user_data, 'autor': user_data['nickname'], 'media': media, 'avaliadores': avaliadores, 'indicadores': indicadores}
+                            projeto = {'id': insc.id, 'data': user_data, 'cadastro': insc.user.id, 'media': media, 'avaliadores': avaliadores, 'indicadores': indicadores}
                             cat_projetos[cat[1]].append(projeto)
                         
                 if len(outros[contest_id][step]) > 0:
@@ -74,7 +82,10 @@ def index(request):
 
 def ficha(request, sub_id):
     sub = Subscription.objects.get(id=sub_id)
-    sub.data = json.loads(sub.data)
+    user_data = json.loads(sub.data)
+    if 'titulo' in user_data:
+        user_data['title'] = user_data['titulo']
+    sub.data = user_data
     fichas = []
     for av in sub.evaluation_set.all():
         ficha_form = ficha_avaliacao(sub.contest_id, av.role_id, av.step)
@@ -84,3 +95,27 @@ def ficha(request, sub_id):
         avaliador_profile = UserProfile.objects.get(user=av.evaluator)        
         fichas.append({'step': av.step, 'form': form, 'role_name': av.role.name, 'avaliador': avaliador_profile.get_name()})
     return render(request, 'panel/avaliacoes/fichas.html', {'sub': sub, 'fichas': fichas})
+
+
+def promover(request):
+    selecionados = [int(x) for x in set(request.POST['selecionados'].split(','))]
+    step = int(request.POST['step'])
+    qtd_grupos = int(request.POST['qtd_grupos'])
+    prefixo = request.POST['grupo_prefixo']
+    contest = Subscription.objects.get(id=selecionados[0]).contest
+
+    ppg = [[] for i in range(qtd_grupos)] # projetos por grupo. Ex: [[p1,p2],[p3,p4],[p5]]    
+    i = 0
+    while len(selecionados) > 0:
+        ppg[i % qtd_grupos].append(selecionados.pop())
+        i += 1
+
+    for i in range(qtd_grupos):
+        grupo = CuradorGroup(contest=contest, name='{}_{}'.format(prefixo, i+1), step=step)
+        grupo.save()
+        for sub_id in ppg[i]:
+            sub = Subscription.objects.get(id=sub_id)
+            sub.groups.add(grupo)
+            sub.save()
+    
+    return redirect('/painel/acessos')

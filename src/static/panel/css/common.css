@@ -26,3 +26,37 @@ table.tabela_ranking td {
 table.tabela_ranking th {
     text-align: center;
 }
+
+.form-item {  
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;    
+  }
+  
+  .form-item label {  
+    margin-right: 10px;
+    display: inline;
+    font-size:16px;
+    float: left; 
+    width: 50%; 
+    text-align: right;
+  }
+  
+  .form-item .error {
+    display:block;
+    font-size:10px;
+    color:red;
+  }
+  
+  .input input {  
+    display:inline;
+    border:1px solid #cccccc;
+    padding:5px 5px;
+    border-radius:6px;
+    outline:none;
+    background:#fff;
+    float: left; 
+    width: 200px;
+    text-align: left;
+  }
+  

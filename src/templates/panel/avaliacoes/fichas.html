@@ -1,7 +1,7 @@
 {% extends 'panel/index.html' %}
 {% load helpers %}
 
-{% block title %}<i class="fa fa-address-card"></i>&nbsp; Avaliações de #{{sub.id}}{% endblock %}
+{% block title %}<i class="fa fa-address-card"></i>&nbsp; Avaliações de #{{sub.id}} - {{sub.data.title}}{% endblock %}
 
 {% block breadcrumb %}
   <li><a href="/painel/ranking">Ranking</a></li>
@@ -11,7 +11,17 @@
 <div class="box">      
     <div class="box-body">
         {% for ficha in fichas %}
-            {% include 'panel/avaliacoes/'|add:ficha.form.get_template with sub=sub form=ficha.form step=ficha.step read_only=True role_name=ficha.role_name avaliador=ficha.avaliador  %}
+            {% include 'panel/avaliacoes/'|add:ficha.form.get_template with sub=sub form=ficha.form step=ficha.step read_only=True loop_index=forloop.counter role_name=ficha.role_name avaliador=ficha.avaliador  %}
+            <script>
+                {% if sub.contest_id == 1 %}
+                    atualiza_notas_roteiro({{forloop.counter}});
+                {% elif sub.contest_id == 3 %}
+                    atualiza_notas_lab({{forloop.counter}});
+                {% elif sub.contest_id == 4 %}
+                    atualiza_notas_mostra({{forloop.counter}});
+                {% endif %}
+                $("#avaliacao_form_{{forloop.counter}} :input").prop("disabled", true);
+            </script>
         {% endfor %}
     </div>
 </div>

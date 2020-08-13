@@ -31,7 +31,7 @@ def index(request):
 
     items = prepara_avaliacao(items, request.session['painel'])
     indicados = verifica_indicados(request.session['painel'])
-
+    
     return render(request, 'panel/scripts/index.html', {
         'items': items,
         'msg': msg,

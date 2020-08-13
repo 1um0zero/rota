@@ -15,7 +15,8 @@
           {% for contest_id, step_dict in res.items %}
             <div class="tab-pane {%if contest_id == 1 %}active{% endif %}" id="tab_{{contest_id}}">
               <div style="margin-bottom:10px;text-align:right;">
-                <a class="btn btn-primary" href="#!">
+                 <!-- data-target="#promover" -->
+                <a class="btn btn-primary" href="#!" data-toggle="modal" disabled="true">
                   <i class="fa fa-rocket"></i>&nbsp;&nbsp; Promover selecionados
                 </a>
               </div>
@@ -27,7 +28,7 @@
                     {% endfor %}
                   </ul>
                   <div class="tab-content">  
-                    {% for step, categorias in step_dict.items %}
+                    {% for step, categorias in step_dict.items %}                      
                       <div class="tab-pane {%if step == 1 %}active{% endif %}" id="tab_{{contest_id}}_{{step}}"> 
                         {% for cat in categorias %}
                             <h4>{{cat.categoria.2}}</h4>
@@ -36,8 +37,7 @@
                                     <th></th>
                                     <th></th>
                                     <th>Inscrição</th>
-                                    <th style="width: 50%;">Título</th>
-                                    <th>Autor</th>
+                                    <th style="width: 50%;">Título</th>                                    
                                     <th>Indicações</th>
                                     <th>Avaliações</th>
                                     <th>Média</th>                      
@@ -46,13 +46,12 @@
                                 <tbody id="tbl_content">
                                     {% for proj in cat.projetos %}
                                         <tr>
-                                            <td>{{forloop.counter}}</td>                                        
-                                            <td><input type="checkbox" id="{{proj.id}}" /></td>
-                                            <td>{{proj.id}}</td>
-                                            <td style="text-align: left;">{{proj.data.title}}</td>
-                                            <td>{{proj.autor}}</td>
-                                            <td>{{proj.indicadores|length}}</td>
-                                            <td>{{proj.avaliadores|length}}</td>
+                                            <td>{{forloop.counter}}</td>
+                                            <td><input type="checkbox" name="projetos" value="{{proj.id}}" /></td>
+                                            <td><a href="/painel/cadastro/{{proj.cadastro}}#inscricao_{{proj.id}}">{{proj.id}}</a></td>
+                                            <td style="text-align: left;"><a href="/painel/cadastro/{{proj.cadastro}}#inscricao_{{proj.id}}">{{proj.data.title}}</a></td>                                            
+                                            <td>{{proj.indicadores|length}}&nbsp;&nbsp;&nbsp;<i class="fa fa-user" title="{{proj.indicadores|join:", "}}"></i></td>
+                                            <td>{{proj.avaliadores|length}}&nbsp;&nbsp;&nbsp;<i class="fa fa-user" title="{{proj.avaliadores|join:", "}}"</td>
                                             <td>{{proj.media}}</td>
                                             <td>
                                               <a href="ficha/{{proj.id}}"><i class="fa fa-address-card"></i></a>
@@ -61,9 +60,8 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                        {% endfor %}   
+                        {% endfor %}  
 
-                        
                           {% for c_id, s_dict in outros.items %}
                             {% for s, projs in s_dict.items %}
                               {% if c_id == contest_id and s == step and projs|length > 0 %}
@@ -73,8 +71,7 @@
                                         <th></th>
                                         <th></th>
                                         <th>Inscrição</th>
-                                        <th style="width: 50%;">Título</th>
-                                        <th>Autor</th>                                      
+                                        <th style="width: 50%;">Título</th>                                        
                                         <th>Avaliações</th>
                                         <th>Média</th>                      
                                         <th>Fichas de avaliação</th>
@@ -83,11 +80,10 @@
                                         {% for proj in projs %}
                                             <tr>
                                                 <td>{{forloop.counter}}</td>                                        
-                                                <td><input type="checkbox" id="{{proj.id}}" /></td>
-                                                <td>{{proj.id}}</td>
-                                                <td style="text-align: left;">{{proj.data.title}}</td>
-                                                <td>{{proj.autor}}</td>                                              
-                                                <td>{{proj.avaliadores|length}}</td>
+                                                <td><input type="checkbox" name="projetos" value="{{proj.id}}" /></td>
+                                                <td><a href="/painel/cadastro/{{proj.cadastro}}#inscricao_{{proj.id}}">{{proj.id}}</a></td>
+                                                <td style="text-align: left;"><a href="/painel/cadastro/{{proj.cadastro}}#inscricao_{{proj.id}}">{{proj.data.title}}</a></td>                                                
+                                                <td>{{proj.avaliadores|length}}&nbsp;&nbsp;&nbsp;<i class="fa fa-user" title="{{proj.avaliadores|join:", "}}"</td>
                                                 <td>{{proj.media}}</td>
                                                 <td>
                                                   <a href="ficha/{{proj.id}}"><i class="fa fa-address-card"></i></a>
@@ -100,9 +96,7 @@
                             {% endfor %}
                           {% endfor %}
                         
-
-
-                      </div>                                          
+                      </div>                          
                     {% endfor %}
                   </div>
               </div>
@@ -113,5 +107,7 @@
     </div>
     </div>
 </div>
+
+{% include 'panel/avaliacoes/form_promover.html'  %}
 
 {% endblock %}

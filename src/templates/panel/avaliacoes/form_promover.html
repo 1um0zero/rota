@@ -1,0 +1,55 @@
+
+  <div class="modal fade" id="promover" tabindex="-1" role="dialog" aria-labelledby="promoverLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 800px;">
+      <div class="modal-content">
+        <form method="post" id="promover_form" action="ranking/promover">
+        {% csrf_token %}
+            <input type="hidden" name="selecionados" id="selecionados" />
+            <div class="modal-header">                
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>                
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Escolha a Etapa e quantos grupos deseja criar para distribuir os projetos selecionados.
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-item">
+                    <label>
+                        Para qual etapa deseja criar os grupos?                              
+                    </label>
+                    <div class="input">
+                        <input type="text" id="step" name="step" min="1" step="1"  required />
+                    </div>                    
+                </div>
+                <div class="form-item">
+                    <label>
+                        Quantos grupos deseja criar?                             
+                    </label>
+                    <div class="input">
+                        <input type="text" id="qtd_grupos" name="qtd_grupos" min="1" step="1" required />
+                    </div>                    
+                </div>
+                <div class="form-item">
+                    <label>
+                        Escreva um prefixo para estes grupos:
+                    </label>
+                    <div class="input">
+                        <input type="text" id="grupo_prefixo" name="grupo_prefixo" required>
+                    </div>                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="promover();" class="btn btn-primary">Promover</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+      $('document').ready(function() {
+        $('#step').mask('9');
+        $('#qtd_grupos').mask('99');
+      });
+  </script>

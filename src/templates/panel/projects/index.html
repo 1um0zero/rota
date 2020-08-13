@@ -52,7 +52,7 @@
                 <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 5px; margin-top: 5px;" data-toggle="modal" data-target="#avaliacao_{{item.id}}">
                   <i class="fa fa-star"></i>&nbsp;{% if item.ja_avaliou %} Alterar avaliação {% else %} Avaliar {% endif %}
                 </button>
-                {% include 'panel/avaliacoes/'|add:item.form.get_template with sub=item form=item.form step=step  %}
+                {% include 'panel/avaliacoes/'|add:item.form.get_template with sub=item form=item.form step=step loop_index=item.id role_name=request.session.painel.role.1 avaliador=request.session.painel.name %}
                 <script>
                   atualiza_notas_lab({{item.id}});
                 </script>

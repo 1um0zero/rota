@@ -23,7 +23,7 @@ def index(request):
             contests[i].append({                
                 'group': group,
                 'members': UserRole.objects.filter(role_id__gte=1, group=group),
-                'roteiros': Subscription.objects.filter(groups__in=[group]).count()
+                'roteiros': Subscription.objects.filter(status=1, groups__in=[group]).count()
             })
 
     return render(request, 'panel/acessos/index.html', {
@@ -50,7 +50,7 @@ def get_next_group(contest_id):
 
     qtd = []
     for g in grupos:
-        qtd.append((g, g.subscription_set.count()))
+        qtd.append((g, g.subscription_set.filter(status=1).count()))
     qtd.sort(key=lambda x: x[1])
 
     return qtd[0][0]

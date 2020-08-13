@@ -64,7 +64,11 @@ def verifica_indicados(sess):
             if questions[ind[1]] == 'sim':
                 msg[ind[1]].append('{}: {}'.format(ind[2], titulo_indicado.replace('\'',' ').replace('\"','')))
 
-    return msg
+    for k, v in msg.items():
+        if len(v) > 0:
+            return msg
+
+    return None
 
 
 def prepara_avaliacao(items, sess):
