@@ -53,14 +53,11 @@
             <div class="box-footer" style="text-align:center">
                 <div style="padding:5px">
                     <h4>{{item.data.titulo}}</h4>
+                    {% if not request.session.painel.is_avaliador %}
                     <div>
-                        Enviado por: 
-                        {% if item.user.first_name %}
-                          {{ item.user.first_name }}
-                        {% else %}
-                          {{ item.user.email }}
-                        {% endif %}
+                        Enviado por: {{ item.social_name }}                        
                     </div>
+                    {% endif %}
                     <div style="height:40px">
                         <a href="{{ item.url }}">{{ item.url }}</a>
                     </div>

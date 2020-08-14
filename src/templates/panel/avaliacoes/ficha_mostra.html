@@ -76,9 +76,16 @@
                     </tr>
                     <tr>
                         <td colspan="6" style="text-align:left">
-                            {{form.indica_curta.label}} **&nbsp;&nbsp;&nbsp;                            
-                            <input type="radio" name="indica_curta" value="sim" {% if form.indica_curta.value == 'sim' %} checked {% endif %}>Sim&nbsp;
-                            <input type="radio" name="indica_curta" value="nao" {% if form.indica_curta.value == 'nao' %} checked {% endif %}>Não                            
+                            {{form.indica_ficcao.label}} **&nbsp;&nbsp;&nbsp;                            
+                            <input type="radio" name="indica_ficcao" value="sim" {% if form.indica_ficcao.value == 'sim' %} checked {% endif %}>Sim&nbsp;
+                            <input type="radio" name="indica_ficcao" value="nao" {% if form.indica_ficcao.value == 'nao' %} checked {% endif %}>Não                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="text-align:left">
+                            {{form.indica_doc.label}} **&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="indica_doc" value="sim" {% if form.indica_doc.value == 'sim' %} checked {% endif %}>Sim&nbsp;
+                            <input type="radio" name="indica_doc" value="nao" {% if form.indica_doc.value == 'nao' %} checked {% endif %}>Não
                         </td>
                     </tr>
                     <tr>
@@ -90,7 +97,7 @@
                     </tr>
                     <tr>
                         <td colspan="6" style="text-align:left">
-                            {{form.premio_sina.label}} ***&nbsp;&nbsp;&nbsp;
+                            {{form.premio_sina.label}} **&nbsp;&nbsp;&nbsp;
                             <input type="radio" name="premio_sina" value="sim" {% if form.premio_sina.value == 'sim' %} checked {% endif %}>Sim&nbsp;
                             <input type="radio" name="premio_sina" value="nao" id="nao_social_{{loop_index}}" {% if form.premio_sina.value == 'nao' %} checked {% endif %}>Não
                         </td>
@@ -103,9 +110,7 @@
                 </table>   
                 <span style="font-size: 12px;">* ORIGINALIDADE: Consideramos a originalidade como um critério de avaliação extra. Deste modo, se um roteiro pontuar os 4 primeiros itens com nota máxima (2,5), por exemplo, já terá nota 10. Caso ele pontue também por originalidade, ganhará os dois pontos por esta distinção, totalizando 12 pontos.</span>
                 <br><br>
-                <span style="font-size: 12px;">** Indicação: Você só pode selecionar um filme por dupla. Se você está em duas duplas, pode selecionar até no máximo dois filmes.</span>
-                <br><br>
-                <span style="font-size: 12px;">*** Prêmio Rede Sina: Você só pode selecionar um filme por dupla. Se você está em duas duplas, pode selecionar até no máximo dois filmes.</span>
+                <span style="font-size: 12px;">** Indicação: Você só pode indicar um filme por categoria.</span>                
             </div>
             <div class="modal-footer">
                 {% if not read_only %}

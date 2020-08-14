@@ -1,6 +1,6 @@
 import json
 from django.shortcuts import render
-from core.models import Subscription, UserRole
+from core.models import Subscription, UserRole, UserProfile
 from panel.utils import prepara_avaliacao, salva_avaliacao, verifica_indicados
 
 
@@ -24,6 +24,8 @@ def index(request):
             msg = 'Filme avaliado com sucesso!'
 
     for item in items:
+        user_profile = UserProfile.objects.get(user=item.user)
+        item.social_name = user_profile.get_name()
         item.data = json.loads(item.data) 
 
     items = prepara_avaliacao(items, request.session['painel'])

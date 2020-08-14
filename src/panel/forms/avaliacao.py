@@ -110,7 +110,8 @@ class AvaliacaoMostra(forms.Form):
     dialogos = forms.FloatField(label='Qualidade dos Diálogos', min_value=0)
     originalidade = forms.FloatField(label='Originalidade', min_value=0)
 
-    indica_curta = forms.ChoiceField(label='Seleciona este filme para a Mostra?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)    
+    indica_ficcao = forms.ChoiceField(label='Indica este filme para a categoria de Melhor Ficção?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
+    indica_doc = forms.ChoiceField(label='Indica este filme para a categoria de Melhor Documentário?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
     tematica_social = forms.ChoiceField(label='Tem temática social relevante?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
     premio_sina = forms.ChoiceField(label='Indicaria para o Prêmio REDE SINA de Temática Social?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)    
     pesquisa = forms.CharField(label='PESQUISA ROTA: Qual o tema principal desenvolvido pelo filme?', max_length=300, required=False,
@@ -120,7 +121,7 @@ class AvaliacaoMostra(forms.Form):
         return ['estrutura_narrativa','trama','personagens','dialogos','originalidade']
     
     def get_questions(self):
-        return ['indica_curta', 'tematica_social', 'premio_sina', 'pesquisa']
+        return ['indica_ficcao', 'indica_doc', 'tematica_social', 'premio_sina', 'pesquisa']
     
     def get_template(self):
         return 'ficha_mostra.html'
