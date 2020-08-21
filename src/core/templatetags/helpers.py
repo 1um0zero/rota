@@ -42,7 +42,7 @@ register.filter('realFloat', real_float)
 
 def youtube(url):
     url = url.replace('/watch?v=', '/embed/')
-    url = re.sub(r'&feature=.*','', url)
+    url = re.sub(r'&.*=.*','', url)
     url = url.replace("youtu.be","youtube.com/embed")    
     
     if 'youtube' not in url and 'youtu.be' not in url:
