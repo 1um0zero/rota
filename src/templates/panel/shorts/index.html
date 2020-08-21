@@ -52,7 +52,7 @@
             </div>
             <div class="box-footer" style="text-align:center">
                 <div style="padding:5px">
-                    <h4>{{item.data.titulo}}</h4>
+                    <h4><a href="{{ item.data.url }}" target="_blank">{{item.data.titulo}}</a></h4>
                     {% if not request.session.painel.is_avaliador %}
                     <div>
                         Enviado por: {{ item.social_name }}                        
