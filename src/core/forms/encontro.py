@@ -6,7 +6,7 @@ class Encontro(forms.Form):
     cep = forms.CharField(max_length=9)
     address = forms.CharField(max_length=200)
     address_number = forms.CharField(max_length=10)
-    address_complement = forms.CharField(max_length=100)
+    address_complement = forms.CharField(max_length=100, required=False)
     address_neighborhood = forms.CharField(max_length=100)
     address_city = forms.CharField(max_length=100)
     address_state = forms.ChoiceField(choices=[
