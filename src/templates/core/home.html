@@ -26,6 +26,20 @@
 <br>
 -->
 
+<div id="prorrogadas" class="modal">  
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" onclick="document.getElementById('prorrogadas').style.display = 'none';">&times;</span>
+    <h5 class="modal-title" >INSCRIÇÕES PRORROGADAS!</h5>
+    <div class="modal-body">
+      <p>O Laboratório de Projetos de Séries está com as inscrições prorrogadas até 01 de Setembro de 2020.</p>
+          Corra e faça sua inscrição!
+    </div>
+  </div>
+
+</div>
+
+
 <p id="homeIntro" dir="ltr" style="line-height: 1.3800000000000001; margin-top: 0pt; margin-bottom: 10pt; text-align: justify;"><span style="font-size: 14pt;"><span style="font-family: Calibri, sans-serif; background-color: #ffffff; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Com a proposta de ser um espaço de debate e encontro entre profissionais e estudantes, o </span><span style="font-family: Calibri, sans-serif; background-color: #ffffff; font-weight: bold; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">IV ROTA - Festival de Roteiro Audiovisual</span><span style="font-family: Calibri, sans-serif; background-color: #ffffff; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> acontecerá </span><span style="font-family: Calibri, sans-serif; background-color: #ffffff; font-weight: bold; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">todo ON-LINE</span><span style="font-family: Calibri, sans-serif; background-color: #ffffff; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> entre os dias </span><span style="font-family: Calibri, sans-serif; background-color: #ffffff; font-weight: bold; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">25 e 29 de novembro de 2020</span><span style="font-family: Calibri, sans-serif; background-color: #ffffff; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">. Pelo quarto ano&nbsp;consecutivo, o Festival, focado principalmente nos roteiristas iniciantes, compreende </span><span style="font-family: Calibri, sans-serif; background-color: #ffffff; font-weight: bold; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">5 linhas de ação</span><span style="font-family: Calibri, sans-serif; background-color: #ffffff; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">:&nbsp;</span></span></p>
 
 <div id="storefront">
@@ -104,4 +118,9 @@
 -->
 </div>
 
+<script>
+  $(window).on('load',function(){
+      document.getElementById("prorrogadas").style.display = "block";
+    });
+</script>
 {% endblock %}
