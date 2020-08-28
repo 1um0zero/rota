@@ -28,8 +28,11 @@
     {% endfor %}
   {% endif %}
 
-  <div class="row" style="display:flex;flex-wrap:wrap">
+  {% for group in groups %}      
+    <h2>Grupo {{group}} - {{group.membros|list}}</h2> <p>
+    <div class="row" style="display:flex;flex-wrap:wrap; border: solid; border-radius: 10px; border-color: #777777; padding: 20px; margin: 10px;">
     {% for item in items %}
+    {% if group.name in item.groups_str %}
       <div class="col-md-2">
         <div class="box">          
           <div class="box-body" style="text-align:center">
@@ -60,7 +63,9 @@
           </div>
         </div>
       </div>
+    {% endif %}
     {% endfor %}
   </div>  
+  {% endfor %}
 {% endblock %}
 

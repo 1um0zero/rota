@@ -7,11 +7,16 @@ from panel.utils import prepara_avaliacao, salva_avaliacao, verifica_indicados
 def index(request):
     error = None
     msg = None
+    groups = []
 
     if request.session['painel']['role'][0] == 0:
         items = Subscription.objects.filter(contest_id=4, status=1)
-    elif request.session['painel']['role'][0] > 0:
-        groups = []
+        g_aux = []
+        for i in items:
+            g_aux += i.groups.all()
+        groups = list(set(g_aux)) 
+
+    elif request.session['painel']['role'][0] > 0:        
         urs = UserRole.objects.filter(user_id=request.session['painel']['id'], role_id=request.session['painel']['role'][0])
         for ur in urs:
             groups.append(ur.group)
@@ -30,11 +35,17 @@ def index(request):
 
     items = prepara_avaliacao(items, request.session['painel'])
     indicados = verifica_indicados(request.session['painel'])
+    for item in items:
+        item.groups_str = [g.name for g in item.groups.all()]
+    for g in groups:        
+        g.membros = [(UserProfile.objects.get(user=ur.user)).get_name() for ur in g.userrole_set.all()]
+    groups.sort(key=lambda x: x.name)
     
     return render(request, 'panel/shorts/index.html', {
         'items': items,
         'msg': msg,
         'step': request.session['painel']['step'],
+        'groups': groups,
         'error': error,
         'indicados': indicados
     })

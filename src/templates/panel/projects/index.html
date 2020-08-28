@@ -29,39 +29,46 @@
     {% endfor %}
   {% endif %}
 
-  <div class="row" style="display:flex;flex-wrap:wrap">
-    {% for item in items %}
-    <div style="width:33.333%">
-      <div class="" style="margin:5px">
-        <div class="box">
-          <div class="box-body" style="text-align:center">
-            {% if item.ja_avaliou %}
-              <i style="float: right; color:gold" class="fa fa-star" title="Projeto já avaliado"></i>
-            {% endif %}
-            <a href="/painel/projetos/ver/{{ item.id }}">
-                
-              <i style="display:block;font-size:50px;margin:10px" class="fa
-                {% if item.data.script|is_image %}fa-file-image
-                {% else %}fa-file-pdf
-              {% endif %}"></i>
+  {% for group in groups %}      
+    <h2>Grupo {{group}} - {{group.membros|list}}</h2> <p>
+    <div class="row" style="display:flex;flex-wrap:wrap; border: solid; border-radius: 10px; border-color: #777777; padding: 20px; margin: 10px;">
+      
+        {% for item in items %}
+          {% if group.name in item.groups_str %}
+            <div style="width:33.333%">
+              <div class="" style="margin:5px">
+                <div class="box">
+                  <div class="box-body" style="text-align:center">
+                    {% if item.ja_avaliou %}
+                      <i style="float: right; color:gold" class="fa fa-star" title="Projeto já avaliado"></i>
+                    {% endif %}
+                    <a href="/painel/projetos/ver/{{ item.id }}">
+                        
+                      <i style="display:block;font-size:50px;margin:10px" class="fa
+                        {% if item.data.script|is_image %}fa-file-image
+                        {% else %}fa-file-pdf
+                      {% endif %}"></i>
 
-              {{ item.data.titulo }}
-              <br>&nbsp;
-             </a>
-             {% if request.session.painel.is_avaliador %}
-                <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 5px; margin-top: 5px;" data-toggle="modal" data-target="#avaliacao_{{item.id}}">
-                  <i class="fa fa-star"></i>&nbsp;{% if item.ja_avaliou %} Alterar avaliação {% else %} Avaliar {% endif %}
-                </button>
-                {% include 'panel/avaliacoes/'|add:item.form.get_template with sub=item form=item.form step=step loop_index=item.id role_name=request.session.painel.role.1 avaliador=request.session.painel.name %}
-                <script>
-                  atualiza_notas_lab({{item.id}});
-                </script>
-             {% endif %}
-          </div>
-        </div>
+                      {{ item.data.titulo }}
+                      <br>&nbsp;
+                    </a>
+                    {% if request.session.painel.is_avaliador %}
+                        <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 5px; margin-top: 5px;" data-toggle="modal" data-target="#avaliacao_{{item.id}}">
+                          <i class="fa fa-star"></i>&nbsp;{% if item.ja_avaliou %} Alterar avaliação {% else %} Avaliar {% endif %}
+                        </button>
+                        {% include 'panel/avaliacoes/'|add:item.form.get_template with sub=item form=item.form step=step loop_index=item.id role_name=request.session.painel.role.1 avaliador=request.session.painel.name %}
+                        <script>
+                          atualiza_notas_lab({{item.id}});
+                        </script>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}   
       </div>
-    </div>
     {% endfor %}
-  </div>
+  
 {% endblock %}
 
