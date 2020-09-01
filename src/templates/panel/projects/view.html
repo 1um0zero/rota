@@ -82,6 +82,18 @@
             {% endif %}
           </li>
 
+          <li>
+            <strong>Currículo do autor</strong>
+            <a href="/static/uploads/{{ subscription.user_data.curriculo }}" target="_blank">
+              Download
+            </a>
+            {% if subscription.user_data.curriculo|is_image %}
+              <a href="/static/uploads/{{ subscription.user_data.curriculo }}" target="_blank">
+                <img class="img" src="/static/uploads/{{ subscription.user_data.curriculo }}">
+              </a>
+            {% endif %}
+          </li>
+
         </ul>
       </div>
     </div>
