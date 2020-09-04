@@ -189,5 +189,21 @@
   <li><strong>Biografia do criador</strong><span class="block">{{ subscription.user_data.biografia }}</span></li>
   
   <li><strong>Informações adicionais</strong><span class="block">{{ subscription.user_data.info_adicional }}</span></li>
+
+  <li>
+    <strong>Evidência de associação com parceiros</strong>
+    {% if subscription.user_data.parceiro %}
+      <a href="/static/uploads/{{ subscription.user_data.parceiro }}" target="_blank">
+        Download
+      </a>
+      {% if subscription.user_data.parceiro|is_image %}
+        <a href="/static/uploads/{{ subscription.user_data.parceiro }}" target="_blank">
+          <img class="img" src="/static/uploads/{{ subscription.user_data.parceiro }}">
+        </a>
+      {% endif %}
+    {% endif %}
+  </li>
+
+
 </ul>
 

@@ -112,6 +112,8 @@ class Encontro(forms.Form):
 
     info_adicional = forms.CharField(max_length=500, widget=forms.Textarea)
 
+    parceiro = forms.FileField(required=False)
+
 
     def clean(self):
         super().clean()

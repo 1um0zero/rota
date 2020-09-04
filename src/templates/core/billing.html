@@ -46,7 +46,7 @@
             <div class="price">{{ product.price | real }}</div>
           {% endif %}
                             
-          <a href="/planos-e-precos?id={{ product.id }}" class="btn action">comprar</a>
+          <a onclick="document.getElementById('desconto_modal_{{ product.id }}').style.display = 'block';" class="btn action">comprar</a>
         
           {{ product.description | safe }}
 
@@ -59,10 +59,25 @@
           <br>
 
           <!--<a href="{{ product.url }}" class="link">mais informações</a>-->
+          <div id="desconto_modal_{{ product.id }}" class="modal">  
+            <!-- Modal content -->
+            <div class="modal-content" style="height: 220px;">
+              <span class="close" onclick="document.getElementById('desconto_modal_{{ product.id }}').style.display = 'none';">&times;</span>
+              <h5 class="modal-title" >Você é um associado da ABRA?</h5>
+              <div class="modal-body">
+                Associados ABRA tem 10% de desconto! Envie um comprovante ao fazer sua inscrição!
+              </div>
+              <div class="modal-footer">
+                <a href="/planos-e-precos?id={{ product.id }}&desconto=1" class="btn action" style="display: inline;">Sim</a><a href="/planos-e-precos?id={{ product.id }}" class="btn btn-light" style="display: inline;">Não</a>
+              </div>
+            </div>    
+          </div>
 
         </div>
       {% endfor %}
     </div>
+
+    
   
   {% else %}
     <div class="col-duo box-billing">
@@ -241,12 +256,8 @@
           <div> {{ product.description | safe }} </div>
           <br>
 
-          <div style="font-size:20px">
-            {% if product.is_price2 %}
-              {{ product.price2 | real }}
-            {% else %}
-              {{ product.price | real }}
-            {% endif %}
+          <div style="font-size:20px">            
+              {{ preco_final | real }}
           </div>
           <br>
 

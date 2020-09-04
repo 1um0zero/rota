@@ -8,6 +8,9 @@ from core.pagseguro import PagSeguro
 
 def index(request):
     product_id = request.GET.get('id')
+    valor_desconto = 1
+    if request.GET.get('desconto'):
+        valor_desconto = 0.9
     subscription_data = {}
 
     is_seminario = product_id == '3'
@@ -29,6 +32,7 @@ def index(request):
         return redirect('/entrar')
 
     product = Product.objects.get(pk=product_id)
+    preco_final = int((product.price if not product.is_price2() else product.price2) * valor_desconto)
     subscription = None
     
     if 'subscription' in request.session:
@@ -91,7 +95,7 @@ def index(request):
                 order = Order(
                     user_id = request.user.id,
                     product_id = product.id,
-                    price = product.price if not product.is_price2() else product.price2,
+                    price = preco_final,
                     card_brand = request.POST['brand'],
                     card_end = request.POST['card_number'][-4:],
                     parcelas = installments[0],
@@ -106,7 +110,7 @@ def index(request):
             else:
                 order = Order.objects.get(pk=order_id)
                 order.product_id = product.id
-                order.price = product.price if not product.is_price2() else product.price2
+                order.price = preco_final
                 order.card_brand = request.POST['brand']
                 order.card_end = request.POST['card_number'][-4:]
                 order.parcelas = installments[0]
@@ -136,7 +140,7 @@ def index(request):
                 order = Order(
                     user_id = request.user.id,
                     product_id = product.id,
-                    price = product.price if not product.is_price2() else product.price2,
+                    price = preco_final,
                     payment_method = 1,
                     data_desejada = data_desejada
                 )
@@ -147,7 +151,7 @@ def index(request):
                 order = Order.objects.get(pk=order_id)
                 order.user_id = request.user.id
                 order.product_id = product.id
-                order.price = product.price if not product.is_price2() else product.price2
+                order.price = preco_final
                 order.data_desejada = data_desejada
                 order.card_brand = None
                 order.card_end = None
@@ -192,6 +196,7 @@ def index(request):
         'msg': msg,
         'environment': environment,
         'is_seminario': is_seminario,
+        'preco_final': preco_final
     })
 
 
