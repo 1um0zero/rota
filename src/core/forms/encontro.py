@@ -98,7 +98,7 @@ class Encontro(forms.Form):
         ]]
     )
 
-    logline = forms.CharField(max_length=200)
+    logline = forms.CharField(max_length=2048)
 
     sinopse = forms.FileField()
 
