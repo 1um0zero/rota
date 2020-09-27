@@ -14,11 +14,16 @@ def run(*args):
         g2 = CuradorGroup.objects.get(contest_id=s.contest_id, name=g2_nome)
         evals = Evaluation.objects.filter(subscription=s, step=1)
 
+        to_delete = set()
         for e in evals.all():
-            user_role = UserRole.objects.get(user=e.evaluator, role=e.role)
-            if user_role.group.id == g1.id:
-                print('Removendo avaliação de {}'.format(e.evaluator))
-                e.delete()
+            user_roles = UserRole.objects.filter(user=e.evaluator, role=e.role)
+            for ur in user_roles.all():
+                if ur.group.id == g1.id:                    
+                    to_delete.add(e)
+
+        for td in to_delete:
+            print('Removendo avaliação de {}'.format(e.evaluator))
+            td.delete()
 
         print('Antes: {}'.format(s.groups.only('name')))
         s.groups.remove(g1)
