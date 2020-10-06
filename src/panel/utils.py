@@ -27,7 +27,7 @@ INDICACOES_AVALIACAO = {
               ROLE_JURADO: {2: [(1, 'indica_roteiro', 'Melhor roteiro'), (1,'indica_personagem','Melhor Personagem'), (1,'indica_dialogo','Melhor Diálogo')]},
               ROLE_CABIRIA: {2: [(1, 'indica_roteiro', 'Melhor protagonista feminina (Prêmio Cabíria)')]} },
     LABORATORIO: {ROLE_CURADOR: {1: [(4, 'indica_projeto', 'Aprovado para a próxima etapa'), (2, 'indica_suplente', 'Suplente')], 
-                                 2: [(4, 'indica_projeto', 'Aprovado para a próxima etapa')]} },
+                                 2: [(5, 'indica_projeto', 'Aprovado para a próxima etapa')]} },
     MOSTRA: {ROLE_CURADOR: {1: [(1, 'indica_ficcao', 'Melhor Ficção'), (1, 'indica_doc', 'Melhor documentário'), (1, 'premio_sina', 'Melhor filme com temática social')]}, 
              ROLE_JURADO: {2: [(1, 'indica_ficcao', 'Melhor Ficção'), (1, 'indica_doc', 'Melhor documentário')]}, 
              ROLE_SINA: {2: [(1, 'indica_curta', 'Melhor filme com temática social')]} }
