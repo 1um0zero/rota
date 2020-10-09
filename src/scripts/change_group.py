@@ -8,11 +8,12 @@ def run(*args):
         sub_id = int(args[0])
         g1_nome = args[1]
         g2_nome = args[2]
+        step = args[3]
 
         s = Subscription.objects.get(id=sub_id)
         g1 = CuradorGroup.objects.get(contest_id=s.contest_id, name=g1_nome)
         g2 = CuradorGroup.objects.get(contest_id=s.contest_id, name=g2_nome)
-        evals = Evaluation.objects.filter(subscription=s, step=1)
+        evals = Evaluation.objects.filter(subscription=s, step=step)
 
         to_delete = set()
         for e in evals.all():
