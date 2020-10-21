@@ -227,4 +227,15 @@ class Evaluation(models.Model):
     step = models.IntegerField(default=1)
     grades = models.TextField(null=True)
     questions = models.TextField(null=True)
-    
+
+
+class MarcaEncontro(models.Model):
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
+    evaluator = models.ForeignKey(User, on_delete=models.CASCADE)
+    see = models.BooleanField(default=False)
+    select = models.BooleanField(default=False)
+
+
+class JuriPopular(models.Model):
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
+    evaluator = models.ForeignKey(User, on_delete=models.CASCADE)

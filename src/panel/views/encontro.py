@@ -1,8 +1,9 @@
 import os
 import json
-from django.shortcuts import render, HttpResponse
+from django.contrib.auth.models import User
+from django.shortcuts import render, HttpResponse, redirect
 from django.views.decorators.csrf import csrf_exempt
-from core.models import Script, Subscription, UserRole, Folder
+from core.models import Script, Subscription, UserRole, Folder, MarcaEncontro
 from rota.settings import UPLOAD_DIR
 
 
@@ -38,6 +39,8 @@ def index(request):
         qtd = Subscription.objects.filter(folder_id=_f.id).count()
         folders
 
+    marcacoes = dict()
+
     if not folders:
         if request.session['painel']['role'][0] == 0:
             items = Subscription.objects.filter(contest_id=2, status=1, folder_id=folder.id if folder is not None else 0)
@@ -51,12 +54,22 @@ def index(request):
             items = Subscription.objects.filter(contest_id=2, status=1, groups__in=groups, folder_id=folder.id).distinct()
 
         for item in items:
+            item.marca = MarcaEncontro.objects.filter(subscription=item, evaluator_id=request.session['painel']['id']).first()
             item.data = json.loads(item.data)
+    else:        
+        mes = MarcaEncontro.objects.filter(select=True).order_by('evaluator')          
+        for m in mes:
+            if m.evaluator.first_name not in marcacoes:
+                marcacoes[m.evaluator.first_name] = []
+            m.subscription.data = json.loads(m.subscription.data)
+            marcacoes[m.evaluator.first_name].append(m.subscription)
+
 
     return render(request, 'panel/encontro/index.html', {
         'folder': folder,
         'folders': folders,
         'items': items,
+        'marcacoes': marcacoes,
         'path': path
     })
 
@@ -67,9 +80,30 @@ def view(request, project_id):
 
     subscription.user_data = json.loads(subscription.data)
 
+    me = MarcaEncontro.objects.filter(subscription=subscription, evaluator_id=request.session['painel']['id']).first()
+    if me:
+        me.see = True
+        me.save()
+    else:
+        me = MarcaEncontro(subscription=subscription, evaluator=User.objects.get(id=request.session['painel']['id']), see=True, select=False)
+        me.save()
+
     return render(request, 'panel/encontro/view.html', {
         'subscription': subscription
     })
+
+
+def marcar(request, project_id):
+    subscription = Subscription.objects.get(pk=project_id, contest_id=2, status=1)
+    me = MarcaEncontro.objects.filter(subscription=subscription, evaluator_id=request.session['painel']['id']).first()
+    if me:
+        me.select = not me.select
+        me.save()
+    else:
+        me = MarcaEncontro(subscription=subscription, evaluator=User.objects.get(id=request.session['painel']['id']), see=True, select=True)
+        me.save()
+
+    return redirect('/painel/encontro?f=' + request.GET['f'])
 
 def download(request, script_id):
     script = Script.objects.get(pk=script_id)

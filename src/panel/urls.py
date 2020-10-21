@@ -29,6 +29,7 @@ urlpatterns = [
     path('projetos', projects.index),
     path('projetos/ver/<int:project_id>', projects.view),
     path('encontro', encontro.index),
+    path('encontro/marcar/<int:project_id>', encontro.marcar),
     path('encontro/ver/<int:project_id>', encontro.view),
     path('folders', encontro.folders),
     path('acessos', acessos.index),

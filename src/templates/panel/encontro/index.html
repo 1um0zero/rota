@@ -59,6 +59,24 @@
       </a>
       {% endfor %}
     </div>
+
+    {% if request.session.painel.is_admin %}
+      <br>
+      <h4>Players que marcaram encontro:</h4>
+      <table style="margin: 20px; padding: 10px; border: 1px solid black;">
+        {% for player, projetos in marcacoes.items %}
+          <tr style="border: 1px solid black;">
+            <td style="padding: 10px;">{{player}}</td>
+            <td style="padding: 10px;">
+              {% for proj in projetos %}              
+                <a href="/painel/encontro/ver/{{proj.id}}">{{proj.id}} - {{proj.data.titulo}}</a><br>
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>      
+    {% endif %}
+
   {% else %}
       <h4 style="margin-top:30px">Listando {{ items | length }} projetos</h4>
   {% endif %}
@@ -70,6 +88,13 @@
         <div class="" style="margin:5px">
           <div class="box">
             <div class="box-body no-padding" style="text-align:center">
+              {% if item.marca and item.marca.see %}
+                <i style="float: right; margin: 10px;" class="fa fa-eye" title="Projeto já visto"></i>
+              {% endif %}
+              {% if item.marca and item.marca.select %}
+                <i style="float: right; color: gold; margin: 10px;" class="fa fa-star" title="Quero encontro"></i>
+              {% endif %}
+
               <a href="/painel/encontro/ver/{{ item.id }}">
                   
                 <i style="display:block;font-size:50px;margin:10px" class="fa
@@ -78,8 +103,13 @@
                 {% endif %}"></i>
 
                 {{ item.data.titulo }}
-                <br>&nbsp;
+
+                <br>                
+                <br>
                </a>
+               <a class="btn btn-primary btn-sm" style="margin-bottom: 5px; margin-top: 5px;" href="/painel/encontro/marcar/{{ item.id }}?f={{ item.folder_id }}">
+                <i class="fa fa-star"></i>&nbsp;{% if item.marca and item.marca.select %} Cancelar encontro {% else %} Marcar encontro {% endif %}
+              </a>
 
             </div>
           </div>
