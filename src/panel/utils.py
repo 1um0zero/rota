@@ -3,7 +3,7 @@ import json
 import time
 import unidecode
 from core.models import Subscription, Evaluation
-from panel.forms.avaliacao import AvaliacaoConcurso, AvaliacaoConcursoJur, AvaliacaoConcursoCabiria, AvaliacaoLab, AvaliacaoLab2, AvaliacaoMostra, AvaliacaoMostraJur, AvaliacaoMostraSina
+from panel.forms.avaliacao import AvaliacaoConcurso, AvaliacaoConcursoJur, AvaliacaoConcursoCabiria, AvaliacaoLab, AvaliacaoLab2, AvaliacaoMostra, AvaliacaoMostraJur, AvaliacaoMostraSina, AvaliacaoMostraKinobox
 
 ROTEIRO = 1
 ENCONTRO = 2
@@ -15,11 +15,12 @@ ROLE_JURADO = 2
 ROLE_CABIRIA = 3
 ROLE_SINA = 4
 ROLE_PLAYER = 5
+ROLE_KINOBOX = 6
 
 FICHAS_AVALIACAO = {
     ROTEIRO: {ROLE_CURADOR: {1: AvaliacaoConcurso}, ROLE_JURADO: {2: AvaliacaoConcursoJur}, ROLE_CABIRIA: {2: AvaliacaoConcursoCabiria} },
     LABORATORIO: {ROLE_CURADOR: {1: AvaliacaoLab, 2: AvaliacaoLab2} },
-    MOSTRA: {ROLE_CURADOR: {1: AvaliacaoMostra}, ROLE_JURADO: {2: AvaliacaoMostraJur}, ROLE_SINA: {2: AvaliacaoMostraSina} }
+    MOSTRA: {ROLE_CURADOR: {1: AvaliacaoMostra}, ROLE_JURADO: {2: AvaliacaoMostraJur}, ROLE_SINA: {2: AvaliacaoMostraSina}, ROLE_KINOBOX: {2: AvaliacaoMostraKinobox} }
 }
 
 INDICACOES_AVALIACAO = {
@@ -30,7 +31,8 @@ INDICACOES_AVALIACAO = {
                                  2: [(5, 'indica_projeto', 'Aprovado para a próxima etapa')]} },
     MOSTRA: {ROLE_CURADOR: {1: [(1, 'indica_ficcao', 'Melhor Ficção'), (1, 'indica_doc', 'Melhor documentário'), (1, 'premio_sina', 'Melhor filme com temática social')]}, 
              ROLE_JURADO: {2: [(1, 'indica_ficcao', 'Melhor Ficção'), (1, 'indica_doc', 'Melhor documentário')]}, 
-             ROLE_SINA: {2: [(1, 'indica_curta', 'Melhor filme com temática social')]} }
+             ROLE_SINA: {2: [(1, 'indica_curta', 'Melhor filme com temática social')]},
+             ROLE_KINOBOX: {2: [(1, 'indica_curta', 'Melhor filme Prêmio Kinobox')]} }
 }
 
 def ficha_avaliacao(contest_id, role_id, step):

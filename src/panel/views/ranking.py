@@ -2,7 +2,7 @@ import json
 from statistics import mean
 from django.shortcuts import render, HttpResponse, redirect
 from core.models import Evaluation, Subscription, UserProfile, CuradorGroup
-from panel.utils import indicacoes_avaliacao, ficha_avaliacao, ROTEIRO, LABORATORIO, MOSTRA, ROLE_CURADOR, ROLE_JURADO, ROLE_CABIRIA, ROLE_SINA
+from panel.utils import indicacoes_avaliacao, ficha_avaliacao, ROTEIRO, LABORATORIO, MOSTRA, ROLE_CURADOR, ROLE_JURADO, ROLE_CABIRIA, ROLE_SINA, ROLE_KINOBOX
 
 
 def index(request):
@@ -15,7 +15,7 @@ def index(request):
         for step in [1,2]:
             res[contest_id][step] = []
             outros[contest_id][step] = []
-            for role_id in [ROLE_CURADOR, ROLE_JURADO, ROLE_CABIRIA, ROLE_SINA]:
+            for role_id in [ROLE_CURADOR, ROLE_JURADO, ROLE_CABIRIA, ROLE_SINA, ROLE_KINOBOX]:
                 categorias = indicacoes_avaliacao(contest_id, role_id, step)
                 cat_projetos = dict()
                 for insc in inscricoes:

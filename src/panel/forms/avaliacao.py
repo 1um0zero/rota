@@ -150,3 +150,15 @@ class AvaliacaoMostraSina(forms.Form):
 
     def get_template(self):
         return 'ficha_mostra_sina.html'
+
+
+class AvaliacaoMostraKinobox(forms.Form):
+    indica_curta = forms.ChoiceField(label='Indica este filme para ser o vencedor do Prêmio KINOBOX?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
+    def get_grades(self):
+        return []
+    
+    def get_questions(self):
+        return ['indica_curta']
+
+    def get_template(self):
+        return 'ficha_mostra_kinobox.html'
