@@ -215,8 +215,18 @@ class Curador(models.Model):
     def save(self, *args, **kwargs):
         if self.category == 'curador' or self.category == 'curadora':
             self.category_order = 0
-        elif self.category == 'jurado' or self.category == 'jurada':
+        elif self.category == 'curador 2ª etapa' or self.category == 'curadora 2ª etapa':
             self.category_order = 1
+        elif self.category == 'jurado' or self.category == 'jurada':
+            self.category_order = 2
+        elif self.category == 'consultor' or self.category == 'consultora':
+            self.category_order = 3
+        elif self.category == 'jurado de pitching' or self.category == 'jurada de pitching':
+            self.category_order = 4
+        elif self.category == 'convidado' or self.category == 'convidada':
+            self.category_order = 5
+        elif self.category == 'parceiro' or self.category == 'parceira':
+            self.category_order = 6
         super(Curador, self).save(*args, **kwargs)
 
 

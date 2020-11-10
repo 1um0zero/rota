@@ -10,8 +10,18 @@ class CuradorForm(ModelForm):
                 ('', ''),
                 ('curador', 'Curador'),
                 ('curadora', 'Curadora'),
+                ('curador 2ª etapa', 'Curador 2ª etapa'),
+                ('curadora 2ª etapa', 'Curadora 2ª etapa'),
                 ('jurado', 'Jurado'),
                 ('jurada', 'Jurada'),
+                ('consultor', 'Consultor'),
+                ('consultora', 'Consultora'),
+                ('jurado de pitching', 'Jurado de Pitching'),
+                ('jurada de pitching', 'Jurada de Pitching'),
+                ('convidado', 'Convidado'),
+                ('convidada', 'Convidada'),
+                ('parceiro', 'Parceiro (Player)'),
+                ('parceira', 'Parceira (Player)'),
                 )
         widgets = {
             'category': forms.Select(choices=CATEGORIES, attrs={'class': 'form-control'}),
