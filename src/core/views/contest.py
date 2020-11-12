@@ -56,15 +56,17 @@ def contest(request, url):
                         if field != 'csrfmiddlewaretoken':                            
                             data[field] = form.cleaned_data.get(field)
 
-                    for filefield in request.FILES:
+                    for filefield in request.FILES:                        
                         filename = str(uuid4())
                         path = os.path.join(UPLOAD_DIR, filename)
-
+                        
                         with open(path, 'wb') as _f:
                             for chunk in request.FILES[filefield].chunks():
                                 _f.write(chunk)
-                        
-                        ext = str(filetype.guess(path).extension).lower()
+                        try:
+                            ext = str(filetype.guess(path).extension).lower()
+                        except:
+                            ext = str(request.FILES[filefield])[-3:].lower()
                         newpath = path + '.' + ext
                         os.rename(path, newpath)
                         data[filefield] = filename + '.' + ext
