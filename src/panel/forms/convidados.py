@@ -22,6 +22,9 @@ class CuradorForm(ModelForm):
                 ('convidada', 'Convidada'),
                 ('parceiro', 'Parceiro (Player)'),
                 ('parceira', 'Parceira (Player)'),
+                ('palestrante', 'Palestrante'),                
+                ('mediador', 'Mediador'),
+                ('mediador', 'Mediadora'),
                 )
         widgets = {
             'category': forms.Select(choices=CATEGORIES, attrs={'class': 'form-control'}),

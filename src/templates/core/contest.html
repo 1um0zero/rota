@@ -98,8 +98,7 @@ ul.convidados h3 {
       {% if contest.curador_set.count > 0 %}
         <div class="item_menu_contest">
           <a href="javascript:convidados()">
-            {% if contest.id == 2 %} Players
-            {% elif contest.id == 5 %} Palestrantes
+            {% if contest.id == 2 %} Players            
             {% else %} Convidados
             {% endif %}
           </a>
@@ -122,9 +121,7 @@ ul.convidados h3 {
       {% if contest.curador_set.count > 0 %}
       
         {% if contest.id == 2 %}
-          <h4 id="h4_convidados">Players</h4>
-        {% elif contest.id == 5 %}
-          <h4 id="h4_convidados">Palestrantes</h4>
+          <h4 id="h4_convidados">Players</h4>       
         {% else %}
           <h4 id="h4_convidados">Convidados</h4>
         {% endif %}

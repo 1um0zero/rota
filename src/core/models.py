@@ -227,6 +227,10 @@ class Curador(models.Model):
             self.category_order = 5
         elif self.category == 'parceiro' or self.category == 'parceira':
             self.category_order = 6
+        elif self.category == 'palestrante':
+            self.category_order = 7
+        elif self.category == 'mediador' or self.category == 'mediadora':
+            self.category_order = 8
         super(Curador, self).save(*args, **kwargs)
 
 
