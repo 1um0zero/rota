@@ -129,8 +129,8 @@ function toogle_juri_popular(contest_id, valor)
     // Callback handler that will be called on failure
     request.fail(function (jqXHR, textStatus, errorThrown){
         // Log the error to the console
-        console.error(
-            "The following error occurred: "+
+        alert(
+            "Erro inesperado: "+
             textStatus, errorThrown
         );
     });
