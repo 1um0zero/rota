@@ -48,4 +48,6 @@ urlpatterns = [
     path('confirmacao-inscricao', pages.subscription_confirmation),
     path('confirmacao-pagamento', billing.confirmation),
 
+    path('votar', contest.votar),
+
 ]

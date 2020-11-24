@@ -1,0 +1,54 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-gavel"></i>&nbsp; Júri Popular{% endblock %}
+
+{% block content %}
+<meta http-equiv="refresh" content="10">
+<div class="box">      
+    <div class="box-body">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                {% for r in result %}
+                    <li {% if forloop.counter0 == 0 %} class="active" {% endif %}><a href="#tab_{{r.id}}" data-toggle="tab">{{r.nome}}</a></li> 
+                {% endfor %}
+            </ul>
+            <div class="tab-content">
+                {% for r in result %}                
+                    <div class="tab-pane {% if forloop.counter0 == 0 %} active {% endif %}" id="tab_{{r.id}}">
+                        <div class="container">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" data-toggle="toggle" {% if r.open %} checked {% endif %} onclick="toogle_juri_popular({{r.id}}, this.checked)">
+                                    Habilitar Votação no site
+                                </label>
+                            </div>
+                            <div class="row">
+                                {% for cat in r.categorias %}
+                                    <div class="col-md-6">
+                                        <h3>{{cat.nome}}</h3>
+                                        <h4>Total de votos: {{cat.total}}</h4>
+                                        <br>        
+                                        <table class="table table-striped">
+                                            {% for p in cat.projetos %}
+                                                <tr>
+                                                    <td style="padding: 5px;">
+                                                        {{p.id}} - {{p.nome}}
+                                                    </td>
+                                                    <td style="padding: 5px;">
+                                                        {{p.votos}}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>                                
+                                    </div>
+                                {% endfor %}                          
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

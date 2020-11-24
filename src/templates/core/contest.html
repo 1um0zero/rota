@@ -78,6 +78,10 @@ ul.convidados h3 {
     width: 100%;
   }
 }
+
+table, th, td {
+  border: 1px solid black;
+}
 </style>
 
 
@@ -90,6 +94,11 @@ ul.convidados h3 {
     {% endif %}
 
     <div class="menu_contest">
+      {% if contest.juri_popular_open %}
+        <div class="item_menu_contest">
+          <a href="javascript:juri_popular()">Júri Popular</a>
+        </div>
+      {% endif %}
       {% if contest.regulation %}
         <div class="item_menu_contest">
           <a href="javascript:regulamento()">Regulamento</a>
@@ -112,6 +121,44 @@ ul.convidados h3 {
     </div>
 
     <div class="c contentDescription">
+      {% if contest.juri_popular_open %}
+        <h4 id="h4_juri_popular" name="h4_juri_popular">Júri Popular</h4> 
+        <br>
+          <span class="small">Obs: Você pode votar uma vez para cada categoria!</span>
+          <br>
+          <br>
+          <br>
+          {% for cat in categorias %}        
+              <h5>{{cat.nome}}</h5>
+              <table class="table table-striped">
+                {% for p in cat.projetos %}
+                  <tr>
+                    <td style="padding: 10px;">
+                      {% if p.url == '' %}
+                        {{p.nome}}
+                      {% elif p.url|is_youtube %}
+                        <iframe class="youtube_iframe" width="300" src="{{ p.url | youtube }}" 
+                          frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin-top: 10px;">
+                        </iframe><br>
+                        {{p.nome}}
+                      {% elif p.url|is_vimeo %}
+                        <iframe src="{{ p.url | vimeo }}" 
+                          class="youtube_iframe" width="300" frameborder="0" allow="autoplay; fullscreen" allowfullscreen>
+                        </iframe><br>
+                        {{p.nome}}                      
+                      {% else %}
+                        <a href="{{ p.url }}" target="_blank">{{p.nome}}</a>
+                      {% endif %}
+                      
+                    </td>
+                    <td style="padding: 10px;" class="align-middle"><input type="button" class="btn active" value="Votar!" onclick="votar({{p.id}}, {{cat.id}})"></td>
+                  </tr>
+                {% endfor %}
+              </table>
+              <br><br>
+              <br>
+          {% endfor %}        
+      {% endif %}
 
       <h4>Descrição</h4>
       <div id="contest_description">

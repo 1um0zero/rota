@@ -37,6 +37,8 @@ urlpatterns = [
     path('acessos/del/<int:ur_id>', acessos.remove),
     path('acessos/search', acessos.search),
     path('ranking', ranking.index),
+    path('juri_popular', ranking.juri_popular),
+    path('toogle_juri_popular', ranking.toogle_juri_popular),
     path('ficha/<int:sub_id>', ranking.ficha),
     path('ranking/promover', ranking.promover),
 ]

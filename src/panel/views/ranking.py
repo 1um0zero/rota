@@ -1,7 +1,7 @@
 import json
 from statistics import mean
 from django.shortcuts import render, HttpResponse, redirect
-from core.models import Evaluation, Subscription, UserProfile, CuradorGroup
+from core.models import Evaluation, Subscription, UserProfile, CuradorGroup, CategoriaJuriPopular, JuriPopular, Contest
 from panel.utils import indicacoes_avaliacao, ficha_avaliacao, ROTEIRO, LABORATORIO, MOSTRA, ROLE_CURADOR, ROLE_JURADO, ROLE_CABIRIA, ROLE_SINA, ROLE_KINOBOX
 
 
@@ -119,3 +119,43 @@ def promover(request):
             sub.save()
     
     return redirect('/painel/acessos')
+
+
+def juri_popular(request):
+    result = []
+    #result.append({'id': 1, 'nome': '', 'categorias': []})
+    #result.append({'id': 2, 'nome': '', 'categorias': []})
+    result.append({'id': 3, 'nome': '', 'categorias': [], 'open': False})
+    result.append({'id': 4, 'nome': '', 'categorias': [], 'open': False})
+
+    cats = CategoriaJuriPopular.objects.all()
+    for c in cats:
+        categoria = dict()
+        categoria['nome'] = c.name
+        res = list(filter(lambda x: x['id'] == c.contest.id, result))
+        res[0]['nome'] = c.contest.name
+        res[0]['open'] = c.contest.juri_popular_open
+
+        projetos = JuriPopular.objects.filter(category=c).all()
+        categoria['projetos'] = []
+        categoria['total'] = 0
+        for p in projetos:
+            dados = json.loads(p.subscription.data)
+            categoria['projetos'].append({'id': p.subscription.id, 'nome': dados['title' if 'title' in dados else 'titulo'], 'votos': p.votes})
+            categoria['total'] += p.votes
+
+        categoria['projetos'].sort(reverse=True, key=lambda x: x['votos'])
+        res[0]['categorias'].append(categoria)
+        
+    return render(request, 'panel/avaliacoes/juri_popular.html', {'result': result})
+
+
+def toogle_juri_popular(request):
+    contest_id = request.POST['contest_id']
+    valor = True if request.POST['valor'] == 'true' else False
+
+    contest = Contest.objects.get(id=contest_id)
+    contest.juri_popular_open = valor
+    contest.save()
+
+    return HttpResponse('OK')

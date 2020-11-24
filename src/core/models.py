@@ -31,6 +31,7 @@ class Contest(models.Model):
     subscription_start = models.DateTimeField(null=True)
     subscription_end = models.DateTimeField(null=True)
     step = models.IntegerField(default=1)
+    juri_popular_open = models.BooleanField(default=False)
     
     def __str__(self):
         return self.name
@@ -61,13 +62,12 @@ class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     data = models.TextField(null=True)
-    status = models.IntegerField(default=0)
-    #group = models.ForeignKey(CuradorGroup, on_delete=models.DO_NOTHING, null=True, default=None)
+    status = models.IntegerField(default=0)    
     groups = models.ManyToManyField(CuradorGroup)
     folder = models.ForeignKey(Folder, null=True, default=None,
         on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(default=datetime.datetime.now)
-
+    
     def get_status(self):
         statuses = {
             0: 'Em análise',
@@ -250,6 +250,17 @@ class MarcaEncontro(models.Model):
     select = models.BooleanField(default=False)
 
 
+class CategoriaJuriPopular(models.Model):
+    name = models.CharField(max_length=1024)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
+
+
 class JuriPopular(models.Model):
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
-    evaluator = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(CategoriaJuriPopular, on_delete=models.CASCADE, null=True)    
+    votes = models.IntegerField(default=0)
+
+
+class IPJuriPopular(models.Model):
+    ip = models.CharField(max_length=1024)
+    category = models.ForeignKey(CategoriaJuriPopular, on_delete=models.CASCADE, null=True)

@@ -5,7 +5,7 @@ from uuid import uuid4
 from django.shortcuts import render, redirect, HttpResponse
 from rota.settings import CONFIG
 from core import sendgrid
-from core.models import Contest, Subscription, Order, UserProfile
+from core.models import Contest, Subscription, Order, UserProfile, CategoriaJuriPopular, JuriPopular, IPJuriPopular
 from core.forms.concurso_roteiros import ConcursoRoteiros
 from core.forms.mostra import MostraCompetitiva
 from core.forms.lab import Lab
@@ -36,6 +36,20 @@ def contest(request, url):
         contest_id=contest.id, status=1).count()
 
     has_limit = contest.has_limit()
+
+    categorias = []
+    if contest.juri_popular_open:        
+        cats = CategoriaJuriPopular.objects.filter(contest_id=contest.id)
+        for c in cats:
+            categoria = dict()
+            categoria['id'] = c.id
+            categoria['nome'] = c.name            
+            projetos = JuriPopular.objects.filter(category=c).all()
+            categoria['projetos'] = []            
+            for p in projetos:
+                dados = json.loads(p.subscription.data)
+                categoria['projetos'].append({'id': p.subscription.id, 'nome': dados['title' if 'title' in dados else 'titulo'], 'url': dados['url'] if 'url' in dados else ''})             
+            categorias.append(categoria)
 
     if contest.is_free and qtd_subscriptions >= 3:
         error = 'Você já enviou 3 inscrições para este concurso.'
@@ -121,5 +135,24 @@ def contest(request, url):
         'qtd_subscriptions': qtd_subscriptions,
         'has_limit': has_limit,
         'block_user': block_user,
+        'categorias': categorias
     })
 
+
+def votar(request):
+    try:
+        sub_id = request.POST['subscription_id']
+        cat_id = request.POST['categoria_id']
+        ip = request.POST['ip']
+
+        jp = JuriPopular.objects.get(subscription_id=sub_id, category_id=cat_id)
+        if IPJuriPopular.objects.filter(ip=ip, category_id=cat_id).exists():
+            raise
+
+        jp.votes += 1
+        jp.save()
+
+        IPJuriPopular(ip=ip, category_id=cat_id).save()
+        return HttpResponse('OK')
+    except:
+        return HttpResponse('FAIL')
