@@ -128,36 +128,41 @@ table, th, td {
           <br>
           <br>
           <br>
-          {% for cat in categorias %}        
-              <h5>{{cat.nome}}</h5>
-              <table class="table table-striped">
-                {% for p in cat.projetos %}
-                  <tr>
-                    <td style="padding: 10px;">
-                      {% if p.url == '' %}
-                        {{p.nome}}
-                      {% elif p.url|is_youtube %}
-                        <iframe class="youtube_iframe" width="300" src="{{ p.url | youtube }}" 
-                          frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin-top: 10px;">
-                        </iframe><br>
-                        {{p.nome}}
-                      {% elif p.url|is_vimeo %}
-                        <iframe src="{{ p.url | vimeo }}" 
-                          class="youtube_iframe" width="300" frameborder="0" allow="autoplay; fullscreen" allowfullscreen>
-                        </iframe><br>
-                        {{p.nome}}                      
-                      {% else %}
-                        <a href="{{ p.url }}" target="_blank">{{p.nome}}</a>
-                      {% endif %}
-                      
-                    </td>
-                    <td style="padding: 10px;" class="align-middle"><input type="button" class="btn active" value="Votar!" onclick="votar({{p.id}}, {{cat.id}})"></td>
-                  </tr>
-                {% endfor %}
-              </table>
-              <br><br>
-              <br>
-          {% endfor %}        
+          <ul class="convidados">
+            {% for cat in categorias %}  
+              <li>
+                <h5>{{cat.nome}}</h5>
+                
+                <table class="table table-striped">
+                  {% for p in cat.projetos %}
+                    <tr>
+                      <td style="padding: 10px;">
+                        {% if p.url == '' %}
+                          {{p.nome}}
+                        {% elif p.url|is_youtube %}
+                          <iframe class="youtube_iframe" width="300" src="{{ p.url | youtube }}" 
+                            frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin-top: 10px;">
+                          </iframe><br>
+                          {{p.nome}}
+                        {% elif p.url|is_vimeo %}
+                          <iframe src="{{ p.url | vimeo }}" 
+                            class="youtube_iframe" width="300" frameborder="0" allow="autoplay; fullscreen" allowfullscreen>
+                          </iframe><br>
+                          {{p.nome}}                      
+                        {% else %}
+                          <a href="{{ p.url }}" target="_blank">{{p.nome}}</a>
+                        {% endif %}
+                        
+                      </td>
+                      <td style="padding: 10px;" class="align-middle"><input type="button" class="btn active" value="Votar!" onclick="votar({{p.id}}, {{cat.id}})"></td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </li>        
+                <br><br>
+                <br>
+            {% endfor %}  
+          </ul>      
       {% endif %}
 
       <h4>Descrição</h4>
