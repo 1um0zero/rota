@@ -4,6 +4,7 @@
 {% block title %}<i class="fa fa-gavel"></i>&nbsp; Júri Popular{% endblock %}
 
 {% block content %}
+{% csrf_token %}
 <input type="button" class="btn btn-primary" value="Recarregar" onclick="location.reload();" style="margin: 10px;">
 <div class="box">      
     <div class="box-body">

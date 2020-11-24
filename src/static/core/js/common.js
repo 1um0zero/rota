@@ -1,5 +1,5 @@
 
-
+/*
 function getCookie(c_name)
 {
     if (document.cookie.length > 0)
@@ -15,6 +15,23 @@ function getCookie(c_name)
     }
     return "";
  }
+*/
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
 function regulamento(){
     $([document.documentElement, document.body]).animate({
@@ -62,10 +79,7 @@ function computar_voto(ip, sub_id, cat_id)
     // Callback handler that will be called on failure
     request.fail(function (jqXHR, textStatus, errorThrown){
         // Log the error to the console
-        alert(
-            "Erro inesperado: "+
-            textStatus, errorThrown
-        );
+        alert("Erro inesperado: " + textStatus + " / " + errorThrown + " / Ip: " + ip + " / csrftoken: " + getCookie("csrftoken"));
     });
 
     // Callback handler that will be called regardless
@@ -91,7 +105,7 @@ function votar(sub_id, cat_id)
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             console.log("Status: " + textStatus + " Error: " + errorThrown);
             ip = getCookie("ip_fake");
-            if (ip == '') {
+            if (!ip) {
                 ip = Math.floor(Math.random() * 1000000).toString();
                 document.cookie = "ip_fake=" + ip + "; path=/";                
             }

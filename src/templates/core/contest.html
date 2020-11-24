@@ -84,7 +84,7 @@ table, th, td {
 }
 </style>
 
-
+{% csrf_token %}
 <div class="concurso">
   <div>
     {% if contest.image_url %}
