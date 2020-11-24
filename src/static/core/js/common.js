@@ -40,6 +40,41 @@ function juri_popular(){
     }, 150);
   }
 
+
+function computar_voto(ip, sub_id, cat_id)
+{
+    request = $.ajax({
+        headers: { "X-CSRFToken": getCookie("csrftoken") },
+        url: "/votar",
+        type: "post",
+        data: {subscription_id: sub_id, categoria_id: cat_id, ip: ip}
+    });
+
+    // Callback handler that will be called on success
+    request.done(function (response, textStatus, jqXHR){
+        
+        if (response == 'OK')
+            alert('Voto computado com sucesso!');
+        else
+            alert('Você já votou nesta categoria!');
+    });
+
+    // Callback handler that will be called on failure
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        // Log the error to the console
+        alert(
+            "Erro inesperado: "+
+            textStatus, errorThrown
+        );
+    });
+
+    // Callback handler that will be called regardless
+    // if the request failed or succeeded
+    request.always(function () {
+        //
+    });
+}
+
 function votar(sub_id, cat_id)
 {    
     var ip = '';
@@ -51,37 +86,16 @@ function votar(sub_id, cat_id)
         success: function(response) { 
             ip = response.ip_address;
             //ip = Math.floor(Math.random() * 1000000).toString();
-
-            request = $.ajax({
-                headers: { "X-CSRFToken": getCookie("csrftoken") },
-                url: "/votar",
-                type: "post",
-                data: {subscription_id: sub_id, categoria_id: cat_id, ip: ip}
-            });
-        
-            // Callback handler that will be called on success
-            request.done(function (response, textStatus, jqXHR){
-                
-                if (response == 'OK')
-                    alert('Voto computado com sucesso!');
-                else
-                    alert('Você já votou nesta categoria!');
-            });
-        
-            // Callback handler that will be called on failure
-            request.fail(function (jqXHR, textStatus, errorThrown){
-                // Log the error to the console
-                console.error(
-                    "The following error occurred: "+
-                    textStatus, errorThrown
-                );
-            });
-        
-            // Callback handler that will be called regardless
-            // if the request failed or succeeded
-            request.always(function () {
-                //
-            });
+            computar_voto(ip, sub_id, cat_id);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            console.log("Status: " + textStatus + " Error: " + errorThrown);
+            ip = getCookie("ip_fake");
+            if (ip == '') {
+                ip = Math.floor(Math.random() * 1000000).toString();
+                document.cookie = "ip_fake=" + ip + "; path=/";                
+            }
+            computar_voto(ip, sub_id, cat_id);
         }
     });
   

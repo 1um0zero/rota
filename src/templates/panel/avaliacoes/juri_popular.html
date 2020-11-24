@@ -4,7 +4,7 @@
 {% block title %}<i class="fa fa-gavel"></i>&nbsp; Júri Popular{% endblock %}
 
 {% block content %}
-<meta http-equiv="refresh" content="10">
+<input type="button" class="btn btn-primary" value="Recarregar" onclick="location.reload();" style="margin: 10px;">
 <div class="box">      
     <div class="box-body">
         <div class="nav-tabs-custom">
@@ -25,10 +25,10 @@
                             </div>
                             <div class="row">
                                 {% for cat in r.categorias %}
-                                    <div class="col-md-6">
+                                    <div class="col-sm-4">
                                         <h3>{{cat.nome}}</h3>
                                         <h4>Total de votos: {{cat.total}}</h4>
-                                        <br>        
+                                        <br>
                                         <table class="table table-striped">
                                             {% for p in cat.projetos %}
                                                 <tr>

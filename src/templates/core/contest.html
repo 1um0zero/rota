@@ -143,12 +143,12 @@ table, th, td {
                           <iframe class="youtube_iframe" width="300" src="{{ p.url | youtube }}" 
                             frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin-top: 10px;">
                           </iframe><br>
-                          {{p.nome}}
+                          <a href="{{ p.url }}" target="_blank">{{p.nome}}</a>
                         {% elif p.url|is_vimeo %}
                           <iframe src="{{ p.url | vimeo }}" 
                             class="youtube_iframe" width="300" frameborder="0" allow="autoplay; fullscreen" allowfullscreen>
                           </iframe><br>
-                          {{p.nome}}                      
+                          <a href="{{ p.url }}" target="_blank">{{p.nome}}</a>                   
                         {% else %}
                           <a href="{{ p.url }}" target="_blank">{{p.nome}}</a>
                         {% endif %}
