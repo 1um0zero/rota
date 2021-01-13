@@ -13,9 +13,10 @@ def run(*args):
             dados = json.loads(p.data)
             user = UserProfile.objects.get(user=p.user)
             linha['Id'] = p.id
-            linha['Projeto'] = dados['title'] if 'title' in dados else dados['titulo']
+            linha['Projeto'] = dados['title'] if 'title' in dados else dados['titulo']            
             linha['Autor'] = p.user.first_name
             linha['Nome social'] = user.social_name
+            linha['Estado'] = dados['estado'] if 'estado' in dados else dados['address_state']
             linha['Email'] = p.user.username
             linha['Telefone'] = '({}) {}'.format(user.ddd, user.phone)
             result.append(linha)
