@@ -33,27 +33,28 @@ def change_status(request):
         user_profile = UserProfile.objects.get(user=subscription.user)
        
         emails = {
-            1: 'rotaconcurso2020@gmail.com',
-            2: 'rotaencontro2020@gmail.com',
-            3: 'rotalab2020@gmail.com',
-            4: 'rotamostra2020@gmail.com',
-            5: 'rotaseminario2020@gmail.com'
+            1: 'rotaconcurso2021@gmail.com',
+            2: 'rotaencontro2021@gmail.com',
+            3: 'rotalab2021@gmail.com',
+            4: 'rotamostra2021@gmail.com',
+            5: 'rotaseminario2021@gmail.com'
         }
        
         if subscription.status == 1:               
-            msg = """Olá, {name}!<br><br>Sua inscrição para o {concurso} do IV Rota foi aprovada.
-                    Acompanhe a programação do festival pelo site e pelas redes sociais.<br>
+            msg = """Olá, {name}!<br><br>Sua inscrição de nº {inscricao} está HABILITADA para o {concurso} do V Rota.
+                    Fique de olho na lista dos semifinalistas que sairá nas Redes Sociais.<br>
                     Qualquer dúvida entre em contato pelo email {email_concurso}.<br>
                     Boa sorte!
                     """.format(
                         name=user_profile.get_name(),
+                        inscricao=subscription.id,
                         concurso=subscription.contest.name,
                         email_concurso=emails[subscription.contest.id]
                     )            
             sendgrid.send(subscription.user.email, 'Inscrição #{} aprovada!'.format(subscription.id), msg)
             distribute(subscription.contest.id)
         elif subscription.status == 2:                    
-            msg = """Olá, {name}!<br><br>Sua inscrição para o {concurso} do IV Rota foi reprovada.<br>
+            msg = """Olá, {name}!<br><br>Sua inscrição para o {concurso} do V Rota foi reprovada.<br>
                     Provavelmente houve algum problema na documentação enviada.<br>
                     Favor entrar em contato pelo email {email_concurso} informando seu número de inscrição #{inscricao}
                     para tentar resolver esta pendência.

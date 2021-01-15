@@ -93,10 +93,8 @@ def contest(request, url):
                     
                     user_profile = UserProfile.objects.get(user=request.user)
 
-                    msg = """Olá, {name}!<br><br>Sua inscrição para o {concurso} do IV Rota foi recebida.
-                        Em breve, você receberá uma notificação se está (ou não)
-                        tudo certo com a sua documentação. É só aguardar um
-                        pouquinho, ok?
+                    msg = """Olá, {name}!<br><br>Sua inscrição está HABILITADA a concorrer no {concurso} do V Rota. 
+                        Fique de olho na lista dos semifinalistas que sairá nas Redes Sociais.
                     """.format(
                         name=user_profile.get_name(),
                         concurso=contest.name
@@ -114,7 +112,7 @@ def contest(request, url):
                         return redirect('/confirmacao-inscricao')
 
                     else:
-                        request.session['msg'] = 'Sua inscrição foi recebida. Em breve, você receberá uma notificação se está (ou não) tudo certo com a sua documentação. É só aguardar um pouquinho, ok? '
+                        request.session['msg'] = 'Sua inscrição foi aceita com sucesso!'
                         request.session['msg_class'] = 'success'
                         request.session['subscription_id'] = subscription.id
                         request.session['contest_id'] = contest.id

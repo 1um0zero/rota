@@ -217,16 +217,13 @@ table, th, td {
       {% if not contest.subscription_open %}
         <div style="font-size:18px;text-align:center">
           {% if contest.id == 1 %}
-            Inscrições abertas de 27 de julho a 21 de agosto de 2020!
-          {% elif contest.id == 2 %}
-            {% if request.user.is_authenticated and request.user.username == 'stefanomotta@yahoo.com' %}
-              {% include 'core/forms/encontro.html' %}
-            {% endif %}
-            Inscrições abertas de 03 de agosto a 25 de outubro de 2020!
+            Inscrições abertas de 20 de janeiro a 1 de fevereiro de 2021!
+          {% elif contest.id == 2 %}            
+            Inscrições abertas de 20 de janeiro a 1 de fevereiro de 2021!
           {% elif contest.id == 3 %}
-            Inscrições abertas de 27 de julho a 01 de setembro de 2020!
+            Inscrições abertas de 20 de janeiro a 1 de fevereiro de 2021!
           {% elif contest.id == 4 %}
-            Inscrições abertas de 08 de agosto a 13 de setembro de 2020!
+            Inscrições abertas de 20 de janeiro a 1 de fevereiro de 2021!
           {% endif %}
         </div>
 
