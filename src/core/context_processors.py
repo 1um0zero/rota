@@ -30,12 +30,13 @@ def default(request):
             'url': '/concurso/' + contest.url
         })
 
+    
+    """
     menu.append({
         'title': 'Planos e preços',
         'url': '/planos-e-precos',
     })
-
-    """
+    
     menu.append({
         'title': 'Convidados',
         'url': '/convidados',
