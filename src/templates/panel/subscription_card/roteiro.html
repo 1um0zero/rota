@@ -97,6 +97,30 @@
 
   <li><strong>Título do Roteiro</strong> {{ subscription.user_data.title }}</li>
 
+  <li><strong>Você tem roteiro de longa já filmado e exibido? </strong>
+    {% if subscription.user_data.longa_filmado == 'sim' %}
+      <span class="label label-success">sim</span>
+    {% else %}
+      <span class="label label-danger">não</label>
+    {% endif %}
+  </li>
+
+  <li><strong>Você tem roteiro de episódio de série já filmado e exibido? </strong>
+    {% if subscription.user_data.serie_filmado == 'sim' %}
+      <span class="label label-success">sim</span>
+    {% else %}
+      <span class="label label-danger">não</label>
+    {% endif %}
+  </li>
+
+  <li><strong>Você tem mais que 3 roteiros de curtas já filmados e exibidos? </strong>
+    {% if subscription.user_data.curta_mais_tres == 'sim' %}
+      <span class="label label-success">sim</span>
+    {% else %}
+      <span class="label label-danger">não</label>
+    {% endif %}
+  </li>
+
   <li><strong>Até no máximo 3 roteiros? </strong>
     {% if subscription.user_data.max_subscriptions == 'sim' %}
       <span class="label label-success">sim</span>

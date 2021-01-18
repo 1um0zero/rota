@@ -143,6 +143,7 @@
     {% endif %}
   </li>
 
+  <!--
   <li><strong>Formato de finalização</strong> {{ subscription.user_data.formato_finalizacao }}</li>
 
   <li><strong>Formato de exibição</strong> {{ subscription.user_data.formato_exibicao }}</li>
@@ -150,7 +151,7 @@
   <li><strong>Formato de janela da cópia</strong> {{ subscription.user_data.formato_janela }}</li>
 
   <li><strong>Som</strong> {{ subscription.user_data.som }}</li>
-
+  -->
   <li><strong>Cor</strong>
     {% if subscription.user_data.cor == '1' %}
       PB
@@ -161,6 +162,7 @@
 
   <li><strong>CPB</strong> {{ subscription.user_data.cpb }}</li>
 
+  <!--
   <li><strong>Site</strong>
     {% if subscription.user_data.site %}
       <a href="{{ subscription.user_data.site }}" target="blank">{{ subscription.user_data.site }}</a>
@@ -176,7 +178,8 @@
       <em>não enviado</em>
     {% endif %}
   </li>
-
+  -->
+  
   <li><strong>Festivais</strong>
     <span class="block">{{ subscription.user_data.festivais|nl2br|safe }}</span></li>
 
