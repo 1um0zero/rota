@@ -69,6 +69,15 @@ class ConcursoRoteiros(forms.Form):
     is_student = forms.ChoiceField(choices=[('iniciante', 'INICIANTE'), ('estudante', 'ESTUDANTE')],
         widget=forms.RadioSelect)
 
+    longa_filmado = forms.ChoiceField(choices=[('sim', 'SIM'), ('nao', 'NÃO')],
+        widget=forms.RadioSelect)
+
+    serie_filmado = forms.ChoiceField(choices=[('sim', 'SIM'), ('nao', 'NÃO')],
+        widget=forms.RadioSelect)
+    
+    curta_mais_tres = forms.ChoiceField(choices=[('sim', 'SIM'), ('nao', 'NÃO')],
+        widget=forms.RadioSelect)
+
     script = forms.FileField()
 
     responsibility = forms.FileField()

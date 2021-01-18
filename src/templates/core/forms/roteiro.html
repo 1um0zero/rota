@@ -215,6 +215,45 @@
 
     <div class="form-item">
       <label>
+        Você tem roteiro de longa já filmado e exibido?
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.longa_filmado }}
+      </div>
+      <div class="error">
+        {{ form.longa_filmado.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Você tem roteiro de episódio de série já filmado e exibido?
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.serie_filmado }}
+      </div>
+      <div class="error">
+        {{ form.serie_filmado.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
+        Você tem mais que 3 roteiros de curtas já filmados e exibidos?
+        <span class="req">*</span>
+      </label>
+      <div class="radio">
+        {{ form.curta_mais_tres }}
+      </div>
+      <div class="error">
+        {{ form.curta_mais_tres.errors }}
+      </div>
+    </div>
+
+    <div class="form-item">
+      <label>
         Você está inscrevendo até no máximo 03 (três) roteiros?
         <span class="req">*</span>
       </label>
