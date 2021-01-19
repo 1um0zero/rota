@@ -99,6 +99,18 @@ class ConcursoRoteiros(forms.Form):
                 and self.cleaned_data['max_pages'] == 'nao':
             self.add_error('max_pages', 'Formato inválido.')
 
+        if 'longa_filmado' in self.cleaned_data \
+                and self.cleaned_data['longa_filmado'] == 'sim':
+            self.add_error('longa_filmado', 'Você não pode ter um longa filmado!')
+
+        if 'serie_filmado' in self.cleaned_data \
+                and self.cleaned_data['serie_filmado'] == 'sim':
+            self.add_error('serie_filmado', 'Você não pode ter um episódio de série filmado!')
+        
+        if 'curta_mais_tres' in self.cleaned_data \
+                and self.cleaned_data['curta_mais_tres'] == 'sim':
+            self.add_error('curta_mais_tres', 'Você não pode ter mais que três roteiros de curta filmados!')
+        
         # if 'authorize' in self.cleaned_data \
                 # and self.cleaned_data['authorize'] == 'nao':
             # self.add_error('authorize', 'Você precisa autorizar a inclusão do roteiro.')

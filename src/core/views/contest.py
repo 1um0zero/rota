@@ -93,8 +93,7 @@ def contest(request, url):
                     
                     user_profile = UserProfile.objects.get(user=request.user)
 
-                    msg = """Olá, {name}!<br><br>Sua inscrição está HABILITADA a concorrer no {concurso} do V Rota. 
-                        Fique de olho na lista dos semifinalistas que sairá nas Redes Sociais.
+                    msg = """Olá, {name}!<br><br>Sua inscrição para o {concurso} do V Rota foi aceita com sucesso!                        
                     """.format(
                         name=user_profile.get_name(),
                         concurso=contest.name
