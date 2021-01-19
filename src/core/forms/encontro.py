@@ -82,20 +82,20 @@ class Encontro(forms.Form):
     )
 
     # caracteristicas_4 = forms.CharField(max_length=100)
-
-    veiculo = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,
-        choices=[(gen, gen) for gen in [
-            'Celular', 'Cinema', 'Streaming', 'TV', 'Outros',
-        ]]
-    )
+    
+    #veiculo = forms.MultipleChoiceField(
+    #    widget=forms.CheckboxSelectMultiple,
+    #    choices=[(gen, gen) for gen in [
+    #        'Celular', 'Cinema', 'Streaming', 'TV', 'Outros',
+    #    ]]
+    #)
+    
 
     genero = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
-        choices=[(gen, gen) for gen in [
-            'Comédia', 'Comédia dramática', 'Drama', 'Dramédia', 'Épico',
-            'Farsa', 'Histórico', 'Híbrido', 'Musical', 'Tragédia', 'Outro',
-        ]]
+        choices=[(gen, gen) for gen in ['Ação', 'Aventura', 'Biográfico', 'Comédia', 'Drama',
+            'Dramédia', 'Fantasia', 'Híbrido', 'Histórico', 'Infantil', 'Sci-fi', 'Suspense', 'Terror', 'Outros']
+            ]
     )
 
     logline = forms.CharField(max_length=2048)
@@ -112,7 +112,7 @@ class Encontro(forms.Form):
 
     info_adicional = forms.CharField(max_length=500, widget=forms.Textarea)
 
-    parceiro = forms.FileField(required=False)
+    #parceiro = forms.FileField(required=False)
 
 
     def clean(self):

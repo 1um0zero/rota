@@ -152,7 +152,7 @@
 
   <li><strong>Duração</strong> {{ subscription.user_data.caracteristicas_3 }}</li>
 
-  <li><strong>Veículo</strong> {{ subscription.user_data.veiculo | list }}</li>
+  <!--<li><strong>Veículo</strong> {{ subscription.user_data.veiculo | list }}</li>-->
 
   <li><strong>Gênero</strong> {{ subscription.user_data.genero | list }}</li>
 
@@ -190,6 +190,7 @@
   
   <li><strong>Informações adicionais</strong><span class="block">{{ subscription.user_data.info_adicional }}</span></li>
 
+  <!--
   <li>
     <strong>Evidência de associação com parceiros</strong>
     {% if subscription.user_data.parceiro %}
@@ -203,7 +204,7 @@
       {% endif %}
     {% endif %}
   </li>
-
+  -->
 
 </ul>
 
