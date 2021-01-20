@@ -54,7 +54,7 @@
       <div class="mediumddd">
         <label>
           <small class="small block">&nbsp;</small>
-          Telefone residencial
+          Telefone
         </label>
         <div class="input telefone">
           {{ form.phone_home }}
@@ -435,7 +435,7 @@
     $('#id_cep').mask('00000-000');
 
     $('#id_phone_home_ddd').mask('00');
-    $('#id_phone_home').mask('0000-0000');
+    $('#id_phone_home').mask('000000000');
     $('#id_phone_home_ddd').keyup(function () {
       if ($(this).val().length === 2) {
         $('#id_phone_home')[0].focus();

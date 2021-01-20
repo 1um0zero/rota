@@ -70,7 +70,7 @@ class Lab(forms.Form):
     
     conceito = forms.CharField(max_length=2000, widget=forms.Textarea)
 
-    arco_protagonista = forms.CharField(max_length=1000, widget=forms.Textarea)
+    arco_protagonista = forms.CharField(max_length=1000, widget=forms.Textarea, required=False)
 
     universo = forms.CharField(max_length=1500, widget=forms.Textarea)
 

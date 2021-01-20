@@ -111,6 +111,10 @@ class ConcursoRoteiros(forms.Form):
                 and self.cleaned_data['curta_mais_tres'] == 'sim':
             self.add_error('curta_mais_tres', 'Você não pode ter mais que três roteiros de curta filmados!')
         
+        if 'coauthors' in self.cleaned_data and self.cleaned_data['coauthors'] == 'sim' and 'letter' not in self.cleaned_data:
+            self.add_error('coauthors', 'Favor anexar carta de aprovação dos coautores!')
+
+
         # if 'authorize' in self.cleaned_data \
                 # and self.cleaned_data['authorize'] == 'nao':
             # self.add_error('authorize', 'Você precisa autorizar a inclusão do roteiro.')
