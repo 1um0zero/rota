@@ -83,8 +83,8 @@ class MostraCompetitiva(forms.Form):
     rg_back = forms.FileField()
 
     nascimento = forms.CharField(max_length=100)
-    phone_home_ddd = forms.CharField(max_length=200)
-    phone_home = forms.CharField(max_length=200)
+    phone_home_ddd = forms.CharField(max_length=200, required=False)
+    phone_home = forms.CharField(max_length=200, required=False)
 
     cep = forms.CharField(max_length=9)
     address = forms.CharField(max_length=200)
