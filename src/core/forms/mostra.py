@@ -57,7 +57,7 @@ class MostraCompetitiva(forms.Form):
     #formato_janela = forms.CharField(max_length=100)
     #som = forms.CharField(max_length=30)
     cor = forms.ChoiceField(choices=[(1, 'PB'), (2, 'Cor')], widget=forms.RadioSelect)
-    cpb = forms.CharField(max_length=30)
+    cpb = forms.CharField(max_length=30, required=False)
     #site = forms.CharField(max_length=255, required=False)
     #facebook = forms.CharField(max_length=255, required=False)
     festivais = forms.CharField(widget=forms.Textarea)
