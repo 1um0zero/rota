@@ -182,6 +182,18 @@
     {% endif %}
   </li>
 
+  <li>
+    <strong>Roteiro</strong>
+    <a href="/static/uploads/{{ subscription.user_data.roteiro }}" target="_blank">
+      Download
+    </a>
+    {% if subscription.user_data.roteiro|is_image %}
+      <a href="/static/uploads/{{ subscription.user_data.roteiro }}" target="_blank">
+        <img class="img" src="/static/uploads/{{ subscription.user_data.roteiro }}">
+      </a>
+    {% endif %}
+  </li>
+
   <li><strong>Perfil dos personagens principais</strong><span class="block">{{ subscription.user_data.personagens }}</span></li>
 
   <li><strong>Público alvo</strong><span class="block">{{ subscription.user_data.publico_alvo }}</span></li>

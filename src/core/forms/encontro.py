@@ -102,7 +102,9 @@ class Encontro(forms.Form):
 
     sinopse = forms.FileField()
 
-    argumento = forms.FileField()
+    argumento = forms.FileField(required=False)
+
+    roteiro = forms.FileField(required=False)
 
     personagens = forms.CharField(max_length=2500, widget=forms.Textarea)
 

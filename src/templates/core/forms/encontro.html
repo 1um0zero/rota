@@ -237,7 +237,7 @@
       <div class="mediumddd">
         <label>
           <small class="small block">&nbsp;</small>
-          Telefone residencial
+          Telefone
         </label>
         <div class="input telefone">
           {{ form.phone_home }}
@@ -384,7 +384,7 @@
 
     <div class="form-item small">
       <label>
-        Roteiro ou Argumento
+        Argumento
         <span class="req">*</span>
         <br>
         <small class="small">
@@ -398,6 +398,25 @@
       </div>
       <div class="error">
         {{ form.argumento.errors }}
+      </div>
+    </div>
+
+    <div class="form-item small">
+      <label>
+        Roteiro
+        <span class="req">*</span>
+        <br>
+        <small class="small">
+          Formatação: fonte Arial, tamanho 11; espaçamento entre as linhas: 1,5;
+          margens: normal (superior e inferior: 2,5 cm / esq e direita: 3 cm);
+          número de páginas: livre; arquivo PDF.
+        </small>
+      </label>
+      <div class="input">
+        {{ form.roteiro }}
+      </div>
+      <div class="error">
+        {{ form.roteiro.errors }}
       </div>
     </div>
 
@@ -526,7 +545,7 @@
     $('#id_cep').mask('00000-000');
 
     $('#id_phone_home_ddd').mask('00');
-    $('#id_phone_home').mask('0000-0000');
+    $('#id_phone_home').mask('000000000');
     $('#id_phone_home_ddd').keyup(function () {
       if ($(this).val().length === 2) {
         $('#id_phone_home')[0].focus();
