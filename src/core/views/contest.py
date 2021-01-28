@@ -51,10 +51,12 @@ def contest(request, url):
                 categoria['projetos'].append({'id': p.subscription.id, 'nome': dados['title' if 'title' in dados else 'titulo'], 'url': dados['url'] if 'url' in dados else ''})             
             categorias.append(categoria)
 
-    if contest.is_free and qtd_subscriptions >= 3:
+    if contest.id == 2 and qtd_subscriptions >= 6:
+        error = 'Você já enviou 6 inscrições para este concurso.'
+        block_user = True
+    elif contest.is_free and qtd_subscriptions >= 3:
         error = 'Você já enviou 3 inscrições para este concurso.'
         block_user = True
-
     else:
         if request.POST:
             if not has_limit:
