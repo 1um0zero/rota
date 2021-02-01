@@ -21,7 +21,9 @@ def change_status(request):
 
         if int(request.POST.get('status')) == 1:
             qtd_subscriptions = Subscription.objects.filter(user=subscription.user, contest=subscription.contest, status=1).count()
-            if subscription.contest.is_free and qtd_subscriptions >= 3:
+            if subscription.contest.id == 2 and qtd_subscriptions >= 6:
+                return HttpResponse('Este usuário já tem seis inscrições para esta linha de ação')
+            elif subscription.contest.id != 2 and subscription.contest.is_free and qtd_subscriptions >= 3:
                 return HttpResponse('Este usuário já tem três inscrições para esta linha de ação')
 
         subscription.status = int(request.POST.get('status'))

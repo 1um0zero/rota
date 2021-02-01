@@ -54,7 +54,7 @@ def contest(request, url):
     if contest.id == 2 and qtd_subscriptions >= 6:
         error = 'Você já enviou 6 inscrições para este concurso.'
         block_user = True
-    elif contest.is_free and qtd_subscriptions >= 3:
+    elif contest.id != 2 and contest.is_free and qtd_subscriptions >= 3:
         error = 'Você já enviou 3 inscrições para este concurso.'
         block_user = True
     else:
