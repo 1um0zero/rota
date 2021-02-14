@@ -1,52 +1,52 @@
-<style>
-@media (max-width: 1024px) {
-  #products.internal {
-    width: 50%;
-    margin: auto;
-  }
-  #products.internal .product {
-    width: 100%!important;
-  }
-}
-</style>
+<form method="post" enctype="multipart/form-data" id="subscription_form">
+  {% csrf_token %}
 
-
-
-<!--
-<div id="products" class="internal">
-
-  <div class="product">
-    <strong>Pacote completo</strong>
-    <em>SEGUNDO LOTE</em>
-    <div class="price">R$ 320,00</div>
-    <a href="/planos-e-precos?id=4" class="btn action">comprar</a>
-    <ul><li>1 inscrição no Laboratório de Projetos de Série</li><li>2 inscrições no Encontro de Negócios</li><li>3 diárias no Seminário</li></ul>
-    <em class="sec">SEGUNDO LOTE</em>
-    <div class="price sec">R$ 320,00</div>
-    <div class="date sec">a partir de 05 de agosto</div>
-
-
-    <br>
-
-    <a href="/concursos" class="link">mais informações</a>
-
+  <h5>Eventos</h5>
+  Marque os eventos que deseja participar:<br><br>
+  <div class="error">
+    {{ form.events.errors }}
   </div>
-
-  <div class="product">
-    <strong>Seminário (diária)</strong>
-
-    <em>SEGUNDO LOTE</em>
-    <div class="price">R$ 140,00</div>
-    <a href="/planos-e-precos?id=3" class="btn action">comprar</a>
-    <ul><li>1 diária no Seminário</li></ul>
-    <em class="sec">SEGUNDO LOTE</em>
-    <div class="price sec">R$ 140,00</div>
-    <div class="date sec">a partir de 05 de agosto</div>
-
-    <br>
-    <a href="/concurso/seminario" class="link">mais informações</a>
-
+  <div class="contentForm">
+    {{ form.events }}
+    <table style="width: 100%; padding: 10px;">
+      {% for dia, dados in seminarios.items %}
+        <tr>
+          <td colspan="2" style="text-align: center; padding: 10px;">
+            <strong>{{dia}}</strong>
+          </td>
+        </tr>
+        {% for d in dados %}
+          <tr>
+            <td style="width: 50px; padding: 10px; text-align: center;">
+              <input type="checkbox" {% if d.esgotado %} disabled {% endif %} value="{{d.id}}">
+            </td>
+            <td style="padding: 10px;">
+              {% if d.esgotado %}
+                <strong style="color: red;">ESGOTADO</strong> - 
+              {% endif %}
+              <strong>{{d.time}} h -  {{d.name}}</strong><br>
+              <spam class="small">{{d.description}}</spam>
+            </td>
+          </tr>
+        {% endfor %}
+      {% endfor %}
+    </table>    
+    <input type="submit" class="btn action" style="margin: 10px;" value="Enviar inscrição">
   </div>
+</form>
 
-</div>
--->
+<script>
+  
+  $(document).ready(function () {
+    $( "#subscription_form" ).submit(function( event ) {
+      var val = [];
+      $(':checkbox:checked').each(function(i){
+        val[i] = $(this).val();
+      });
+
+      $( "input[name='events']" ).val(val);
+      //alert( $( "input[name='events']" ).val() );
+      //event.preventDefault();
+    });
+  });
+</script>

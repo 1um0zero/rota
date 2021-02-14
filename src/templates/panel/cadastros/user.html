@@ -108,7 +108,9 @@
             {% elif subscription.contest.id == 3 %}
               {% include 'panel/subscription_card/lab.html' %}
             {% elif subscription.contest.id == 4 %}
-              {% include 'panel/subscription_card/mostra.html' %}
+              {% include 'panel/subscription_card/mostra.html' %}            
+            {% elif subscription.contest.id == 5 %}
+              {% include 'panel/subscription_card/seminario.html' %}
             {% endif %}
 
             {% if subscriptions.orders %}

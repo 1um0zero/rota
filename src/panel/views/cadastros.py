@@ -1,6 +1,6 @@
 import json
 from django.shortcuts import render
-from core.models import UserProfile, Order, Subscription
+from core.models import UserProfile, Order, Subscription, Seminario
 from django.contrib.auth.models import User
 
 
@@ -24,6 +24,10 @@ def user(request, user_id):
             subscription_id=subscription.id)
 
         subscription.user_data = json.loads(subscription.data)
+
+        if subscription.contest.id == 5:            
+            sem_ids = [int(v) for v in subscription.user_data['events'].split(',')]
+            subscription.user_data['seminarios'] = Seminario.objects.filter(id__in=sem_ids).all()
 
     orders = Order.objects.filter(user_id=user_id).order_by('-created_at')
 

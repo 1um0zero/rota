@@ -264,3 +264,9 @@ class JuriPopular(models.Model):
 class IPJuriPopular(models.Model):
     ip = models.CharField(max_length=1024)
     category = models.ForeignKey(CategoriaJuriPopular, on_delete=models.CASCADE, null=True)
+
+
+class Seminario(models.Model):
+    name = models.CharField(max_length=2048)
+    date = models.DateTimeField()
+    description = models.TextField(null=True)

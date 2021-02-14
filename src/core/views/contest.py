@@ -5,11 +5,12 @@ from uuid import uuid4
 from django.shortcuts import render, redirect, HttpResponse
 from rota.settings import CONFIG
 from core import sendgrid
-from core.models import Contest, Subscription, Order, UserProfile, CategoriaJuriPopular, JuriPopular, IPJuriPopular
+from core.models import Contest, Subscription, Order, UserProfile, CategoriaJuriPopular, JuriPopular, IPJuriPopular, Seminario
 from core.forms.concurso_roteiros import ConcursoRoteiros
 from core.forms.mostra import MostraCompetitiva
 from core.forms.lab import Lab
 from core.forms.encontro import Encontro
+from core.forms.seminario import Seminario as SeminarioForm
 from rota.settings import UPLOAD_DIR
 
 
@@ -24,7 +25,7 @@ def contest(request, url):
         2: Encontro,
         3: Lab,
         4: MostraCompetitiva,
-        5: MostraCompetitiva, # seminário
+        5: SeminarioForm, # seminário
     }
 
     if contest.id not in forms:
@@ -50,6 +51,29 @@ def contest(request, url):
                 dados = json.loads(p.subscription.data)
                 categoria['projetos'].append({'id': p.subscription.id, 'nome': dados['title' if 'title' in dados else 'titulo'], 'url': dados['url'] if 'url' in dados else ''})             
             categorias.append(categoria)
+
+    inscritos_sem = Subscription.objects.filter(contest_id=5).all()
+    qtd_sem = dict()
+    for i in inscritos_sem:
+        data = json.loads(i.data)
+        sem_ids = [int(v) for v in data['events'].split(',')]
+        for k in sem_ids:
+            if k not in qtd_sem:
+                qtd_sem[k] = 0
+            qtd_sem[k] += 1
+
+    dias_semana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo']
+    seminarios = Seminario.objects.order_by('date').all()
+    sem_dia = dict()
+    for s in seminarios:
+        esgotado = False
+        dia = '{}/{} - {}'.format(s.date.day, s.date.month, dias_semana[s.date.weekday()])
+        if dia not in sem_dia:
+            sem_dia[dia] = list()
+        if s.id in qtd_sem and qtd_sem[s.id] > 99:
+            esgotado = True
+        sem_dia[dia].append({'id': s.id, 'name': s.name, 'description': s.description, 'time': '{}:{}'.format(s.date.hour, s.date.minute), 'esgotado': esgotado})
+ 
 
     if contest.id == 2 and qtd_subscriptions >= 6:
         error = 'Você já enviou 6 inscrições para este concurso.'
@@ -89,6 +113,10 @@ def contest(request, url):
                     
                     # Subscription success
                     success = True
+
+                    if contest.id == 5:
+                        Subscription.objects.filter(user_id=request.user.id, contest_id=5).delete()
+
                     subscription = Subscription(user_id=request.user.id,
                         contest_id=contest.id, data=json.dumps(data))
                     subscription.save()
@@ -134,7 +162,8 @@ def contest(request, url):
         'qtd_subscriptions': qtd_subscriptions,
         'has_limit': has_limit,
         'block_user': block_user,
-        'categorias': categorias
+        'categorias': categorias,
+        'seminarios': sem_dia
     })
 
 

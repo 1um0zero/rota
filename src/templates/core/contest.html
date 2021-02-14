@@ -113,11 +113,11 @@ table, th, td {
           </a>
         </div>
       {% endif %}
-      {% if contest.id != 5 %}
-        <div class="item_menu_contest">
-          <a href="javascript:inscricao()">Inscrição</a>
-        </div>
-      {% endif %}
+      
+      <div class="item_menu_contest">
+        <a href="javascript:inscricao()">Inscrição</a>
+      </div>
+      
     </div>
 
     <div class="c contentDescription">
@@ -209,10 +209,8 @@ table, th, td {
         </div>
         <div class="fade"></div>
       {% endif %}
-
-      {% if contest.id != 5 %}
-        <h4 id="h4_inscricao">Inscrição</h4>
-      {% endif %}
+      
+      <h4 id="h4_inscricao">Inscrição</h4>
 
       {% if not contest.subscription_open %}
         <div style="font-size:18px;text-align:center">
@@ -223,7 +221,9 @@ table, th, td {
           {% elif contest.id == 3 %}
             Inscrições abertas de 20 de janeiro a 3 de fevereiro de 2021!
           {% elif contest.id == 4 %}
-            Inscrições abertas de 20 de janeiro a 3 de fevereiro de 2021!
+            Inscrições abertas de 20 de janeiro a 3 de fevereiro de 2021!          
+          {% elif contest.id == 5 %}
+            Inscrições abertas a partir de 16 de fevereiro de 2021!
           {% endif %}
         </div>
 
