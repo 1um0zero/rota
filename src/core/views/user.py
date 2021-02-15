@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from core.forms.user import SignupForm
-from core.models import UserProfile, PasswordRecoveryToken, Subscription, Order
+from core.models import UserProfile, PasswordRecoveryToken, Subscription, Order, Seminario
 from core import sendgrid
 from rota.settings import CONFIG
 
@@ -184,10 +184,14 @@ def account(request):
 
     up = UserProfile.objects.get(user_id=request.user.id)
 
+    palestras = None
     subscriptions = Subscription.objects.filter(user_id=request.user.id)
-    for subscription in subscriptions:
-        subscription.orders = Order.objects.filter(
-            subscription_id=subscription.id)
+    for subscription in subscriptions:        
+        subscription.orders = Order.objects.filter(subscription_id=subscription.id)
+        if subscription.contest_id == 5:
+            data = json.loads(subscription.data)
+            sem_ids = [int(v) for v in data['events'].split(',')]
+            palestras = Seminario.objects.filter(id__in=sem_ids).all()
 
     orders = Order.objects.filter(user_id=request.user.id)
 
@@ -195,7 +199,8 @@ def account(request):
         'title': 'Minha conta',
         'up': up,
         'subscriptions': subscriptions,
-        'orders': orders
+        'orders': orders,
+        'palestras': palestras
     })
 
 

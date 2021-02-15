@@ -1,6 +1,6 @@
 from django.urls import path
 from panel.views import (dashboard, content, contests, shorts, scripts,
-    acessos, inscricoes, cadastros, orders, projects, encontro, convidados, ranking)
+    acessos, inscricoes, cadastros, orders, projects, encontro, convidados, ranking, seminario)
 
 
 urlpatterns = [
@@ -41,5 +41,6 @@ urlpatterns = [
     path('toogle_juri_popular', ranking.toogle_juri_popular),
     path('ficha/<int:sub_id>', ranking.ficha),
     path('ranking/promover', ranking.promover),
+    path('seminario', seminario.index),
 ]
 

@@ -1,0 +1,23 @@
+{% extends 'panel/index.html' %}
+{% load helpers %}
+
+{% block title %}<i class="fa fa-comments"></i>&nbsp; Seminário{% endblock %}
+
+{% block content %}
+
+{% for p in palestras %}
+    <strong>{{p.evento.name}}</strong> - {{p.evento.date}} - {{p.evento.description}}<br>
+    Quantidade de inscritos: {{p.qtd}}<br>
+    Inscritos:<br>
+    <ul>
+    {% for i in p.pessoas %}
+        <li>
+            <a href="cadastro/{{i.id}}">{{i.first_name}}</a>
+        </li>
+    {% endfor %}
+    </ul>
+    <br><br><br>
+{% endfor %}
+
+{% endblock %}
+

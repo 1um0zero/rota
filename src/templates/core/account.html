@@ -31,6 +31,17 @@
         <div class="block">
           <div><strong>Inscrição #{{ forloop.counter }}</strong></div>
           <div>{{ subscription.contest.name }}</div>
+          {% if palestras %}
+            Palestras
+            <ul>
+              {% for p in palestras %}              
+                  <li>
+                    {{p.date}} - {{p.name}} (<span style="font-size: small;">{{p.description}}</span>)
+                  </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+          <p>
           <div>Enviada em {{ subscription.created_at }}</div>
         </div>
         <br>

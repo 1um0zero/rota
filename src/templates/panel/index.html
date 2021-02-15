@@ -177,6 +177,14 @@
                 </li>
               {% endif %}
 
+              {% if request.session.painel.is_admin %}
+                <li class="">
+                  <a href="/painel/seminario">
+                    <i class="fa fa-comments"></i> <span>Seminário</span>
+                  </a>
+                </li>
+              {% endif %}
+
             {% endif %}
           </ul>
         </section>

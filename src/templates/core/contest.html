@@ -227,7 +227,7 @@ table, th, td {
           {% endif %}
         </div>
 
-      {% elif not has_limit %}
+      {% elif contest.id != 5 and not has_limit %}
         <div style="font-size:18px;text-align:center">Inscrições encerradas.</div>
     
       {% elif block_user %}

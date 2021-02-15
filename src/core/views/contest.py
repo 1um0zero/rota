@@ -70,7 +70,7 @@ def contest(request, url):
         dia = '{}/{} - {}'.format(s.date.day, s.date.month, dias_semana[s.date.weekday()])
         if dia not in sem_dia:
             sem_dia[dia] = list()
-        if s.id in qtd_sem and qtd_sem[s.id] > 99:
+        if s.id in qtd_sem and qtd_sem[s.id] > (contest.subscription_limit-1):
             esgotado = True
         sem_dia[dia].append({'id': s.id, 'name': s.name, 'description': s.description, 'time': '{}:{}'.format(s.date.hour, s.date.minute), 'esgotado': esgotado})
  
@@ -82,8 +82,8 @@ def contest(request, url):
         error = 'Você já enviou 3 inscrições para este concurso.'
         block_user = True
     else:
-        if request.POST:
-            if not has_limit:
+        if request.POST:            
+            if contest.id != 5 and not has_limit:
                 error = 'Inscrições encerradas.'
 
             else:
