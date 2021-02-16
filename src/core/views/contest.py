@@ -67,12 +67,12 @@ def contest(request, url):
     sem_dia = dict()
     for s in seminarios:
         esgotado = False
-        dia = '{}/{} - {}'.format(s.date.day, s.date.month, dias_semana[s.date.weekday()])
+        dia = '{:02d}/{:02d} - {}'.format(s.date.day, s.date.month, dias_semana[s.date.weekday()])
         if dia not in sem_dia:
             sem_dia[dia] = list()
         if s.id in qtd_sem and qtd_sem[s.id] > (contest.subscription_limit-1):
             esgotado = True
-        sem_dia[dia].append({'id': s.id, 'name': s.name, 'description': s.description, 'time': '{}:{}'.format(s.date.hour, s.date.minute), 'esgotado': esgotado})
+        sem_dia[dia].append({'id': s.id, 'name': s.name, 'description': s.description, 'time': '{:02d}:{:02d}'.format(s.date.hour, s.date.minute), 'esgotado': esgotado})
  
 
     if contest.id == 2 and qtd_subscriptions >= 6:

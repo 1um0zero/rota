@@ -36,7 +36,7 @@
             <ul>
               {% for p in palestras %}              
                   <li>
-                    {{p.date}} - {{p.name}} (<span style="font-size: small;">{{p.description}}</span>)
+                    {{p.date.day|stringformat:"02d"}}/{{p.date.month|stringformat:"02d"}} {{p.date.hour|stringformat:"02d"}}:{{p.date.minute|stringformat:"02d"}} - {{p.name}} (<span style="font-size: small;">{{p.description}}</span>)
                   </li>
               {% endfor %}
             </ul>
