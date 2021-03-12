@@ -12,7 +12,16 @@
     <ul>
     {% for i in p.pessoas %}
         <li>
-            <a href="cadastro/{{i.id}}">{{i.first_name}}</a>
+            <table >
+                <tr>
+                    <td style="padding: 3px;">
+                        <a href="cadastro/{{i.id}}">{{i.first_name}}</a>
+                    </td>
+                    <td style="padding: 3px;">
+                        {{i.email}}
+                    </td>
+                </tr>             
+            </table>
         </li>
     {% endfor %}
     </ul>
