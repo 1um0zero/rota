@@ -128,10 +128,16 @@ class AvaliacaoMostra(forms.Form):
     
 
 class AvaliacaoMostraJur(forms.Form):
+    estrutura_narrativa = forms.FloatField(label='Qualidade da Estrutura Narrativa', min_value=0)
+    trama = forms.FloatField(label='Qualidade da Trama', min_value=0)
+    personagens = forms.FloatField(label='Qualidade dos Personagens', min_value=0)
+    dialogos = forms.FloatField(label='Qualidade dos Diálogos', min_value=0)
+    originalidade = forms.FloatField(label='Originalidade', min_value=0)
+
     indica_ficcao = forms.ChoiceField(label='Indica este filme para a categoria de Melhor Ficção?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
     indica_doc = forms.ChoiceField(label='Indica este filme para a categoria de Melhor Documentário?', choices=[('sim', 'SIM'), ('nao', 'NÃO')], widget=forms.RadioSelect)
     def get_grades(self):
-        return []
+        return ['estrutura_narrativa','trama','personagens','dialogos','originalidade']
     
     def get_questions(self):
         return ['indica_ficcao', 'indica_doc']

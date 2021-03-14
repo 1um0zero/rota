@@ -26,6 +26,55 @@
                         <td colspan="5" style="text-align:left">Título: <strong>{{sub.data.titulo}}</strong></td>
                     </tr>
                     <tr>
+                        <td>Excelente (2,5)</td>
+                        <td>Boa (2,0)</td>
+                        <td>Média (1,5)</td>
+                        <td>Insatisfatório (0)</td>
+                        <td>Nota (total)</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">{{form.estrutura_narrativa.label}}</td>
+                        <td><input type="radio" name="estrutura_narrativa" value="2.5" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.estrutura_narrativa.value == 2.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="estrutura_narrativa" value="2.0" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.estrutura_narrativa.value == 2.0 %} checked {% endif %}></td>
+                        <td><input type="radio" name="estrutura_narrativa" value="1.5" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.estrutura_narrativa.value == 1.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="estrutura_narrativa" value="0" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.estrutura_narrativa.value == 0 %} checked {% endif %}></td>
+                        <td id="nota_estrutura_narrativa_{{loop_index}}"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">{{form.trama.label}}</td>
+                        <td><input type="radio" name="trama" value="2.5" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.trama.value == 2.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="trama" value="2.0" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.trama.value == 2.0 %} checked {% endif %}></td>
+                        <td><input type="radio" name="trama" value="1.5" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.trama.value == 1.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="trama" value="0" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.trama.value == 0 %} checked {% endif %}></td>
+                        <td id="nota_trama_{{loop_index}}"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">{{form.personagens.label}}</td>
+                        <td><input type="radio" name="personagens" value="2.5" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.personagens.value == 2.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="personagens" value="2.0" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.personagens.value == 2.0 %} checked {% endif %}></td>
+                        <td><input type="radio" name="personagens" value="1.5" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.personagens.value == 1.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="personagens" value="0" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.personagens.value == 0 %} checked {% endif %}></td>
+                        <td id="nota_personagens_{{loop_index}}"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">{{form.dialogos.label}}</td>
+                        <td><input type="radio" name="dialogos" value="2.5" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.dialogos.value == 2.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="dialogos" value="2.0" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.dialogos.value == 2.0 %} checked {% endif %}></td>
+                        <td><input type="radio" name="dialogos" value="1.5" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.dialogos.value == 1.5 %} checked {% endif %}></td>
+                        <td><input type="radio" name="dialogos" value="0" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.dialogos.value == 0 %} checked {% endif %}></td>
+                        <td id="nota_dialogos_{{loop_index}}"></td>
+                    </tr>    
+                    <tr>
+                        <td style="text-align:left">{{form.originalidade.label}} *</td>
+                        <td colspan="2"><input type="radio" name="originalidade" value="2" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.originalidade.value == 2 %} checked {% endif %}>Sim</td>
+                        <td colspan="2"><input type="radio" name="originalidade" value="0" onclick="atualiza_notas_mostra({{loop_index}});" {% if form.originalidade.value == 0 %} checked {% endif %}>Não</td>
+                        <td id="nota_originalidade_{{loop_index}}"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="background-color: darkgray; font-weight: bold;">PONTUAÇÃO GERAL</td>
+                        <td id="nota_total_{{loop_index}}"></td>
+                    </tr>
+                    <tr>
                         <td colspan="6" style="text-align:left">
                             {{form.indica_ficcao.label}}**&nbsp;&nbsp;&nbsp;                            
                             <input type="radio" name="indica_ficcao" value="sim" {% if form.indica_ficcao.value == 'sim' %} checked {% endif %}>Sim&nbsp;
