@@ -19,17 +19,17 @@ def run(*args):
         doc.save()
 
         # Lab
-        for id in [1227, 1672, 1674, 1732, 1761, 1762, 1776, 1805, 1811, 1864]:
+        for id in [3360, 2891, 3846, 2641, 3244, 2478, 2603, 3614, 3724, 3619]:
             sub = Subscription.objects.get(id=id)
             JuriPopular(subscription=sub, category=pitch).save()
 
         # Mostra Ficção
-        for id in [1743,1291,1779,991,1717,1486,1679,1690,1902,1782,1871,1016,1061]:
+        for id in [3180, 2282, 2288, 2846, 3508, 2963, 2594]:
             sub = Subscription.objects.get(id=id)
             JuriPopular(subscription=sub, category=ficcao).save()
         
         # Mostra Doc
-        for id in [1929,1771,1886,1479,1837,1900,1883,1930,1047,1887]:
+        for id in [3354, 2363, 2587, 2335, 3895, 3095, 3827, 3867]:
             sub = Subscription.objects.get(id=id)
             JuriPopular(subscription=sub, category=doc).save()
         
