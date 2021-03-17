@@ -23,7 +23,7 @@ def index(request):
             sem_ids = [int(v) for v in data['events'].split(',')]
             if s.id in sem_ids:
                 linha['qtd'] += 1
-                linha['pessoas'].append(i.user)
+                linha['pessoas'].append((i.id, i.user))
         palestras.append(linha)
 
     return render(request, 'panel/seminario/index.html', {
