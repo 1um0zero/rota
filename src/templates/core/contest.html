@@ -162,7 +162,37 @@ table, th, td {
                 <br><br>
                 <br>
             {% endfor %}  
-          </ul>      
+          </ul>     
+          
+          {% if projetos_sina and contest.id == 4 %}
+            <h4>Selecionados para o prêmio REDE SINA de temática social</h4>
+            <small>Obs: Os filmes abaixo serão avaliados somente pelo júri oficial e não há votação do júri popular.</small>
+
+            <table class="table table-striped">
+              {% for p in projetos_sina %}
+                <tr>
+                  <td style="padding: 10px;">
+                    {% if p.url == '' %}
+                      {{p.nome}}
+                    {% elif p.url|is_youtube %}
+                      <iframe class="youtube_iframe" width="300" src="{{ p.url | youtube }}" 
+                        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin-top: 10px;">
+                      </iframe><br>
+                      <a href="{{ p.url }}" target="_blank">{{p.nome}}</a>
+                    {% elif p.url|is_vimeo %}
+                      <iframe src="{{ p.url | vimeo }}" 
+                        class="youtube_iframe" width="300" frameborder="0" allow="autoplay; fullscreen" allowfullscreen>
+                      </iframe><br>
+                      <a href="{{ p.url }}" target="_blank">{{p.nome}}</a>                   
+                    {% else %}
+                      <a href="{{ p.url }}" target="_blank">{{p.nome}}</a>
+                    {% endif %}                    
+                  </td>                  
+                </tr>
+              {% endfor %}
+            </table>
+          {% endif %}
+
       {% endif %}
 
       <h4>Descrição</h4>

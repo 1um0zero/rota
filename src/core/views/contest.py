@@ -74,6 +74,11 @@ def contest(request, url):
             esgotado = True
         sem_dia[dia].append({'id': s.id, 'name': s.name, 'description': s.description, 'time': '{:02d}:{:02d}'.format(s.date.hour, s.date.minute), 'esgotado': esgotado})
  
+    # Projetos Rede Sina está HARD CODED!!
+    projetos_sina = []
+    for s in Subscription.objects.filter(id__in=[3354, 2363, 2310, 3895, 2573, 3827, 2282, 2588]).all():                
+        dados = json.loads(s.data)
+        projetos_sina.append({'id': s.id, 'nome': dados['title' if 'title' in dados else 'titulo'], 'url': dados['url'] if 'url' in dados else ''})        
 
     if contest.id == 2 and qtd_subscriptions >= 6:
         error = 'Você já enviou 6 inscrições para este concurso.'
@@ -163,7 +168,8 @@ def contest(request, url):
         'has_limit': has_limit,
         'block_user': block_user,
         'categorias': categorias,
-        'seminarios': sem_dia
+        'seminarios': sem_dia,
+        'projetos_sina': projetos_sina
     })
 
 
