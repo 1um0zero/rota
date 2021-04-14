@@ -25,6 +25,7 @@ def run(*args):
             linha['Email'] = p.user.username
             linha['Telefone'] = '({}) {}'.format(user.ddd, user.phone)
             result.append(linha)
+            """
             if linha['Autor'] not in autores:
                 if linha['Estado'] in contador_estado:
                     contador_estado[linha['Estado']] += 1
@@ -32,19 +33,21 @@ def run(*args):
                     contador_estado[linha['Estado']] = 0
 
             autores.add(linha['Autor'])
-
+            """
+        """
         for k, v in contador_estado.items():
             linha = dict()
             linha['Estado'] = k
             linha['Qtd'] = v
             resumo.append(linha)
+        """
 
         df = pandas.DataFrame(result)
-        df_resumo = pandas.DataFrame(resumo)
+        #df_resumo = pandas.DataFrame(resumo)
 
         with pandas.ExcelWriter('report.xlsx') as writer:
             df.to_excel(writer, sheet_name='Inscritos')
-            df_resumo.to_excel(writer, sheet_name='Total por estado')
+            #df_resumo.to_excel(writer, sheet_name='Total por estado')
 
     except Exception as error:
         print('Erro inesperado: {}'.format(repr(error)))
