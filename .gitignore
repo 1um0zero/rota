@@ -5,6 +5,5 @@ tags
 config.yml
 src/static/uploads
 src/static/curadores
-src/static/convidados
 .idea/
 backups
