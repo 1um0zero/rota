@@ -3,7 +3,5 @@
 *.swo
 tags
 config.yml
-src/static/uploads
-src/static/curadores
 .idea/
 backups
